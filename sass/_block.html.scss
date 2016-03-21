@@ -1,0 +1,28 @@
+/* ==========================================================================
+   HTML/Text block
+   ========================================================================== */
+
+.sqs-block-html {
+
+    .sqs-block-content {
+        max-width: 40em;
+        margin: 0 auto;
+        }
+
+    p {
+        text-indent: unit(2);
+
+        @include breakpoint($vp2) {
+            text-indent: unit(3);
+            }
+        }
+
+    h1, h2, h3 {
+        font-family: font(mono);
+        margin: unit(4) 0 unit(1);
+
+        @include breakpoint($vp3) {
+            margin: unit(6) 0 unit(1) (unit(2) * -1);
+            }
+        }
+    }

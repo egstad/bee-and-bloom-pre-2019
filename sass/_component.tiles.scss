@@ -1,0 +1,260 @@
+/* ==========================================================================
+   Tiles — used for posts
+   --------------------------------------------------------------------------
+   Contains image, category, title, excerpt
+   ========================================================================== */
+
+// origin container
+.tiles {
+    .wrap.-full {
+        @include breakpoint($vp4) {
+            .tile{
+                @include span(4 of 12);
+
+                &:nth-child(even) {
+                    @include span(4 of 12);
+                    }
+
+                &:nth-child(3n+1) {
+                    @include last;
+                    }
+                }
+            }
+        }
+    }
+
+.tiles.-small {
+    // break
+    .tile {
+
+        @include breakpoint($vp4) {
+            @include span(4 of 12);
+
+            &:nth-child(even) {
+                @include first;
+                }
+
+            &:nth-child(4n+1) {
+                @include last;
+                }
+            }
+        }
+
+    // no rotation on small categories
+    .tile-copy_cat {
+        min-width: 0;
+        width: auto;
+        margin-bottom: unit(.5);
+
+        small {
+            transform: rotate(0deg);
+            text-align: left;
+            }
+        }
+
+    //
+    }
+
+// individual tile
+.tile {
+    margin: 0 auto;
+    margin-bottom: unit(2);
+
+    @include breakpoint(0, $vp3) {
+        max-width: 40em;
+        }
+
+    @include breakpoint($vp3) {
+        @include span(6 of 12);
+        margin-bottom: unit(3, perc);
+
+        &:nth-child(even) {
+            @include last;
+            }
+        }
+
+    &:hover {
+        .tile-copy_excerpt {
+            color: color(black);
+            }
+        }
+
+    &.-bees {
+        .tile-copy_cat {
+            color: color(bee)
+            }
+
+        &:hover {
+            img {
+                border-color: color(bee);
+                }
+
+            .tile-copy_excerpt {
+                color: darken(color(bee), 5),;
+                }
+            }
+        }
+
+    &.-blooms {
+        .tile-img {
+            background: color(bloomAlt);
+            }
+
+        .tile-copy_cat {
+            color: color(bloom)
+            }
+
+        &:hover {
+            img {
+                border-color: color(bloom);
+                }
+
+            .tile-copy_excerpt {
+                color: color(bloom);
+                }
+            }
+        }
+
+    &.-noms {
+        .tile-img {
+            background: color(secondary);
+            }
+
+        .tile-copy_cat {
+            color: color(primary)
+            }
+
+        &:hover {
+            img {
+                border-color: color(primary);
+                }
+
+            .tile-copy_excerpt {
+                color: color(primary);
+                }
+            }
+        }
+
+    &.-life {
+        .tile-img {
+            background: color(lifeAlt);
+            }
+
+        .tile-copy_cat {
+            color: color(life)
+            }
+
+        &:hover {
+            img {
+                border-color: color(life);
+                }
+
+            .tile-copy_excerpt {
+                color: color(life);
+                }
+            }
+        }
+    }
+
+
+/* Notable elements
+   ========================================================================== */
+
+// image
+.tile-img {
+
+    img {
+        width: 100%;
+        }
+    }
+
+//screen, darken
+
+// mix-blend-mode: normal;
+// mix-blend-mode: multiply;
+// mix-blend-mode: screen;
+// mix-blend-mode: overlay;
+// mix-blend-mode: darken;
+// mix-blend-mode: lighten;
+// mix-blend-mode: color-dodge;
+// mix-blend-mode: color-burn;
+// mix-blend-mode: hard-light;
+// mix-blend-mode: soft-light;
+// mix-blend-mode: difference;
+// mix-blend-mode: exclusion;
+// mix-blend-mode: hue;
+// mix-blend-mode: saturation;
+// mix-blend-mode: color;
+// mix-blend-mode: luminosity;
+
+
+
+// potential link to wrap contents within
+.tile-link {
+    color: inherit;
+
+    // link images get a border
+    img {
+        transition: border-color $timing $easing;
+        border: unit(.314) solid color(grayAlt);
+        }
+    }
+
+// element containing all text
+.tile-copy {
+    display: flex;
+    padding: unit() 0 unit(2);
+
+    @include breakpoint($vp1) {
+        padding: unit(2) 0;
+        }
+
+    @include breakpoint($vp3) {
+        padding: unit(2, perc) 0;
+        }
+    }
+
+// category title (child of tile-copy)
+.tile-copy_cat {
+    min-width: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include span(4);
+
+    @include breakpoint($vp3) {
+        @include span(1 of 6);
+        }
+
+    small {
+        transform: rotate(-45deg);
+        }
+    }
+
+// title and excerpt (child of tile-copy)
+.tile-copy_meta {}
+
+
+
+
+/* Granular elements
+   ========================================================================== */
+
+// title (child of tile-copy_meta)
+.tile-copy_title {
+    margin: 0 0 unit(.5);
+    }
+
+// excerpt (child of tile-copy_meta)
+.tile-copy_excerpt {
+    text-indent: 0;
+    margin: 0;
+    max-width: 30em;
+    color: color(gray);
+    }
+
+// shared styles
+.tile-copy_title,
+.tile-copy_excerpt {
+    transition: color $timing $easing;
+    }

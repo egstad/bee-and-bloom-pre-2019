@@ -1,0 +1,83 @@
+.toolbar {
+    @include breakpoint($vp3) {
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        position: fixed;
+        }
+    }
+
+.toolbar-row {
+
+    > ul, ol {
+        // remove default style
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        // positioning
+        display: flex;
+        justify-content: space-around;
+        // dimensions
+        height: 4vh;
+        min-height: 25px;
+        max-height: 30px;
+        }
+
+    li {
+        display: flex;
+        align-items: center;
+        position: relative;
+        }
+
+    a {
+        display: block;
+        padding: 0.33rem 2rem;
+        }
+
+
+
+    // site header navigation
+    &.site-header_nav {
+        background: color(primary);
+
+        li {
+            &:hover {
+                background: color(white);
+
+                    a {
+                        color: color(primary);
+                        }
+                }
+            }
+        a {
+            color: color(white);
+            }
+        }
+
+    // site weather banner
+    &.site-header_banner {
+        transition: transform ($timing * 1.5) $easing;
+        background: color(secondary);
+        position: relative;
+        z-index: -1;
+
+        a {
+            color: color(primary);
+            }
+        }
+    }
+
+
+html.is-routing {
+    .site-header_nav {
+        background: blue;
+    }
+}
+
+
+html.is-scrolling-down {
+    .site-header_banner {
+        transform: translate3d(0, -100%, 0);
+        }
+}

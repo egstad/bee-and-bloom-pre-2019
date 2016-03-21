@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Quote block
+   ========================================================================== */
+
+.sqs-block-quote {
+
+    .sqs-block-content {
+        @include container(60em);
+        }
+
+    // block quote figure
+    .bq {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 2;
+        }
+
+    .bq_quote {
+        @include span(8 of 12);
+        }
+
+    .bq_source {
+        @include span(last 4 of 12);
+        }
+
+    }

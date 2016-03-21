@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Grid - based on http://l.je.gs/1RiOkSw
+   ========================================================================== */
+
+.wrap {
+    @include clear;
+    position: relative;
+    width: 100%;
+    max-width: $wrap_max-width;
+    margin: 0 auto;
+    padding: 0 unit(4, vw);
+
+    @include breakpoint($vp2) {
+        padding: 0 unit(2, perc);
+        }
+
+    @include breakpoint($vp3) {
+        padding: 0 unit(1, perc);
+        }
+
+    &.-full {
+        max-width: none;
+        padding: 0;
+        }
+    }

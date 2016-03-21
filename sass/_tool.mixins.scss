@@ -1,0 +1,135 @@
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+
+/* Breakpoints
+   ========================================================================== */
+@mixin breakpoint($min:$vp1, $max:null) {
+    // for max-width
+    @if $min == max {
+        @media (max-width: $max) { @content; }
+        }
+
+    // min & max-width
+    @elseif ($min) and ($max) {
+        @media (min-width: $min) and (max-width: $max) { @content; }
+        }
+
+    // min-width (default)
+    @else {
+        @media (min-width: $min) { @content; }
+        }
+    }
+
+
+
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+
+/* Text-size: font size generator
+   ========================================================================== */
+@mixin text-size($level: 0, $increments: 7) {
+    // 0 is default font size
+    @if $level == 0 {
+        font-size: $font-size;
+        }
+
+    @elseif $level < 0 {
+        // add increments if below 0
+        font-size: ((($font-size * $level) * $font-scale) / ($increments / 0.5)) + $font-size;
+        }
+
+    @else {
+        font-size: ((($font-size * $level) * $font-scale) / $increments) + $font-size;
+        }
+    }
+
+
+/* Hide text
+   ========================================================================== */
+@mixin hide-text() {
+    overflow: hidden;
+    text-indent: -5000px;
+    display: block;
+    height: 0;
+    }
+
+
+/* Uppercase - with adjustable letter spacing
+   ========================================================================== */
+@mixin uppercase($letter-spacing: 0.1em) {
+    text-transform: uppercase;
+    letter-spacing: $letter-spacing;
+    }
+
+
+/* Hyphenate
+   ========================================================================== */
+@mixin hyphenate() {
+    word-break: break-word;
+    hyphens: auto;
+    }
+
+
+/* Truncate - with optional width
+   ========================================================================== */
+@mixin truncate($width: 100%) {
+    width: $width;
+    max-width: 100%;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    }
+
+
+
+
+/* ==========================================================================
+   Box Model & Positioning
+   ========================================================================== */
+
+
+/* Center: Center elements
+   ========================================================================== */
+@mixin center() {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+
+
+/* Child-margins: Voids margins for child elements
+   ========================================================================== */
+@mixin child-margins($levels: 1) {
+    @if $levels == 1 {
+        > :first-child { margin-top: 0; }
+        > :last-child { margin-bottom: 0; }
+        }
+
+    @elseif $levels == 2 {
+        > :first-child > :first-child { margin-top: 0; }
+        > :last-child > :last-child { margin-bottom: 0; }
+        }
+    }
+
+
+/* Clearfix
+   ========================================================================== */
+@mixin clear {
+    zoom:1;
+
+    &:before, &:after {
+        content: " ";
+        display: table;
+        }
+
+    &:after {
+        clear: both;
+        }
+    }

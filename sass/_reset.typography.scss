@@ -1,0 +1,197 @@
+/* --------------------------------------------------------------------------
+ * Typography
+ * -------------------------------------------------------------------------- */
+
+/* Global Defaults */
+html, body,
+input, button,
+select, textarea {
+	font: #{$font-size}/#{$line-height} font(sans);
+	text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	font-smoothing: antialiased;
+	font-synthesis: none;
+    }
+
+p {
+	margin: 0 0 unit(1) 0;
+    }
+
+b, strong {
+    font-family: font(sansBold);
+    }
+
+i, em {
+    font-family: font(sansItalic);
+    }
+
+ul, ol {
+	margin: unit(1) 0;
+	list-style-position: inside;
+
+    // unstyled lists
+    &.-reset {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        // child lists
+        ul, ol {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            }
+        }
+    }
+
+a {
+	outline: none;
+	text-decoration: none;
+	color: color(secondary);
+
+	&:hover, &:active, &:focus {
+
+	   }
+    }
+
+::selection {
+	background: none;
+	color: color(secondary);
+    }
+
+::-moz-selection {
+	background: none;
+	color: color(secondary);
+    }
+
+
+
+
+/* Typography Helper Classes
+ * -------------------------------------------------------------------------- */
+
+/**
+ * Text sizes
+ */
+
+.txt-xs {
+	@include text-size(-2.5);
+	@include breakpoint($vp2) { @include text-size(-2); }
+	@include breakpoint($vp3) { @include text-size(-1); }
+    }
+
+.txt-s,
+.html-block h1,
+.html-block h2,
+.html-block h3 {
+	@include text-size(-1.5);
+	@include breakpoint($vp2) { @include text-size(-.75); }
+    @include breakpoint($vp4) { @include text-size(0); }
+    }
+
+.txt,
+.html-block {
+    line-height: 1.8;
+	@include text-size(0);
+	@include breakpoint($vp2) { @include text-size(0.5); }
+	@include breakpoint($vp4) { @include text-size(1.0); }
+    }
+
+.txt-l {
+    line-height: 1.4;
+	@include text-size(2);
+	@include breakpoint($vp2) { @include text-size(3); }
+	@include breakpoint($vp3) { @include text-size(4.5); }
+    @include breakpoint($vp4) { font-size: 2.2vw; }
+    @include breakpoint($vp5) { @include text-size(7); }
+    }
+
+.txt-xl {
+	@include text-size(4);
+	@include breakpoint($vp2) { @include text-size(5); }
+	@include breakpoint($vp3) { @include text-size(5.5); }
+    }
+
+.txt-xxl {
+    margin-bottom: 2rem;
+    line-height: 1.3;
+	@include text-size(6);
+	@include breakpoint($vp2) { @include text-size(7); }
+	@include breakpoint($vp3) { @include text-size(7.5); }
+    @include breakpoint($vp4) {
+        font-size: 3.8vw;
+        }
+    }
+
+
+
+
+/**
+ * Text alignment
+ */
+
+.txt-center {
+    text-align: center;
+    }
+
+.txt-left {
+    text-align: left;
+    }
+
+.txt-right {
+    text-align: right;
+    }
+
+
+
+
+/**
+ * Text spacing
+ */
+
+.txt-uppercase {
+    @include uppercase(0.1em);
+
+    &-l {
+        letter-spacing: 0.2em;
+        }
+    }
+
+
+
+.txt-serif {
+    font-family: font(serif);
+    }
+
+.txt-sans {
+    font-family: font(sans);
+
+    &.-bold {
+        font-family: font(sansBold);
+        }
+    }
+
+.txt-mono {
+    font-family: font(mono);
+
+    &.-uppercase {
+        @include uppercase(.1em);
+        }
+    }
+
+.txt-bee {
+    color: color(bee);
+    }
+
+.txt-bloom {
+    color: color(bloom);
+    }
+
+.txt-nom {
+    color: color(primary);
+    }
+
+.txt-life {
+    color: color(life);
+    }

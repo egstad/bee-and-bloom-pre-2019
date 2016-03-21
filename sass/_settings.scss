@@ -1,0 +1,107 @@
+/**
+ * Configuration
+ *
+ * SETTINGS
+ * Global .............. Globally-available variables and config.
+ *
+ * UTILITIES
+ * Mixins ............... Useful mixins.
+ * Extends .............. Global extensions.
+ *
+ * GENERIC
+ * Normalize.css ........ A level playing field.
+ * Box-sizing ........... Better default `box-sizing`.
+ *
+ * BASE
+ * Headings ............. H1–H6 styles.
+ *
+ * OBJECTS
+ * Wrappers ............. Wrapping and constraining elements.
+ *
+ * COMPONENTS
+ * Page-head ............ The main page header.
+ * Page-foot ............ The main page footer.
+ * Buttons .............. Button elements.
+ *
+ * TRUMPS
+ * Text ................. Text helpers.
+ */
+
+
+/* Typography
+   ========================================================================== */
+
+
+$font: (
+    serif       : "BelweSH-Medium",
+    sans        : "GrotesqueMTStd",
+    sansItalic  : "GrotesqueMTStd-Italic",
+    sansBold    : "GrotesqueMTStd-Bold",
+    mono        : "Input"
+    );
+
+$font-size      : 1rem;
+$line-height    : 1.6;
+$font-scale     : 1.618; // Defines intervals within text-size() mixin.
+
+
+
+
+/* Layout
+   ========================================================================== */
+
+// Content container
+$wrap_max-width : 120rem;
+
+// Grid settings
+$susy: (
+    columns     : 12,
+    gutters     : .25
+    );
+
+// Unit vars, used often as a function (see tool.functions)
+$unit-rela      : 1rem;
+$unit-perc      : gutter(12);
+$unit-vert      : ($unit-perc / 100%) * 100;
+$unit-hori      : ($unit-perc / 100%) * 100;
+
+
+
+
+/* Color
+   ========================================================================== */
+$color: (
+    primary     : #EC2D00,
+    secondary   : #FDA3A2,
+    tertiary    : #F8F3F0,
+    bee         : #F8AC1C,
+    beeAlt      : #FFE8B6,
+    bloom       : #12AA2F,
+    bloomAlt    : #C9E4C3,
+    life        : #0C58EE,
+    lifeAlt     : #C2D0DD,
+    black       : #323235,
+    gray        : #AEACAB,
+    grayAlt     : #E4E4E4,
+    white       : #FFFFFF
+    );
+
+
+
+
+/* Breakpoints
+   ========================================================================== */
+$vp1            : 25em;
+$vp2            : 40em;
+$vp3            : 60em;
+$vp4            : 90em;
+$vp5            : 128em;
+
+
+
+
+/* Transitions & Animations
+   ========================================================================== */
+
+$timing         : 0.2s;
+$easing         : ease-in-out;

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes, width=device-width">
+  <title>DocStrap — Source: core/util.js</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+  <link type="text/css" rel="stylesheet" href="styles/site.oblivion.css">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <a class="brand" href="index.html">DocStrap</a>
+      <ul class="nav">
+        
+        <li class="dropdown">
+          <a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b
+            class="caret"></b></a>
+
+          <ul class="dropdown-menu ">
+            
+            <li>
+              <a href="animate.html">animate</a>
+            </li>
+            
+            <li>
+              <a href="core.html">core</a>
+            </li>
+            
+            <li>
+              <a href="core.api.html">core.api</a>
+            </li>
+            
+            <li>
+              <a href="core.cache.html">core.cache</a>
+            </li>
+            
+            <li>
+              <a href="core.config.html">core.config</a>
+            </li>
+            
+            <li>
+              <a href="core.detect.html">core.detect</a>
+            </li>
+            
+            <li>
+              <a href="core.dom.html">core.dom</a>
+            </li>
+            
+            <li>
+              <a href="core.env.html">core.env</a>
+            </li>
+            
+            <li>
+              <a href="core.images.html">core.images</a>
+            </li>
+            
+            <li>
+              <a href="core.resizes.html">core.resizes</a>
+            </li>
+            
+            <li>
+              <a href="core.scrolls.html">core.scrolls</a>
+            </li>
+            
+            <li>
+              <a href="core.util.html">core.util</a>
+            </li>
+            
+            <li>
+              <a href="cover.html">cover</a>
+            </li>
+            
+            <li>
+              <a href="menus.intro.html">menus.intro</a>
+            </li>
+            
+            <li>
+              <a href="menus.nav.html">menus.nav</a>
+            </li>
+            
+            <li>
+              <a href="router.html">router</a>
+            </li>
+            
+            <li>
+              <a href="sqs.html">sqs</a>
+            </li>
+            
+
+          </ul>
+        </li>
+        
+        <li class="dropdown">
+          <a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+            class="caret"></b></a>
+
+          <ul class="dropdown-menu ">
+            
+            <li>
+              <a href="App.html">App</a>
+            </li>
+            
+            <li>
+              <a href="core.Analytics.html">core.Analytics</a>
+            </li>
+            
+            <li>
+              <a href="core.ImageController.html">core.ImageController</a>
+            </li>
+            
+            <li>
+              <a href="core.Waypoints.html">core.Waypoints</a>
+            </li>
+            
+            <li>
+              <a href="Menu.html">Menu</a>
+            </li>
+            
+            <li>
+              <a href="sqs.Metrics.html">sqs.Metrics</a>
+            </li>
+            
+            <li>
+              <a href="Store.html">Store</a>
+            </li>
+            
+
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+
+    
+
+    
+      <div class="span12">
+        
+        <div id="main">
+          
+
+
+		<h1 class="page-title">Source: core/util.js</h1>
+    
+<section>
+  <article>
+    <pre
+      class="sunlight-highlight-javascript linenums">/**
+ *
+ * @public
+ * @namespace util
+ * @memberof core
+ * @description Houses app-wide utility methods.
+ *
+ */
+import $ from "js_libs/hobo/dist/hobo.build";
+import ImageLoader from "properjs-imageloader";
+import loadCSS from "fg-loadcss";
+import loadJS from "fg-loadjs";
+import dom from "./dom";
+import config from "./config";
+import detect from "./detect";
+import emitter from "./emitter";
+
+
+/**
+ *
+ * @description Add pixel units when inline styling
+ * @method px
+ * @param {string} str The value to pixel-ify
+ * @memberof core.util
+ * @returns {string}
+ *
+ */
+const px = function ( str ) {
+    return `${str}px`;
+};
+
+
+/**
+ *
+ * @description Apply a translate3d transform
+ * @method translate3d
+ * @param {object} el The element to transform
+ * @param {string|number} x The x value
+ * @param {string|number} y The y value
+ * @param {string|number} z The z value
+ * @memberof core.util
+ *
+ */
+const translate3d = function ( el, x, y, z ) {
+    el.style[ detect.getPrefixed( "transform" ) ] = `translate3d( ${x}, ${y}, ${z} )`;
+};
+
+
+/**
+ *
+ * @description Look-ahead method for pre-loading elements
+ * @method isElementLoadable
+ * @param {object} el The DOMElement to check the offset of
+ * @memberof core.util
+ * @returns {boolean}
+ *
+ */
+const isElementLoadable = function ( el ) {
+    if ( el ) {
+        const bounds = el.getBoundingClientRect();
+
+        return ( bounds.top &lt; (window.innerHeight * 2) );
+    }
+};
+
+
+/**
+ *
+ * @description Look at elements in the current viewport, vertically
+ * @method isElementVisibleVert
+ * @param {object} el The DOMElement to check the offsets of
+ * @memberof core.util
+ * @returns {boolean}
+ *
+ */
+const isElementVisibleVert = function ( el ) {
+    if ( el ) {
+        const bounds = el.getBoundingClientRect();
+
+        return ( bounds.top &lt; window.innerHeight &amp;&amp; bounds.bottom > 0 );
+    }
+};
+
+
+/**
+ *
+ * @description Look at elements in the current viewport, horizontally
+ * @method isElementVisibleHorz
+ * @param {object} el The DOMElement to check the offsets of
+ * @memberof core.util
+ * @returns {boolean}
+ *
+ */
+const isElementVisibleHorz = function ( el ) {
+    if ( el ) {
+        const bounds = el.getBoundingClientRect();
+
+        return ( bounds.left &lt; window.innerWidth &amp;&amp; bounds.right > 0 );
+    }
+};
+
+
+/**
+ *
+ * @method getElementsInView
+ * @memberof core.util
+ * @param {Hobo} $nodes The collection to process
+ * @param {function} executor Optional method to determin `in view`
+ * @description Get elements within a loadable position on the page
+ * @returns {Hobo}
+ *
+ */
+const getElementsInView = function ( $nodes, executor ) {
+    let i = $nodes.length;
+    const ret = [];
+
+    executor = (executor || isElementLoadable);
+
+    for ( i; i--; ) {
+        if ( executor( $nodes[ i ] ) ) {
+            ret.push( $nodes[ i ] );
+        }
+    }
+
+    return $( ret );
+};
+
+
+/**
+ *
+ * @description Fresh query to lazyload images on page
+ * @method loadImages
+ * @param {object} images Optional collection of images to load
+ * @param {function} handler Optional handler for load conditions
+ * @memberof core.util
+ * @returns {ImageLoader}
+ *
+ */
+const loadImages = function ( images, handler ) {
+    // Normalize the handler
+    handler = (handler || isElementLoadable);
+
+    // Normalize the images
+    images = (images || $( config.lazyImageSelector ));
+
+    // Hook here to determine image variant sizes to load ?
+    emitter.fire( "app--util--load-images", images );
+
+    return new ImageLoader({
+        elements: images,
+        property: config.lazyImageAttr,
+        transitionDelay: 0
+
+    }).on( "data", handler );
+};
+
+
+/**
+ *
+ * @description Load all deps for a module
+ * @method loadDependencies
+ * @param {object} data The dependency data
+ * @param {function} callback Function to call when all deps are loaded
+ * @memberof core.util
+ *
+ */
+const loadDependencies = function ( data, callback ) {
+    let i = 0;
+    const total = data.sources.length;
+    const onload = function () {
+        i++;
+
+        if ( i === total ) {
+            if ( typeof data.callback === "function" ) {
+                data.callback();
+            }
+
+            if ( typeof callback === "function" ) {
+                callback();
+            }
+        }
+    };
+
+    data.sources.forEach(( source ) => {
+        if ( source.type === "script" ) {
+            loadJS( (config.asyncScriptPath + source.file), onload );
+
+        } else if ( source.type === "style" ) {
+            loadCSS( (config.asyncStylePath + source.file) ).onloadcssdefined( onload );
+        }
+    });
+};
+
+
+/**
+ *
+ * @description Toggle on/off scrollability
+ * @method disableMouseWheel
+ * @param {boolean} enable Flag to enable/disable
+ * @memberof core.util
+ *
+ */
+const disableMouseWheel = function ( enable ) {
+    if ( enable ) {
+        dom.doc.on( "DOMMouseScroll mousewheel", preNoop );
+
+    } else {
+        dom.doc.off( "DOMMouseScroll mousewheel" );
+    }
+};
+
+
+/**
+ *
+ * @description Toggle on/off touch movement
+ * @method disableTouchMove
+ * @param {boolean} enable Flag to enable/disable
+ * @memberof core.util
+ *
+ */
+const disableTouchMove = function ( enable ) {
+    if ( enable ) {
+        dom.doc.on( "touchmove", preNoop );
+
+    } else {
+        dom.doc.off( "touchmove" );
+    }
+};
+
+
+/**
+ *
+ * @description Get the applied transition duration from CSS
+ * @method getTransitionDuration
+ * @param {object} el The DOMElement
+ * @memberof core.util
+ * @returns {number}
+ *
+ */
+const getTransitionDuration = function ( el ) {
+    let ret = 0;
+    let duration = null;
+    let isSeconds = false;
+    let multiplyBy = 1000;
+
+    if ( el ) {
+        duration = getComputedStyle( el )[ "transition-duration" ];
+        isSeconds = String( duration ).indexOf( "ms" ) === -1;
+        multiplyBy = isSeconds ? 1000 : 1;
+
+        ret = parseFloat( duration ) * multiplyBy;
+    }
+
+    return ret;
+};
+
+
+/**
+ *
+ * @description All true all the time
+ * @method noop
+ * @memberof core.util
+ * @returns {boolean}
+ *
+ */
+const noop = function () {
+    return true;
+};
+
+
+/**
+ *
+ * @description Noop a preventDefault() for event handlers
+ * @method preNoop
+ * @memberof core.util
+ * @param {object} e The event object
+ * @returns {boolean}
+ *
+ */
+const preNoop = function ( e ) {
+    e.preventDefault();
+    return false;
+};
+
+
+/**
+ *
+ * @description Randomize array element order in-place.
+ * Using Fisher-Yates shuffle algorithm.
+ * @method shuffle
+ * @param {object} arr The array to shuffle
+ * @memberof core.util
+ * @returns {array}
+ *
+ */
+const shuffle = function ( arr ) {
+    let i = arr.length - 1;
+    let j = 0;
+    let temp = arr[ i ];
+
+    for ( i; i > 0; i-- ) {
+        j = Math.floor( Math.random() * (i + 1) );
+        temp = arr[ i ];
+
+        arr[ i ] = arr[ j ];
+        arr[ j ] = temp;
+    }
+
+    return arr;
+};
+
+
+/**
+ *
+ * @method calculateAspectRatioFit
+ * @memberof core.util
+ * @param {number} srcWidth The node width
+ * @param {number} srcHeight The node height
+ * @param {number} maxWidth The bounds width
+ * @param {number} maxHeight The bounds height
+ * @description Get optimum size for the given bounds and node dimensions
+ * @returns {object}
+ *
+ */
+const calculateAspectRatioFit = function ( srcWidth, srcHeight, maxWidth, maxHeight ) {
+    const ratio = Math.min( (maxWidth / srcWidth), (maxHeight / srcHeight) );
+
+    return {
+        width: srcWidth * ratio,
+        height: srcHeight * ratio
+    };
+};
+
+
+/**
+ *
+ * @public
+ * @method getPageKey
+ * @memberof util
+ * @description Determine the key for local page cache storage.
+ * @returns {string}
+ *
+ */
+const getPageKey = function () {
+    return `${window.location.pathname}${window.location.search}`;
+};
+
+
+/**
+ *
+ * @public
+ * @method extendObject
+ * @memberof util
+ * @param {object} target The target object/array
+ * @param {object} arrow The incoming object/array
+ * @description Merge or clone objects and arrays
+ * @returns {object}
+ *
+ */
+const extendObject = function ( target, arrow ) {
+    let i = null;
+    const ret = target;
+
+    // Merge Arrays
+    // This is really just used as a `cloning` mechanism
+    if ( Array.isArray( arrow ) ) {
+        i = arrow.length;
+
+        for ( i; i--; ) {
+            ret[ i ] = arrow[ i ];
+        }
+
+    // Merge Objects
+    // This could `clone` as well, but is better for merging 2 objects
+    } else {
+        for ( i in arrow ) {
+            if ( arrow.hasOwnProperty( i ) ) {
+                ret[ i ] = arrow[ i ];
+            }
+        }
+    }
+
+    return ret;
+};
+
+
+
+/******************************************************************************
+ * Export
+*******************************************************************************/
+export default {
+    // Loading
+    loadImages,
+    loadDependencies,
+    getElementsInView,
+    isElementLoadable,
+    isElementVisibleVert,
+    isElementVisibleHorz,
+
+    // Disabling
+    disableTouchMove,
+    disableMouseWheel,
+
+    // Random
+    px,
+    noop,
+    shuffle,
+    getPageKey,
+    translate3d,
+    extendObject,
+    getTransitionDuration,
+    calculateAspectRatioFit
+};</pre>
+  </article>
+</section>
+
+
+
+
+
+        </div>
+
+        <div class="clearfix"></div>
+        <footer>
+          
+          
+    <span class="copyright">
+    DocStrap Copyright © 2012-2014 The contributors to the JSDoc3 and DocStrap projects.
+    </span>
+          <br />
+          
+    <span class="jsdoc-message">
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.4.0</a>
+    on Sat Mar 12th 2016
+    </span>
+        </footer>
+      </div>
+
+      <br clear="both">
+    </div>
+
+  </div>
+  <!--<script src="scripts/sunlight.js"></script>-->
+  <script src="scripts/docstrap.lib.js"></script>
+  <script src="scripts/bootstrap-dropdown.js"></script>
+  <script src="scripts/toc.js"></script>
+
+  <script>
+    $( function () {
+      $( "[id*='$']" ).each( function () {
+        var $this = $( this );
+
+        $this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+      } );
+
+      $( "#toc" ).toc( {
+        anchorName  : function ( i, heading, prefix ) {
+          return $( heading ).attr( "id" ) || ( prefix + i );
+        },
+        selectors   : "h1,h2,h3,h4",
+        showAndHide : false,
+        scrollTo    : "100px"
+      } );
+
+      $( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+      $( "#main span[id^='toc']" ).addClass( "toc-shim" );
+      $( '.dropdown-toggle' ).dropdown();
+//      $( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+      $( ".tutorial-section pre, .readme-section pre" ).each( function () {
+        var $this = $( this );
+
+        var example = $this.find( "code" );
+        exampleText = example.html();
+        var lang = /{@lang (.*?)}/.exec( exampleText );
+        if ( lang && lang[1] ) {
+          exampleText = exampleText.replace( lang[0], "" );
+          example.html( exampleText );
+          lang = lang[1];
+        } else {
+          lang = "javascript";
+        }
+
+        if ( lang ) {
+
+          $this
+            .addClass( "sunlight-highlight-" + lang )
+            .addClass( "linenums" )
+            .html( example.html() );
+
+        }
+      } );
+
+      Sunlight.highlightAll( {
+        lineNumbers : true,
+        showMenu : true,
+        enableDoclinks : true
+      } );
+    } );
+   </script>
+
+
+
+  <!--Navigation and Symbol Display-->
+  
+
+
+  <!--Google Analytics-->
+  
+
+</body>
+</html>
