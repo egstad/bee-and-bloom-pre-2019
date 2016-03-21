@@ -3,6 +3,7 @@
 .sqs-cache
 .notes
 
+/js_docs
 /js_libs
 /sqs_template
 /node_modules
