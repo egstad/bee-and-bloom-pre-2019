@@ -1,7 +1,9 @@
 import router from "./router";
 import nav from "./menus/nav";
 import * as core from "./core";
-import intro from "./menus/intro";
+// import intro from "./menus/intro";
+// import weather from "./weather";
+import filterlist from "./filterlist";
 
 
 /**
@@ -15,8 +17,10 @@ class App {
     constructor () {
         this.nav = nav;
         this.core = core;
-        this.intro = intro;
+        // this.intro = intro;
         this.router = router;
+        this.filterlist = filterlist;
+        // this.weather = weather;
 
         this.initEvents();
         this.initModules();
@@ -38,6 +42,9 @@ class App {
         this.core.scrolls.init( this );
         this.router.init( this );
         this.nav.init( this );
+        this.filterlist.init( this );
+        // this.weather.init( this );
+
 
         this.analytics = new this.core.Analytics();
     }
@@ -74,7 +81,7 @@ class App {
         this.core.dom.html.removeClass( "is-clipped" );
         this.core.dom.body.removeClass( "is-clipped" );
 
-        this.intro.teardown();
+        // this.intro.teardown();
     }
 }
 

@@ -3,10 +3,15 @@
    ========================================================================== */
 
 .sqs-block {
-    background: color(tertiary);
+    // background: color(tertiary);
     margin: unit(4) 0;
 
     @include breakpoint($vp3) {
         margin: unit(6) 0;
         }
     }
+
+
+// [class*=sqs-col] .sqs-block {
+//     padding: 0;
+//     }

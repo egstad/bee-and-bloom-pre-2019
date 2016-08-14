@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Video!
+   ========================================================================== */
+
+.sqs-block-video {
+    background: color(tertiary);
+
+    // wraps video and caption
+    .sqs-block-content {
+        padding: unit(4) 0;
+
+        @include breakpoint($vp3) {
+            padding: unit(6) 0;
+            }
+        }
+    }
+
+// video wrapper
+.sqs-video-wrapper {
+    max-width: $wrap-large;
+    margin: 0 auto;
+    }
+
+// video caption wrapper
+.video-caption-wrapper {
+    text-align: center;
+    max-width: $wrap-medium;
+    margin: 0 auto;
+    padding-top: unit(2);
+    font-family: font(mono);
+    }

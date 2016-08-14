@@ -5,7 +5,7 @@
 .sqs-block-quote {
 
     .sqs-block-content {
-        @include container(60em);
+        @include container($wrap-large);
         }
 
     // block quote figure
@@ -24,4 +24,27 @@
         @include span(last 4 of 12);
         }
 
+    }
+
+
+.bq {
+    margin: 0 auto;
+    max-width: $wrap-large;
+    padding: 0 unit(4, vw);
+
+    @include breakpoint($vp3) {
+        padding: 0;
+        }
+
+    &.-large {
+        padding: 0 unit(2, perc);
+
+        @include breakpoint($vp2) {
+            padding: 0 unit(4, perc);
+            }
+
+        @include breakpoint($vp4) {
+            padding: 0;
+            }
+        }
     }

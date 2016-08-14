@@ -1,11 +1,17 @@
+/* ==========================================================================
+   Font Imports
+   ========================================================================== */
+
+/* Required by myfonts.net fonts (Grotesque and Belwe)  */
+@import url("//hello.myfonts.net/count/307e99");
+
+
+
 @font-face {
     font-family: 'Input';
     src: url('../assets/fonts/InputMonoNarrow-Light.ttf') format('truetype');
     }
 
-
-
-@import url("//hello.myfonts.net/count/307e99");
 
 
 @font-face {
@@ -18,6 +24,7 @@
     }
 
 
+
 @font-face {
     font-family: 'GrotesqueMTStd-Black';
     src: url('../assets/fonts/307E99_1_0.eot');
@@ -28,6 +35,7 @@
     }
 
 
+
 @font-face {
     font-family: 'GrotesqueMTStd-Italic';
     src: url('../assets/fonts/307E99_2_0.eot');
@@ -36,6 +44,7 @@
          url('../assets/fonts/307E99_2_0.woff') format('woff'),
          url('../assets/fonts/307E99_2_0.ttf') format('truetype');
     }
+
 
 
 @font-face {

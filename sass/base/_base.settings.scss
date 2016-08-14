@@ -1,37 +1,15 @@
-/**
- * Configuration
- *
- * SETTINGS
- * Global .............. Globally-available variables and config.
- *
- * UTILITIES
- * Mixins ............... Useful mixins.
- * Extends .............. Global extensions.
- *
- * GENERIC
- * Normalize.css ........ A level playing field.
- * Box-sizing ........... Better default `box-sizing`.
- *
- * BASE
- * Headings ............. H1–H6 styles.
- *
- * OBJECTS
- * Wrappers ............. Wrapping and constraining elements.
- *
- * COMPONENTS
- * Page-head ............ The main page header.
- * Page-foot ............ The main page footer.
- * Buttons .............. Button elements.
- *
- * TRUMPS
- * Text ................. Text helpers.
- */
+/* ==========================================================================
+   Settings
+   ========================================================================== */
+
 
 
 /* Typography
    ========================================================================== */
 
-
+$font-size      : 16;
+$line-height    : 1.6;
+$font-scale     : 1.618; // Defines intervals within text-size() mixin.
 $font: (
     serif       : "BelweSH-Medium",
     sans        : "GrotesqueMTStd",
@@ -40,30 +18,65 @@ $font: (
     mono        : "Input"
     );
 
-$font-size      : 1rem;
-$line-height    : 1.6;
-$font-scale     : 1.618; // Defines intervals within text-size() mixin.
-
-
 
 
 /* Layout
    ========================================================================== */
 
-// Content container
-$wrap_max-width : 120rem;
+/**
+ * Units
+ */
+$unit-rela      : 1rem;
+$unit-perc      : gutter(12);
+$unit-vert      : ($unit-perc / 100%) * 100;
+$unit-hori      : ($unit-perc / 100%) * 100;
 
-// Grid settings
+
+
+/**
+ * Grid
+ */
 $susy: (
     columns     : 12,
     gutters     : .25
     );
 
-// Unit vars, used often as a function (see tool.functions)
-$unit-rela      : 1rem;
-$unit-perc      : gutter(12);
-$unit-vert      : ($unit-perc / 100%) * 100;
-$unit-hori      : ($unit-perc / 100%) * 100;
+$wrap-max       : 120rem;
+$wrap-large     : 65rem;
+$wrap-medium    : 50rem;
+$wrap-small     : 30rem;
+
+
+/* Grid
+   ========================================================================== */
+$grid-length: 12;
+$grid-columns: 12 11 10 9 8 7 6 5 4 3 2 1;
+
+
+/* Spacing
+   ========================================================================== */
+// Small
+$bump-size: 80px;
+$nudge-size: 40px;
+
+// Content Blocks
+$expander-one: 90px;
+$expander-two: 160px;
+$expander-three: 250px;
+$expander-mobile: 50px;
+$expander-mobile-tite: 15px;
+
+// Horizontal
+$mobile-padding: 30px;
+$image-padding: 13.671875%;
+$wrapper-padding: 7.03125%;
+$grid-padding: #{"calc( ~\"#{$wrapper-padding} + #{$bump-size}\" )"};
+
+// Grid Walls
+$grid-item-padding: 5.5%;
+$grid-item-padding-static: 55px;
+$grid-item-padding-bottom: #{"calc( ~\"11% + #{$bump-size}\" )"};
+
 
 
 
@@ -91,11 +104,11 @@ $color: (
 
 /* Breakpoints
    ========================================================================== */
-$vp1            : 25em;
-$vp2            : 40em;
-$vp3            : 60em;
-$vp4            : 90em;
-$vp5            : 128em;
+$vp1            : 20em; // 320px
+$vp2            : 40em; // 640px
+$vp3            : 60em; // 960px
+$vp4            : 90em; // 1440px
+$vp5            : 128em; // 2048px
 
 
 
@@ -105,3 +118,14 @@ $vp5            : 128em;
 
 $timing         : 0.2s;
 $easing         : ease-in-out;
+
+$ease           : ease;
+$ease-in        : ease-in;
+$ease-out       : ease-out;
+$ease-in-out    : ease-in-out;
+$ease-cubic     : cubic-bezier( 0.55, 0.055, 0.675, 0.19 );
+
+$long-duration  : 600ms;
+$base-duration  : 400ms;
+$midi-duration  : 300ms;
+$fast-duration  : 200ms;

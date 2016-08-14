@@ -2,24 +2,36 @@
    Grid - based on http://l.je.gs/1RiOkSw
    ========================================================================== */
 
-.wrap {
-    @include clear;
+.wrap,
+.sqs-block-video .sqs-block-content,
+.sqs-block-html .sqs-block-content {
+    @include container();
     position: relative;
     width: 100%;
-    max-width: $wrap_max-width;
-    margin: 0 auto;
     padding: 0 unit(4, vw);
+    max-width: 30em;
 
     @include breakpoint($vp2) {
-        padding: 0 unit(2, perc);
+        max-width: 40em;
+        padding: 0 unit(4);
         }
 
     @include breakpoint($vp3) {
-        padding: 0 unit(1, perc);
+        padding: 0 unit(6);
         }
+    }
+
+.wrap {
+    max-width: $wrap-max;
 
     &.-full {
         max-width: none;
+        }
+    }
+
+.page-journal .sqs-block-video .sqs-block-content,
+.page-journal .sqs-block-html .sqs-block-content {
+    @include breakpoint($vp3) {
         padding: 0;
         }
     }

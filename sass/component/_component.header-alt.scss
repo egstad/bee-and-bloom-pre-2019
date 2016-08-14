@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Header Alt
+   ========================================================================== */
+
+.header--with-intro {
+    padding: unit(4, vw);
+    @include breakpoint($vp2) {
+        padding: unit(4);
+        }
+    @include breakpoint($vp3) {
+        padding: unit(6);
+        }
+
+    .logo {
+        svg {
+            display: block;
+            max-width: 3em;
+            }
+
+        @include breakpoint($vp2) {
+            @include span(2);
+            }
+        }
+    .nav {
+        display: none;
+        @include breakpoint($vp4) {
+            display: block;
+            }
+        }
+    .intro {
+
+        }
+    .social {
+        display: none;
+        @include breakpoint($vp4) {
+            display: block;
+            }
+        }
+    }

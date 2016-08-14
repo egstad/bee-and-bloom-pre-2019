@@ -1,4 +1,143 @@
 /* ==========================================================================
-   Gallery block
+   Galleries bitch!
    ========================================================================== */
 
+/* Shared gallery styles
+   ========================================================================== */
+
+.gallery {
+    .wrap {
+        max-width: $wrap-max;
+
+        @include breakpoint(0px, $vp2) {
+            padding: 0;
+            }
+        }
+    }
+
+// .gallery_items {}
+
+// .gallery_item {}
+
+.gallery_image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    }
+
+
+
+
+/* Sliders
+   ========================================================================== */
+
+.gallery--slider {
+
+    .gallery_items {
+        display: flex;
+        flex-direction: column;
+
+        @include breakpoint($vp3) {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            }
+        }
+
+    .gallery_item {
+        margin-bottom: unit(4, perc);
+
+        @include breakpoint($vp2) {
+            padding: 0 unit(2, perc);
+            }
+
+        @include breakpoint($vp3) {
+            width: 33.333%;
+            padding: 0 unit(1, perc);
+            }
+
+        &:last-child {
+            margin-bottom: 0;
+            }
+        }
+    }
+
+
+
+/* ==========================================================================
+   Cover
+   ========================================================================== */
+
+
+.cover {
+    height: 100vh;
+    min-height: 200px;
+    position: relative;
+    width: 100%;
+
+    // is background image
+    &--background {
+        background-size: cover !important;
+        background-position: center center !important;
+        }
+    }
+
+
+.cover__wrap {
+    height: 100%;
+    }
+
+
+.cover--tease {
+    height: 70vh;
+    }
+
+
+.cover--tall {
+    height: 120vh;
+    }
+
+
+.cover__title {
+    position: relative;
+    z-index: 2;
+    }
+
+
+.cover__image {
+    height: 100%;
+    width: 100%;
+    }
+
+
+.cover__screen,
+.cover__content {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    }
+
+
+
+/******************************************************************************
+ * Alignments
+*******************************************************************************/
+.ghost {
+    font-size: 0;
+
+    &:before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        margin-left: -1px;
+        vertical-align: middle;
+        width: 1px;
+        }
+}
+.ghost__child {
+    display: inline-block;
+    vertical-align: middle;
+    }

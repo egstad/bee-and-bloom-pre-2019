@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Routing!
+   ========================================================================== */
+
+html.is-routing {
+
+    // secondary nav
+    .site-header_banner {
+        transform: translate3d(0, -100%, 0);
+        }
+
+    // main page
+    .site-page,
+    .site-footer {
+        opacity: 0;
+        }
+    }
+
+
+.site-page,
+.site-footer {
+    transition: opacity $base-duration $ease-cubic;
+    }

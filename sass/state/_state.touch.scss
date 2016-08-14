@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Touch Deviices
+   ========================================================================== */
+
+.touch {
+    // position at bottom of screen for tablet
+    .site-header {
+        @include breakpoint($vp2) {
+            .toolbar {
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 3;
+                }
+
+                a {
+                    padding: unit(1);
+                }
+            }
+
+            // hide weather info
+            .site-header_banner {
+                display: none;
+                }
+        }
+    }

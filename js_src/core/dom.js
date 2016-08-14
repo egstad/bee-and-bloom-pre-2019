@@ -78,6 +78,13 @@ const dom = {
 
     /**
      *
+     * Weather Info
+     */
+    weatherTool: $( "#weatherTool" ),
+
+
+    /**
+     *
      * @public
      * @member intro
      * @memberof core.dom

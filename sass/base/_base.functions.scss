@@ -3,37 +3,45 @@
    ========================================================================== */
 
 
+
 /* Spacing - generates units of measurement
    ========================================================================== */
 @function unit($amount:1, $type:relative) {
     @if $amount <= 0 {
         @return 0;
-    }
-
+        }
     @if $type == "perc" {
-      @return ($unit-perc * $amount);
-    }
+        @return ($unit-perc * $amount);
+        }
     @else if $type == "vh" {
-      @return ($unit-vert * $amount) + vh;
-    }
+        @return ($unit-vert * $amount) + vh;
+        }
     @else if $type == "vw" {
-      @return ($unit-hori * $amount) + vw;
-    }
+        @return ($unit-hori * $amount) + vw;
+        }
     @else {
         @return $unit-rela * $amount;
+        }
     }
-}
+
+
+
+/* Convert PX's to EM's
+   ========================================================================== */
+@function em($pixels, $context: $font-size) {
+    @return #{$pixels/$context}em;
+    }
 
 
 /* Color Maps - helps quickly select color from sass map
    ========================================================================== */
 @function color($key) {
-  @if map-has-key($color, $key) {
-    @return map-get($color, $key);
-  }
-  @warn "Unknown `#{$key}` in $colors.";
-  @return null;
-}
+    @if map-has-key($color, $key) {
+        @return map-get($color, $key);
+        }
+    @warn "`#{$key}` doesn't exist within the color map.";
+    @return null;
+    }
 
 
 
@@ -42,7 +50,7 @@
 @function font($key) {
     @if map-has-key($font, $key) {
         @return map-get($font, $key);
-    }
-    @warn "Unknown `#{$key}` in $font.";
+        }
+    @warn "`#{$key}` doesn't exist within the font map.";
     @return null;
-}
+    }

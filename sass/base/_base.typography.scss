@@ -6,7 +6,7 @@
 html, body,
 input, button,
 select, textarea {
-	font: #{$font-size}/#{$line-height} font(sans);
+	font: #{em($font-size)}/#{$line-height} font(sans);
 	text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -48,11 +48,7 @@ ul, ol {
 a {
 	outline: none;
 	text-decoration: none;
-	color: color(secondary);
-
-	&:hover, &:active, &:focus {
-
-	   }
+	color: inherit;
     }
 
 ::selection {
@@ -84,10 +80,11 @@ a {
 .txt-s,
 .html-block h1,
 .html-block h2,
-.html-block h3 {
+.html-block h3,
+.video-caption {
 	@include text-size(-1.5);
 	@include breakpoint($vp2) { @include text-size(-.75); }
-    @include breakpoint($vp4) { @include text-size(0); }
+    @include breakpoint($vp4) { @include text-size(-.5); }
     }
 
 .txt,
@@ -103,7 +100,7 @@ a {
 	@include text-size(2);
 	@include breakpoint($vp2) { @include text-size(3); }
 	@include breakpoint($vp3) { @include text-size(4.5); }
-    @include breakpoint($vp4) { font-size: 2.2vw; }
+    @include breakpoint($vp4) { @include text-size(6); }
     @include breakpoint($vp5) { @include text-size(7); }
     }
 
@@ -118,10 +115,8 @@ a {
     line-height: 1.3;
 	@include text-size(6);
 	@include breakpoint($vp2) { @include text-size(7); }
-	@include breakpoint($vp3) { @include text-size(7.5); }
-    @include breakpoint($vp4) {
-        font-size: 3.8vw;
-        }
+	@include breakpoint($vp3) { @include text-size(8); }
+    @include breakpoint($vp4) { @include text-size(9); }
     }
 
 

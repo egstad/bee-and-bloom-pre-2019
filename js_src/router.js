@@ -1,7 +1,6 @@
 import $ from "js_libs/hobo/dist/hobo.build";
 import PageController from "properjs-pagecontroller";
 import * as core from "./core";
-import cover from "./cover";
 import nav from "./menus/nav";
 import animate from "./animate";
 
@@ -155,7 +154,6 @@ const router = {
         this.controller.setModules([
             core.images,
 
-            cover,
             animate
         ]);
 

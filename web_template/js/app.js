@@ -65,7 +65,7 @@
 	
 	var _router2 = _interopRequireDefault(_router);
 	
-	var _menusNav = __webpack_require__(/*! ./menus/nav */ 58);
+	var _menusNav = __webpack_require__(/*! ./menus/nav */ 57);
 	
 	var _menusNav2 = _interopRequireDefault(_menusNav);
 	
@@ -73,9 +73,12 @@
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _menusIntro = __webpack_require__(/*! ./menus/intro */ 61);
+	// import intro from "./menus/intro";
+	// import weather from "./weather";
 	
-	var _menusIntro2 = _interopRequireDefault(_menusIntro);
+	var _filterlist = __webpack_require__(/*! ./filterlist */ 60);
+	
+	var _filterlist2 = _interopRequireDefault(_filterlist);
 	
 	/**
 	 *
@@ -91,8 +94,10 @@
 	
 	    this.nav = _menusNav2["default"];
 	    this.core = core;
-	    this.intro = _menusIntro2["default"];
+	    // this.intro = intro;
 	    this.router = _router2["default"];
+	    this.filterlist = _filterlist2["default"];
+	    // this.weather = weather;
 	
 	    this.initEvents();
 	    this.initModules();
@@ -120,6 +125,8 @@
 	      this.core.scrolls.init(this);
 	      this.router.init(this);
 	      this.nav.init(this);
+	      this.filterlist.init(this);
+	      // this.weather.init( this );
 	
 	      this.analytics = new this.core.Analytics();
 	    }
@@ -158,7 +165,7 @@
 	      this.core.dom.html.removeClass("is-clipped");
 	      this.core.dom.body.removeClass("is-clipped");
 	
-	      this.intro.teardown();
+	      // this.intro.teardown();
 	    }
 	  }]);
 	
@@ -202,15 +209,11 @@
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _cover = __webpack_require__(/*! ./cover */ 57);
-	
-	var _cover2 = _interopRequireDefault(_cover);
-	
-	var _menusNav = __webpack_require__(/*! ./menus/nav */ 58);
+	var _menusNav = __webpack_require__(/*! ./menus/nav */ 57);
 	
 	var _menusNav2 = _interopRequireDefault(_menusNav);
 	
-	var _animate = __webpack_require__(/*! ./animate */ 60);
+	var _animate = __webpack_require__(/*! ./animate */ 59);
 	
 	var _animate2 = _interopRequireDefault(_animate);
 	
@@ -351,7 +354,7 @@
 	
 	        this.controller.setConfig(["*"]);
 	
-	        this.controller.setModules([core.images, _cover2["default"], _animate2["default"]]);
+	        this.controller.setModules([core.images, _animate2["default"]]);
 	
 	        this.controller.on("page-controller-router-samepage", function () {
 	            return _menusNav2["default"].close();
@@ -552,7 +555,7 @@
 	 *
 	 * @method hobo
 	 * @author kitajchuk
-	 * @hobo-dist npm run build -- eq not filter detach append remove
+	 * @hobo-dist npm run build -- eq not filter detach append toggleClass
 	 *
 	 * @links
 	 * https://developer.mozilla.org/en-US/docs/Web/API/Node
@@ -597,7 +600,7 @@
 	    Hobo.prototype.filter = __webpack_require__( /*! ../lib/extended/filter */ 15 );
 	    Hobo.prototype.detach = __webpack_require__( /*! ../lib/extended/detach */ 16 );
 	    Hobo.prototype.append = __webpack_require__( /*! ../lib/extended/append */ 17 );
-	    Hobo.prototype.remove = __webpack_require__( /*! ../lib/extended/remove */ 18 );
+	    Hobo.prototype.toggleClass = __webpack_require__( /*! ../lib/extended/toggleClass */ 18 );
 	
 	
 	    /**
@@ -1388,8 +1391,11 @@
 /*!*******************************************!*\
   !*** ./js_libs/hobo/lib/core/addClass.js ***!
   \*******************************************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
+	var utils = __webpack_require__( /*! ../utils */ 5 );
+	
+	
 	/**
 	 *
 	 * @instance
@@ -1411,7 +1417,7 @@
 	            }
 	        });
 	
-	        element.className = elsClass.join( " " );
+	        element.className = utils.trimString( elsClass.join( " " ) );
 	    });
 	
 	    return this;
@@ -1422,8 +1428,11 @@
 /*!**********************************************!*\
   !*** ./js_libs/hobo/lib/core/removeClass.js ***!
   \**********************************************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
+	var utils = __webpack_require__( /*! ../utils */ 5 );
+	
+	
 	/**
 	 *
 	 * @instance
@@ -1452,7 +1461,7 @@
 	                }
 	            });
 	
-	            element.className = elsClass.join( " " );
+	            element.className = utils.trimString( elsClass.join( " " ) );
 	        }
 	    });
 	
@@ -1530,8 +1539,10 @@
 	
 	    } else {
 	        this.forEach(function ( node, i ) {
-	            if ( typeof selector === "function" && selector( i, node ) ) {
-	                keepers.push( node );
+	            if ( typeof selector === "function" ) {
+	                if ( selector( i, node ) ) {
+	                    keepers.push( node );
+	                }
 	
 	            } else if ( !matchElement( node, selector ) ) {
 	                keepers.push( node );
@@ -1647,33 +1658,37 @@
 
 /***/ },
 /* 18 */
-/*!*********************************************!*\
-  !*** ./js_libs/hobo/lib/extended/remove.js ***!
-  \*********************************************/
-/***/ function(module, exports) {
+/*!**************************************************!*\
+  !*** ./js_libs/hobo/lib/extended/toggleClass.js ***!
+  \**************************************************/
+/***/ function(module, exports, __webpack_require__) {
 
+	var Hobo = __webpack_require__( /*! ../Hobo */ 4 ),
+	    matchElement = __webpack_require__( /*! properjs-matchelement */ 7 );
+	
+	
 	/**
 	 *
 	 * @instance
 	 * @memberof Hobo
-	 * @method remove
-	 * @description Remove the nodes from the DOM
-	 *              This method will remove events and data.
+	 * @method toggleClass
+	 * @description Add or remove the specified classNames.
+	 * @param {string} classes The space-separated classNames
 	 * @returns {Hobo}
 	 *
 	 */
-	module.exports = function () {
-	    // Remove Events
-	    this.off();
+	module.exports = function ( classes ) {
+	    classes = classes.split( " " );
 	
 	    this.forEach(function ( node ) {
-	        // Remove Data
-	        // Could this cause issues ?
-	        delete node.hoboDataMap;
+	        classes.forEach(function ( klass ) {
+	            if ( matchElement( node, ("." + klass) ) ) {
+	                new Hobo( node, null ).removeClass( klass );
 	
-	        if ( node.parentNode ) {
-	            node.parentNode.removeChild( node );
-	        }
+	            } else {
+	                new Hobo( node, null ).addClass( klass );
+	            }
+	        });
 	    });
 	
 	    return this;
@@ -1707,12 +1722,22 @@
 	 *
 	 */
 	module.exports = function ( config ) {
-	    var params = (config.data ? utils.serializeData( config.data ) : null),
+	    var params = (config.data || null),
 	        dataType = (config.dataType || "html"),
-	        method = (config.method || "get").toUpperCase(),
+	        method = (config.method || "GET").toUpperCase(),
 	        url = (config.url || window.location.href),
 	        headers = (config.headers || null);
 	
+	    // Handle params
+	    // Params will be one of the following:
+	    // Serialized querystring
+	    // Instanceof FormData
+	    // Null
+	    if ( params && !(FormData && params instanceof FormData) ) {
+	        params = utils.serializeData( config.data );
+	    }
+	
+	    // Handle params in GET URL
 	    if ( method === "GET" && params ) {
 	        url += ("?" + params);
 	    }
@@ -1775,7 +1800,7 @@
 	                }
 	            };
 	
-	            xhr.send( ((method === "POST" && params) ? params : null) );
+	            xhr.send( params );
 	        }
 	    });
 	};
@@ -4611,7 +4636,7 @@
 	    return new _properjsImageloader2["default"]({
 	        elements: images,
 	        property: _config2["default"].lazyImageAttr,
-	        transitionDelay: 0
+	        transitionDelay: 200
 	
 	    }).on("data", handler);
 	};
@@ -4877,122 +4902,122 @@
 	 *
 	 */
 	(function ( factory ) {
-	    
+	
 	    if ( true ) {
 	        module.exports = factory();
 	
 	    } else if ( typeof window !== "undefined" ) {
 	        window.ImageLoader = factory();
 	    }
-	    
+	
 	})(function () {
 	
 	    var raf = window.requestAnimationFrame,
 	        caf = window.cancelAnimationFrame,
-	    
+	
 	        _i,
 	        _all = 0,
 	        _num = 0,
 	        _raf = null,
 	        _ini = false,
-	    
+	
 	        // Holds all "instances"
 	        // This way we can use a single animator
 	        _instances = [];
-	    
-	    
+	
+	
 	    // Should support elements as null, undefined, DOMElement, HTMLCollection, string selector
 	    function setElements( elements ) {
 	        // Handles string selector
 	        if ( typeof elements === "string" ) {
 	            elements = document.querySelectorAll( elements );
-	    
+	
 	        // Handles DOMElement
 	        } else if ( elements && elements.nodeType === 1 ) {
 	            elements = [ elements ];
-	        
+	
 	        } else if ( !elements ) {
 	            elements = [];
 	        }
-	    
+	
 	        // Default:
 	        // HTMLCollection / Array
 	        return elements;
 	    }
-	    
-	    
+	
+	
 	    // Called when instances are created
 	    function initializer( instance ) {
 	        // Increment ALL
 	        _all = _all + instance._num2Load;
-	    
+	
 	        // Private instances array
 	        _instances.push( instance );
-	    
+	
 	        // One stop shopping
 	        if ( !_ini ) {
 	            _ini = true;
 	            animate();
 	        }
 	    }
-	    
-	    
+	
+	
 	    // Called on each iteration of the animation cycle
 	    function animate() {
 	        if ( _num !== _all ) {
 	            _raf = raf( animate );
-	    
+	
 	            for ( _i = _instances.length; _i--; ) {
 	                if ( _instances[ _i ]._numLoaded !== _instances[ _i ]._num2Load && _instances[ _i ]._loadType === "async" ) {
 	                    _instances[ _i ].handle();
 	                }
 	            }
-	    
+	
 	        } else {
 	            stop();
 	        }
 	    }
-	    
-	    
+	
+	
 	    // Stops the animation cycle queue for loading images
 	    function stop () {
 	        caf( _raf );
-	    
+	
 	        _raf = null;
 	        _ini = false;
 	    }
-	    
-	    
+	
+	
 	    // Simple add class polyfill
 	    function addClass( el, str ) {
 	        var newClass = str.split( " " ),
 	            elsClass = el.className.split( " " );
-	    
+	
 	        for ( var i = 0, len = newClass.length; i < len; i++ ) {
 	            if ( elsClass.indexOf( newClass[ i ] ) === -1 ) {
 	                elsClass.push( newClass[ i ] );
 	            }
 	        }
-	    
+	
 	        el.className = elsClass.join( " " );
 	    }
-	    
-	    
+	
+	
 	    // Simple remove class polyfill
 	    function removeClass( el, str ) {
 	        var oldClass = str.split( " " ),
 	            elsClass = el.className.split( " " );
-	    
+	
 	        for ( var i = 0, len = oldClass.length; i < len; i++ ) {
 	            if ( elsClass.indexOf( oldClass[ i ] ) !== -1 ) {
 	                elsClass.splice( elsClass.indexOf( oldClass[ i ] ), 1 );
 	            }
 	        }
-	    
+	
 	        el.className = elsClass.join( " " );
 	    }
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * Handle lazy-loading images with unique callback conditions
@@ -5011,8 +5036,8 @@
 	    var ImageLoader = function () {
 	        return this.init.apply( this, arguments );
 	    };
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * Stop all instances and reset the stack for EVERYTHING
@@ -5022,13 +5047,13 @@
 	     */
 	    ImageLoader.killInstances = function () {
 	        stop();
-	        
+	
 	        _all = 0;
 	        _num = 0;
 	        _instances = [];
 	    };
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * ClassName for the element loading state
@@ -5037,8 +5062,8 @@
 	     *
 	     */
 	    ImageLoader.IS_LOADING = "-is-lazy-loading";
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * ClassName for the element transitioning state
@@ -5047,8 +5072,8 @@
 	     *
 	     */
 	    ImageLoader.IS_TRANSITION = "-is-lazy-transition";
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * ClassName for the elements loaded state
@@ -5057,8 +5082,8 @@
 	     *
 	     */
 	    ImageLoader.IS_LOADED = "-is-lazy-loaded";
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * ClassName to define the element as having been loaded
@@ -5067,18 +5092,18 @@
 	     *
 	     */
 	    ImageLoader.IS_HANDLED = "-is-lazy-handled";
-	    
-	    
+	
+	
 	    ImageLoader.prototype = {
 	        constructor: ImageLoader,
-	    
+	
 	        init: function ( options ) {
 	            var self = this;
-	    
+	
 	            if ( !options ) {
 	                throw new Error( "ImageLoader Class requires options to be passed" );
 	            }
-	    
+	
 	            /**
 	             *
 	             * The Collection to load against
@@ -5088,7 +5113,7 @@
 	             *
 	             */
 	            this._elements = setElements( options.elements );
-	    
+	
 	            /**
 	             *
 	             * The property to get image source from
@@ -5098,7 +5123,7 @@
 	             *
 	             */
 	            this._property = (options.property || "data-src");
-	    
+	
 	            /**
 	             *
 	             * The way to load, async or sync
@@ -5111,7 +5136,7 @@
 	             *
 	             */
 	            this._loadType = (options.loadType || "async");
-	    
+	
 	            /**
 	             *
 	             * The current amount of elements lazy loaded
@@ -5121,7 +5146,7 @@
 	             *
 	             */
 	            this._numLoaded = 0;
-	    
+	
 	            /**
 	             *
 	             * The total amount of elements to lazy load
@@ -5131,7 +5156,7 @@
 	             *
 	             */
 	            this._num2Load = (this._elements ? this._elements.length : 0);
-	    
+	
 	            /**
 	             *
 	             * The delay to execute lazy loading on an element in ms
@@ -5142,7 +5167,7 @@
 	             *
 	             */
 	            this._transitionDelay = (options.transitionDelay || 100);
-	    
+	
 	            /**
 	             *
 	             * The duration on a lazy loaded elements fade in in ms
@@ -5153,7 +5178,7 @@
 	             *
 	             */
 	            this._transitionDuration = (options.transitionDuration || 600);
-	    
+	
 	            /**
 	             *
 	             * This flags that all elements have been loaded
@@ -5163,7 +5188,7 @@
 	             *
 	             */
 	            this._resolved = false;
-	    
+	
 	            /**
 	             *
 	             * Defined event namespaced handlers
@@ -5179,21 +5204,21 @@
 	                error: null,
 	                update: null
 	            };
-	    
+	
 	            // Break out if no elements in collection
 	            if ( !this._elements.length ) {
 	                return this;
 	            }
-	    
+	
 	            // Only run animation frame for async loading
 	            if ( this._loadType === "async" ) {
 	                initializer( this );
-	    
+	
 	            } else {
 	                this._syncLoad();
 	            }
 	        },
-	    
+	
 	        /**
 	         *
 	         * Add a callback handler for the specified event name
@@ -5205,10 +5230,10 @@
 	         */
 	        on: function ( event, handler ) {
 	            this._handlers[ event ] = handler;
-	    
+	
 	            return this;
 	        },
-	        
+	
 	        /**
 	         *
 	         * Fire the given event for the loaded element
@@ -5219,14 +5244,14 @@
 	         */
 	        fire: function ( event, element ) {
 	            var ret = false;
-	    
+	
 	            if ( typeof this._handlers[ event ] === "function" ) {
 	                ret = this._handlers[ event ].call( this, element );
 	            }
-	    
+	
 	            return ret;
 	        },
-	    
+	
 	        /**
 	         *
 	         * Iterate over elements and fire the update handler
@@ -5238,14 +5263,14 @@
 	         */
 	        update: function () {
 	            var self = this;
-	    
+	
 	            for ( var i = 0, len = this._elements.length; i < len; i++ ) {
 	                var element = this._elements[ i ];
-	    
+	
 	                this.fire( "update", element );
 	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Perform the image loading and set correct values on element
@@ -5263,70 +5288,70 @@
 	                timeout = null,
 	                isImage = (element.nodeName.toLowerCase() === "img"),
 	                source = element.getAttribute( this._property );
-	    
+	
 	            element.setAttribute( "data-imageloader", true );
-	    
+	
 	            addClass( element, ImageLoader.IS_LOADING );
-	    
+	
 	            if ( isImage ) {
 	                image = element;
-	    
+	
 	            } else {
 	                image = new Image();
 	            }
-	    
+	
 	            timeout = setTimeout(function () {
 	                clearTimeout( timeout );
-	    
+	
 	                addClass( element, ImageLoader.IS_TRANSITION );
-	    
+	
 	                image.onload = function () {
 	                    self.fire( "load", element );
-	    
+	
 	                    if ( !isImage ) {
 	                        element.style.backgroundImage = ("url(" + source + ")");
-	    
+	
 	                        image = null;
 	                    }
-	    
+	
 	                    addClass( element, ImageLoader.IS_LOADED );
-	    
+	
 	                    timeout = setTimeout(function () {
 	                        clearTimeout( timeout );
-	    
+	
 	                        removeClass( element, ImageLoader.IS_LOADING + " " + ImageLoader.IS_TRANSITION + " " + ImageLoader.IS_LOADED )
 	                        addClass( element, ImageLoader.IS_HANDLED );
-	    
+	
 	                        if ( (self._numLoaded === self._num2Load) && !self._resolved ) {
 	                            self._resolveInstance( true );
-	    
+	
 	                        } else if ( typeof callback === "function" ) {
 	                            // Errors first
 	                            callback( false );
 	                        }
-	    
+	
 	                    }, self._transitionDuration );
 	                };
-	    
+	
 	                image.onerror = function () {
 	                    self.fire( "error", element );
-	    
+	
 	                    if ( (self._numLoaded === self._num2Load) && !self._resolved ) {
 	                        self._resolveInstance( true );
-	    
+	
 	                    } else if ( typeof callback === "function" ) {
 	                        // Errors first
 	                        callback( true );
 	                    }
 	                };
-	    
+	
 	                image.src = source;
-	    
+	
 	            }, this._transitionDelay );
-	    
+	
 	            return this;
 	        },
-	    
+	
 	        /**
 	         *
 	         * Handles element iterations and loading based on callbacks
@@ -5339,21 +5364,21 @@
 	        handle: function () {
 	            var elems = this._getNotLoaded(),
 	                self = this;
-	    
+	
 	            for ( var i = 0, len = elems.length; i < len; i++ ) {
 	                var elem = elems[ i ];
-	    
+	
 	                // Fires the predefined "data" event
 	                if ( self.fire( "data", elem ) ) {
 	                    _num++;
-	    
+	
 	                    self._numLoaded++;
-	    
+	
 	                    self.load( elem );
 	                }
 	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Resolve an instance and remove it from the stack
@@ -5364,14 +5389,14 @@
 	        _resolveInstance: function () {
 	            // Resolved state
 	            this._resolved = true;
-	            
+	
 	            // Fires the predefined "done" event
 	            this.fire( "done" );
-	            
+	
 	            // Purge the instance from the stack
 	            _instances.splice( _instances.indexOf( this ), 1 );
 	        },
-	    
+	
 	        /**
 	         *
 	         * Get all images in the set that have yet to be loaded
@@ -5382,16 +5407,16 @@
 	         */
 	        _getNotLoaded: function () {
 	            var elems = [];
-	    
+	
 	            for ( var i = 0, len = this._elements.length; i < len; i++ ) {
 	                if ( !this._elements[ i ].getAttribute( "data-imageloader" ) ) {
 	                    elems.push( this._elements[ i ] );
 	                }
 	            }
-	    
+	
 	            return elems;
 	        },
-	    
+	
 	        /**
 	         *
 	         * Support batch synchronous loading of a set of images
@@ -5402,28 +5427,29 @@
 	         */
 	        _syncLoad: function () {
 	            var self = this;
-	    
+	
 	            function syncLoad() {
 	                var elem = self._elements[ self._numLoaded ];
-	    
+	
 	                self._numLoaded++;
-	    
+	
 	                self.load( elem, function ( error ) {
 	                    if ( !error && !self._resolved ) {
 	                        syncLoad();
 	                    }
 	                });
 	            }
-	    
+	
 	            syncLoad();
 	        }
 	    };
-	    
-	    
+	
+	
 	    return ImageLoader;
 	
 	
 	});
+
 
 /***/ },
 /* 31 */
@@ -5619,6 +5645,12 @@
 	   *
 	   */
 	  header: (0, _js_libsHoboDistHoboBuild2["default"])(".js-header"),
+	
+	  /**
+	   *
+	   * Weather Info
+	   */
+	  weatherTool: (0, _js_libsHoboDistHoboBuild2["default"])("#weatherTool"),
 	
 	  /**
 	   *
@@ -9595,181 +9627,6 @@
 
 /***/ },
 /* 57 */
-/*!*************************!*\
-  !*** ./js_src/cover.js ***!
-  \*************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
-	
-	var _core = __webpack_require__(/*! ./core */ 27);
-	
-	var core = _interopRequireWildcard(_core);
-	
-	var $_jsElement = null;
-	
-	/**
-	 *
-	 * @public
-	 * @namespace cover
-	 * @description A nice description of what this module does...
-	 *
-	 */
-	var cover = {
-	    /**
-	     *
-	     * @public
-	     * @method init
-	     * @memberof cover
-	     * @description Method runs once when window loads.
-	     *
-	     */
-	    init: function init() {
-	        core.log("cover initialized");
-	    },
-	
-	    /**
-	     *
-	     * @public
-	     * @method isActive
-	     * @memberof cover
-	     * @description Method informs PageController of active status.
-	     * @returns {boolean}
-	     *
-	     */
-	    isActive: function isActive() {
-	        return this.getElements() > 0;
-	    },
-	
-	    /**
-	     *
-	     * @public
-	     * @method onload
-	     * @memberof cover
-	     * @description Method performs onloading actions for this module.
-	     *
-	     */
-	    onload: function onload() {
-	        var data = $_jsElement.data();
-	
-	        // data
-	        //      type - page?, cover?
-	        //      tone - light?
-	
-	        // 0.1 => Handle the `type` option
-	        if (data.type === "page") {
-	            core.dom.html.addClass("is-cover-page");
-	
-	            // Default `type` is "poster"
-	        } else {
-	                core.dom.html.addClass("is-cover-poster");
-	            }
-	
-	        // 0.2 => Handle the `tone` option
-	        //        This changes to contrast of the list icon and page label
-	        //        Cover pages persist tone change, cover posters adjust between poster and page
-	        //        The default is to have a `dark` ui tone
-	        if (data.tone === "light") {
-	            core.dom.html.addClass("is-cover-light");
-	        }
-	
-	        // 0.3 => Handle the `bg` option
-	        if (data.bg === "dark") {
-	            core.dom.html.addClass("is-cover-page--dark");
-	        }
-	
-	        core.emitter.on("app--scroll", onScroller);
-	
-	        onScroller(window.scrollY);
-	    },
-	
-	    /**
-	     *
-	     * @public
-	     * @method unload
-	     * @memberof cover
-	     * @description Method performs unloading actions for this module.
-	     *
-	     */
-	    unload: function unload() {
-	        this.teardown();
-	    },
-	
-	    /**
-	     *
-	     * @public
-	     * @method teardown
-	     * @memberof cover
-	     * @description Method performs cleanup after this module. Remmoves events, null vars etc...
-	     *
-	     */
-	    teardown: function teardown() {
-	        $_jsElement = null;
-	
-	        core.emitter.off("app--scroll", onScroller);
-	
-	        core.dom.html.removeClass("is-cover-page is-cover-page--dark is-cover-poster is-cover-light is-cover-moment");
-	    },
-	
-	    /**
-	     *
-	     * @public
-	     * @method getElements
-	     * @memberof cover
-	     * @description Method queries DOM for this modules node.
-	     * @returns {number}
-	     *
-	     */
-	    getElements: function getElements() {
-	        $_jsElement = core.dom.page.find(".js-cover");
-	
-	        return $_jsElement.length;
-	    },
-	
-	    /**
-	     *
-	     * @public
-	     * @method setElement
-	     * @memberof cover
-	     * @param {Hobo} $element The new element this module will use
-	     * @description Method updates this modules node.
-	     *
-	     */
-	    setElement: function setElement($element) {
-	        $_jsElement = $element;
-	    }
-	};
-	
-	/**
-	 *
-	 * @private
-	 * @method onScroller
-	 * @memberof cover
-	 * @description Handle scroll event to toggle `cover-moment` className.
-	 *
-	 */
-	var onScroller = function onScroller() {
-	    if (core.util.isElementVisibleVert($_jsElement[0])) {
-	        core.dom.html.addClass("is-cover-moment");
-	    } else {
-	        core.dom.html.removeClass("is-cover-moment");
-	    }
-	};
-	
-	/******************************************************************************
-	 * Export
-	*******************************************************************************/
-	exports["default"] = cover;
-	module.exports = exports["default"];
-
-/***/ },
-/* 58 */
 /*!*****************************!*\
   !*** ./js_src/menus/nav.js ***!
   \*****************************/
@@ -9789,7 +9646,7 @@
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _Menu = __webpack_require__(/*! ./Menu */ 59);
+	var _Menu = __webpack_require__(/*! ./Menu */ 58);
 	
 	var _Menu2 = _interopRequireDefault(_Menu);
 	
@@ -9907,7 +9764,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 59 */
+/* 58 */
 /*!******************************!*\
   !*** ./js_src/menus/Menu.js ***!
   \******************************/
@@ -10049,7 +9906,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 60 */
+/* 59 */
 /*!***************************!*\
   !*** ./js_src/animate.js ***!
   \***************************/
@@ -10230,10 +10087,10 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 61 */
-/*!*******************************!*\
-  !*** ./js_src/menus/intro.js ***!
-  \*******************************/
+/* 60 */
+/*!******************************!*\
+  !*** ./js_src/filterlist.js ***!
+  \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -10242,48 +10099,48 @@
 	    value: true
 	});
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	var _core = __webpack_require__(/*! ../core */ 27);
+	var _js_libsHoboDistHoboBuild = __webpack_require__(/*! js_libs/hobo/dist/hobo.build */ 2);
 	
-	var core = _interopRequireWildcard(_core);
+	var _js_libsHoboDistHoboBuild2 = _interopRequireDefault(_js_libsHoboDistHoboBuild);
 	
-	var _transTime = core.util.getTransitionDuration(core.dom.intro[0]);
+	var filterlist = {
+	    init: function init() {
+	        this.toggleItems();
+	    },
+	    hideAll: function hideAll() {
+	        (0, _js_libsHoboDistHoboBuild2["default"])(".filterlist-item").addClass("-is-hidden");
+	    },
+	    showAll: function showAll() {
+	        (0, _js_libsHoboDistHoboBuild2["default"])(".filterlist-item").removeClass("-is-hidden");
+	    },
+	    toggleItems: function toggleItems() {
+	        var _this = this;
 	
-	/**
-	 *
-	 * @public
-	 * @namespace intro
-	 * @description Performs the branded load-in screen sequence.
-	 * @memberof menus
-	 *
-	 */
-	var intro = {
-	    /**
-	     *
-	     * @public
-	     * @method teardown
-	     * @memberof menus.intro
-	     * @description Method removes intro node from DOM.
-	     *
-	     */
-	    teardown: function teardown() {
-	        core.dom.intro.removeClass("is-active");
-	
-	        setTimeout(function () {
-	            core.dom.intro.remove();
-	
-	            setTimeout(function () {
-	                core.emitter.fire("app--intro-art");
-	            }, 0);
-	        }, _transTime);
+	        (0, _js_libsHoboDistHoboBuild2["default"])("#trigger--bee").on("click", function () {
+	            _this.hideAll();
+	            (0, _js_libsHoboDistHoboBuild2["default"])(".filterlist-item--bee").removeClass("-is-hidden");
+	        });
+	        (0, _js_libsHoboDistHoboBuild2["default"])("#trigger--bloom").on("click", function () {
+	            _this.hideAll();
+	            (0, _js_libsHoboDistHoboBuild2["default"])(".filterlist-item--bloom").removeClass("-is-hidden");
+	        });
+	        (0, _js_libsHoboDistHoboBuild2["default"])("#trigger--nom").on("click", function () {
+	            _this.hideAll();
+	            (0, _js_libsHoboDistHoboBuild2["default"])(".filterlist-item--nom").removeClass("-is-hidden");
+	        });
+	        (0, _js_libsHoboDistHoboBuild2["default"])("#trigger--life").on("click", function () {
+	            _this.hideAll();
+	            (0, _js_libsHoboDistHoboBuild2["default"])(".filterlist-item--life").removeClass("-is-hidden");
+	        });
 	    }
 	};
 	
 	/******************************************************************************
 	 * Export
 	*******************************************************************************/
-	exports["default"] = intro;
+	exports["default"] = filterlist;
 	module.exports = exports["default"];
 
 /***/ }

@@ -8,6 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Styles -->
     <link href="./css/screen.css" rel="stylesheet" media="all" type="text/css">
+
+    <style type="text/css">
+        .filterlist-results li {
+          height: 100%;
+        }
+
+        .-is-hidden {
+          opacity: 0;
+          transition: all .5s ease-out;
+          overflow: hidden;
+          background: red;
+        }
+    </style>
 </head>
 <body>
 
@@ -93,8 +106,31 @@
     </div>
 </header>
 
+
 <section>
-    <div class="tiles">
+    <nav>
+        <ul class="js-filterlist">
+          <li class="filterlist-item filterlist-item--bee" id="trigger--bee">Bee</li>
+          <li class="filterlist-item filterlist-item--bloom" id="trigger--bloom">Bloom</li>
+          <li class="filterlist-item filterlist-item--nom" id="trigger--nom">Nom</li>
+          <li class="filterlist-item filterlist-item--life" id="trigger--life">Life</li>
+        </ul>
+    </nav>
+
+    <article>
+        <ul class="filterlist-results">
+            <li class="filterlist-item filterlist-item--bee">This is a bee</li>
+            <li class="filterlist-item filterlist-item--bloom">This is a bloom</li>
+            <li class="filterlist-item filterlist-item--nom">This is a nom</li>
+            <li class="filterlist-item filterlist-item--life">This is a life</li>
+        </ul>
+    </article>
+</section>
+
+
+<section>
+
+    <!-- <div class="tiles">
         <div class="wrap -full">
 
             <article class="tile -bee">
@@ -444,6 +480,17 @@
                     </div>
                 </a>
             </article>
+        </div>
+    </div> -->
+
+    <div class="sqs-block image-block sqs-block-image" data-block-type="5" id="block-yui_3_17_2_1_1458524633944_29658">
+        <div class="sqs-block-content">
+            <figure class="figure -caption-below">
+                <img class="figure_image image js-lazy-image -is-lazy-handled" data-img-src="http://static1.squarespace.com/static/56e4ca0540261d39b90e4b18/t/56ef540f04426240b8ba9492/1458525445835/?format=300w" data-variants="5616x3744,100w,300w,500w,750w,1000w,1500w,2500w" alt=" | Bee &amp; Bloom" data-imageloader="true" src="http://static1.squarespace.com/static/56e4ca0540261d39b90e4b18/t/56ef540f04426240b8ba9492/1458525445835/?format=1500w">
+                <figcaption class="figure__cap meta caption -grey">
+                    This is the caption we have to work with.
+                </figcaption>
+            </figure>
         </div>
     </div>
 </section>

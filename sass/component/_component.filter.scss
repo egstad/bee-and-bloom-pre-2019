@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Filter
+   ========================================================================== */
+
+.filter {
+    .wrap {
+        display: flex;
+        justify-content: space-between;
+        max-width: $wrap-large;
+        margin-bottom: unit(2);
+        }
+    .filter-item {
+        width: 25%;
+        display: block;
+        }
+    // ._icon {}
+    // ._text {}
+    }

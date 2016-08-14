@@ -149,7 +149,7 @@ const loadImages = function ( images, handler ) {
     return new ImageLoader({
         elements: images,
         property: config.lazyImageAttr,
-        transitionDelay: 0
+        transitionDelay: 200
 
     }).on( "data", handler );
 };

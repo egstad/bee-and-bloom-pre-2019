@@ -35,16 +35,16 @@
 @mixin text-size($level: 0, $increments: 7) {
     // 0 is default font size
     @if $level == 0 {
-        font-size: $font-size;
+        font-size: $font-size#{px};
         }
 
     @elseif $level < 0 {
         // add increments if below 0
-        font-size: ((($font-size * $level) * $font-scale) / ($increments / 0.5)) + $font-size;
+        font-size: ((($font-size * $level) * $font-scale) / ($increments / 0.5)) + $font-size#{px};
         }
 
     @else {
-        font-size: ((($font-size * $level) * $font-scale) / $increments) + $font-size;
+        font-size: ((($font-size * $level) * $font-scale) / $increments) + $font-size#{px};
         }
     }
 
