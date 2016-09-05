@@ -6,13 +6,62 @@
     .wrap {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         max-width: $wrap-large;
         margin-bottom: unit(2);
         }
     .filter-item {
         width: 25%;
         display: block;
+        cursor: pointer;
         }
     // ._icon {}
     // ._text {}
+    }
+
+
+.filter-results {
+
+    li {
+        height: 1.5em;
+        opacity: 1;
+        transition: all .5s ease-out;
+        overflow: hidden;
+        transform: translate3d(0,0,0);
+
+        &.-is-hidden {
+            // transform: translate3d(0,-100%,0);
+            opacity: .3;
+            // height: 0;
+            }
+        }
+
+    // Icon
+    .filterlist-item__icon {
+        background: red;
+        height: 1em;
+        width: 1em;
+        flex: 1;
+        }
+
+    // Title
+    header {
+        flex: 4;
+        }
+
+    // Link to Content
+    footer {
+        flex: 1;
+        text-align: right;
+        }
+
+
+    .filterlist-item {
+        border-bottom: 1px solid color(grayAlt);
+
+        a {
+            display: flex;
+            justify-content: space-between;
+            }
+        }
     }

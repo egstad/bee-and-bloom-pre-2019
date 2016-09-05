@@ -43,6 +43,10 @@ ul, ol {
             margin: 0;
             }
         }
+
+    &.--sans-list-style {
+        list-style-type: none;
+        }
     }
 
 a {

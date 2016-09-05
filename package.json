@@ -50,7 +50,7 @@
         "doc:js": "jsdoc js_src/ -r -R README.md -P package.json -t node_modules/jsdoc-oblivion/template -c node_modules/jsdoc-oblivion/template/jsdoc.conf.json -d js_docs",
         "lint:js": "eslint js_src",
         "build": "npm run build:js && npm run build:css",
-        "build:js": "npm run lint:js && webpack -d",
+        "build:js": "webpack -d",
         "build:css": "sass --scss --style compressed $npm_package_config_scss_file:$npm_package_config_css_file $npm_package_config_scss_file:$npm_package_config_sqs_css_file",
         "postbuild:css": "postcss --use autoprefixer --autoprefixer.browsers 'last 2 versions' --output $npm_package_config_css_file $npm_package_config_css_file ; postcss --use autoprefixer --autoprefixer.browsers 'last 2 versions' --output $npm_package_config_sqs_css_file $npm_package_config_sqs_css_file",
         "watch": "parallelshell 'npm run watch:js' 'npm run watch:sass'",
