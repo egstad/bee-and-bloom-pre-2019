@@ -6,7 +6,7 @@
  * @description Houses app-wide utility methods.
  *
  */
-import $ from "js_libs/hobo/dist/hobo.build";
+import $ from "js_libs/jquery/dist/jquery.js";
 import ImageLoader from "properjs-imageloader";
 import loadCSS from "fg-loadcss";
 import loadJS from "fg-loadjs";

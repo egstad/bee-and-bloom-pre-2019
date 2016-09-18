@@ -1,4 +1,4 @@
-import $ from "js_libs/hobo/dist/hobo.build";
+import $ from "js_libs/jquery/dist/jquery.js";
 import log from "./log";
 import env from "./env";
 import loadJS from "fg-loadjs";

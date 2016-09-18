@@ -15,6 +15,11 @@ var mod = {
         {
             test: /(hobo|hobo.build)\.js$/,
             loader: "expose?hobo"
+        },
+
+        {
+            test: /vendor\/.+\.(jsx|js)$/,
+            loader: 'imports?jQuery=jquery,$=jquery,this=>window'
         }
     ]
 };
@@ -51,7 +56,7 @@ var sqs = {
 
 
     output: {
-        path: "./sqs_template/scripts/",
+        path: "./template/scripts/",
         filename: "app.js"
     },
 

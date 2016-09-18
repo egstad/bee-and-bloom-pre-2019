@@ -1,4 +1,4 @@
-import $ from "js_libs/hobo/dist/hobo.build";
+import $ from "js_libs/jquery/dist/jquery.js";
 import * as core from "../core";
 import Metrics from "./Metrics";
 import env from "./env";

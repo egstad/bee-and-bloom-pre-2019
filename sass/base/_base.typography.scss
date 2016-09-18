@@ -6,7 +6,7 @@
 html, body,
 input, button,
 select, textarea {
-	font: #{em($font-size)}/#{$line-height} font(sans);
+	font: #{em($font-size)}/#{$line-height} $font-sans;
 	text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -19,11 +19,13 @@ p {
     }
 
 b, strong {
-    font-family: font(sansBold);
+    font-family: $font-sans;
+    font-weight: bold;
     }
 
 i, em {
-    font-family: font(sansItalic);
+    font-family: $font-sans;
+    font-style: italic;
     }
 
 ul, ol {
@@ -159,20 +161,16 @@ a {
 
 
 
-.txt-serif {
-    font-family: font(serif);
-    }
-
 .txt-sans {
-    font-family: font(sans);
+    font-family: $font-sans;
 
     &.-bold {
-        font-family: font(sansBold);
+        font-weight: bold;
         }
     }
 
 .txt-mono {
-    font-family: font(mono);
+    font-family: $font-mono;
 
     &.-uppercase {
         @include uppercase(.1em);

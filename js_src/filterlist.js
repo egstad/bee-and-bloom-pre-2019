@@ -1,4 +1,4 @@
-import $ from "js_libs/hobo/dist/hobo.build";
+import $ from "js_libs/jquery/dist/jquery.js";
 
 const filterlist = {
     init () {
@@ -13,19 +13,19 @@ const filterlist = {
     toggleItems () {
         $( "#trigger--bee").on( "click", () => {
             this.hideAll();
-            $( ".filterlist-item--bee").removeClass( "-is-hidden" );
+            $( ".category-bees").removeClass( "-is-hidden" );
         });
         $( "#trigger--bloom").on( "click", () => {
             this.hideAll();
-            $( ".filterlist-item--bloom").removeClass( "-is-hidden" );
+            $( ".category-blooms").removeClass( "-is-hidden" );
         });
         $( "#trigger--nom").on( "click", () => {
             this.hideAll();
-            $( ".filterlist-item--nom").removeClass( "-is-hidden" );
+            $( ".category-noms").removeClass( "-is-hidden" );
         });
         $( "#trigger--life").on( "click", () => {
             this.hideAll();
-            $( ".filterlist-item--life").removeClass( "-is-hidden" );
+            $( ".category-life").removeClass( "-is-hidden" );
         });
     }
 };

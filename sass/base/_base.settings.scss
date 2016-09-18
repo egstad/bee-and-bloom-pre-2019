@@ -10,14 +10,8 @@
 $font-size      : 16;
 $line-height    : 1.6;
 $font-scale     : 1.618; // Defines intervals within text-size() mixin.
-$font: (
-    serif       : "BelweSH-Medium",
-    sans        : "GrotesqueMTStd",
-    sansItalic  : "GrotesqueMTStd-Italic",
-    sansBold    : "GrotesqueMTStd-Bold",
-    mono        : "Input"
-    );
-
+$font-sans      : "Domaine-Text-Sans", "Helvetica Neue", sans-serif;
+$font-mono      : "Simplon-Mono", "Courier", monospace;
 
 
 /* Layout

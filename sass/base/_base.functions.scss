@@ -42,15 +42,3 @@
     @warn "`#{$key}` doesn't exist within the color map.";
     @return null;
     }
-
-
-
-/* Font Maps - helps quickly select font from sass map
-   ========================================================================== */
-@function font($key) {
-    @if map-has-key($font, $key) {
-        @return map-get($font, $key);
-        }
-    @warn "`#{$key}` doesn't exist within the font map.";
-    @return null;
-    }

@@ -1,5 +1,5 @@
 import * as core from "../core";
-import $ from "js_libs/hobo/dist/hobo.build";
+import $ from "js_libs/jquery/dist/jquery.js";
 
 
 // Singleton
