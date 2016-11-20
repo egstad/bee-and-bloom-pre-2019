@@ -42,3 +42,10 @@
     @warn "`#{$key}` doesn't exist within the color map.";
     @return null;
     }
+
+
+/* Grid
+   ========================================================================== */
+@function col($col:1){
+    @return percentage( $col / $grid-length );
+}

@@ -1,0 +1,20 @@
+.intro {
+    pointer-events: none;
+    text-align: center;
+    z-index: 1000;
+}
+
+.screen {
+    background-color: #fff;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: opacity 200ms cubic-bezier(.55,.055,.675,.19),visibility 200ms cubic-bezier(.55,.055,.675,.19);
+    visibility: hidden;
+    z-index: 1000;
+}

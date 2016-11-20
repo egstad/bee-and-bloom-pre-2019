@@ -29,8 +29,9 @@ i, em {
     }
 
 ul, ol {
-	margin: unit(1) 0;
-	list-style-position: inside;
+	margin: 0;
+    padding: 0;
+	list-style-type: none;
 
     // unstyled lists
     &.-reset {
@@ -43,13 +44,9 @@ ul, ol {
             list-style-type: none;
             padding: 0;
             margin: 0;
-            }
-        }
-
-    &.--sans-list-style {
-        list-style-type: none;
         }
     }
+}
 
 a {
 	outline: none;
@@ -78,51 +75,27 @@ a {
  */
 
 .txt-xs {
-	@include text-size(-2.5);
-	@include breakpoint($vp2) { @include text-size(-2); }
-	@include breakpoint($vp3) { @include text-size(-1); }
+    @include txt(xs);
     }
 
-.txt-s,
-.html-block h1,
-.html-block h2,
-.html-block h3,
-.video-caption {
-	@include text-size(-1.5);
-	@include breakpoint($vp2) { @include text-size(-.75); }
-    @include breakpoint($vp4) { @include text-size(-.5); }
+.txt-s {
+    @include txt(s);
     }
 
-.txt,
-.html-block {
-    line-height: 1.8;
-	@include text-size(0);
-	@include breakpoint($vp2) { @include text-size(0.5); }
-	@include breakpoint($vp4) { @include text-size(1.0); }
+.txt{
+    @include txt(m);
     }
 
 .txt-l {
-    line-height: 1.4;
-	@include text-size(2);
-	@include breakpoint($vp2) { @include text-size(3); }
-	@include breakpoint($vp3) { @include text-size(4.5); }
-    @include breakpoint($vp4) { @include text-size(6); }
-    @include breakpoint($vp5) { @include text-size(7); }
+    @include txt(l);
     }
 
 .txt-xl {
-	@include text-size(4);
-	@include breakpoint($vp2) { @include text-size(5); }
-	@include breakpoint($vp3) { @include text-size(5.5); }
+	@include txt(xl);
     }
 
 .txt-xxl {
-    margin-bottom: 2rem;
-    line-height: 1.3;
-	@include text-size(6);
-	@include breakpoint($vp2) { @include text-size(7); }
-	@include breakpoint($vp3) { @include text-size(8); }
-    @include breakpoint($vp4) { @include text-size(9); }
+    @include txt(xxl);
     }
 
 
@@ -164,31 +137,35 @@ a {
 .txt-sans {
     font-family: $font-sans;
 
-    &.-bold {
+    &.--bold {
         font-weight: bold;
+        }
+
+    &.--kern-tight {
+        letter-spacing: -0.04em;
         }
     }
 
 .txt-mono {
     font-family: $font-mono;
 
-    &.-uppercase {
+    &.--uppercase {
         @include uppercase(.1em);
         }
     }
 
 .txt-bee {
-    color: color(bee);
+    color: color(yellow);
     }
 
 .txt-bloom {
-    color: color(bloom);
+    color: color(green);
     }
 
 .txt-nom {
-    color: color(primary);
+    color: color(red);
     }
 
 .txt-life {
-    color: color(life);
+    color: color(blue);
     }

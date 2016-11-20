@@ -1,8 +1,8 @@
 import router from "./router";
-import nav from "./menus/nav";
 import * as core from "./core";
+import mobileNav from "./nav-mobile";
+import nav from "./menus/nav";
 // import intro from "./menus/intro";
-// import weather from "./weather";
 import filterlist from "./filterlist";
 
 
@@ -16,11 +16,11 @@ import filterlist from "./filterlist";
 class App {
     constructor () {
         this.nav = nav;
-        this.core = core;
         // this.intro = intro;
+        this.mobileNav = mobileNav;
+        this.core = core;
         this.router = router;
         this.filterlist = filterlist;
-        // this.weather = weather;
 
         this.initEvents();
         this.initModules();
@@ -41,9 +41,10 @@ class App {
         this.core.resizes.init( this );
         this.core.scrolls.init( this );
         this.router.init( this );
+        this.mobileNav.init( this );
         this.nav.init( this );
+        // this.intro.init( this );
         this.filterlist.init( this );
-        // this.weather.init( this );
 
 
         this.analytics = new this.core.Analytics();

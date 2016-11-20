@@ -65,18 +65,21 @@
 	
 	var _router2 = _interopRequireDefault(_router);
 	
-	var _menusNav = __webpack_require__(/*! ./menus/nav */ 40);
-	
-	var _menusNav2 = _interopRequireDefault(_menusNav);
-	
 	var _core = __webpack_require__(/*! ./core */ 10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	// import intro from "./menus/intro";
-	// import weather from "./weather";
+	var _navMobile = __webpack_require__(/*! ./nav-mobile */ 40);
 	
-	var _filterlist = __webpack_require__(/*! ./filterlist */ 43);
+	var _navMobile2 = _interopRequireDefault(_navMobile);
+	
+	var _menusNav = __webpack_require__(/*! ./menus/nav */ 42);
+	
+	var _menusNav2 = _interopRequireDefault(_menusNav);
+	
+	// import intro from "./menus/intro";
+	
+	var _filterlist = __webpack_require__(/*! ./filterlist */ 44);
 	
 	var _filterlist2 = _interopRequireDefault(_filterlist);
 	
@@ -93,11 +96,11 @@
 	    _classCallCheck(this, App);
 	
 	    this.nav = _menusNav2["default"];
-	    this.core = core;
 	    // this.intro = intro;
+	    this.mobileNav = _navMobile2["default"];
+	    this.core = core;
 	    this.router = _router2["default"];
 	    this.filterlist = _filterlist2["default"];
-	    // this.weather = weather;
 	
 	    this.initEvents();
 	    this.initModules();
@@ -124,9 +127,10 @@
 	      this.core.resizes.init(this);
 	      this.core.scrolls.init(this);
 	      this.router.init(this);
+	      this.mobileNav.init(this);
 	      this.nav.init(this);
+	      // this.intro.init( this );
 	      this.filterlist.init(this);
-	      // this.weather.init( this );
 	
 	      this.analytics = new this.core.Analytics();
 	    }
@@ -209,11 +213,13 @@
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _menusNav = __webpack_require__(/*! ./menus/nav */ 40);
+	// import nav from "./menus/nav";
 	
-	var _menusNav2 = _interopRequireDefault(_menusNav);
+	var _navMobile = __webpack_require__(/*! ./nav-mobile */ 40);
 	
-	var _animate = __webpack_require__(/*! ./animate */ 42);
+	var _navMobile2 = _interopRequireDefault(_navMobile);
+	
+	var _animate = __webpack_require__(/*! ./animate */ 41);
 	
 	var _animate2 = _interopRequireDefault(_animate);
 	
@@ -357,7 +363,7 @@
 	        this.controller.setModules([core.images, _animate2["default"]]);
 	
 	        this.controller.on("page-controller-router-samepage", function () {
-	            return _menusNav2["default"].close();
+	            return _navMobile2["default"].close();
 	        });
 	        this.controller.on("page-controller-router-transition-out", this.changePageOut.bind(this));
 	        this.controller.on("page-controller-router-refresh-document", this.changeContent.bind(this));
@@ -381,7 +387,7 @@
 	
 	        this.cachePage(cache.$object, cache.response);
 	
-	        _menusNav2["default"].padPage();
+	        nav.padPage();
 	    },
 	
 	    /**
@@ -479,7 +485,7 @@
 	        core.dom.page.addClass("is-inactive");
 	
 	        setTimeout(function () {
-	            return _menusNav2["default"].close();
+	            return _navMobile2["default"].close();
 	        }, this.pageDuration);
 	
 	        core.emitter.on("app--preload-done", this.onPreloadDone);
@@ -523,7 +529,7 @@
 	    changePageIn: function changePageIn(data) {
 	        var collection = data.request.uri.split("/")[0];
 	
-	        _menusNav2["default"].toggleActive(collection);
+	        // nav.toggleActive( collection );
 	    }
 	};
 	
@@ -14601,12 +14607,6 @@
 	
 	  /**
 	   *
-	   * Weather Info
-	   */
-	  weatherTool: (0, _js_libsJqueryDistJqueryJs2["default"])("#weatherTool"),
-	
-	  /**
-	   *
 	   * @public
 	   * @member intro
 	   * @memberof core.dom
@@ -18580,146 +18580,8 @@
 
 /***/ },
 /* 40 */
-/*!*****************************!*\
-  !*** ./js_src/menus/nav.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
-	
-	var _core = __webpack_require__(/*! ../core */ 10);
-	
-	var core = _interopRequireWildcard(_core);
-	
-	var _Menu = __webpack_require__(/*! ./Menu */ 41);
-	
-	var _Menu2 = _interopRequireDefault(_Menu);
-	
-	var $_jsItems = core.dom.nav.find(".js-menu-nav-item");
-	
-	/**
-	 *
-	 * @public
-	 * @namespace nav
-	 * @description Handles opening / closing the main nav menu.
-	 * @memberof menus
-	 *
-	 */
-	var nav = {
-	  /**
-	   *
-	   * @public
-	   * @method init
-	   * @memberof menus.nav
-	   * @description Initializes navmenu interactions.
-	   *
-	   */
-	  init: function init() {
-	    this.bindMainEvents();
-	
-	    this.menu = new _Menu2["default"](core.dom.nav);
-	
-	    core.log("nav initialized");
-	  },
-	
-	  /**
-	   *
-	   * @public
-	   * @method open
-	   * @memberof menus.nav
-	   * @description Opens the navmenu.
-	   *
-	   */
-	  open: function open() {
-	    this.menu.open();
-	  },
-	
-	  /**
-	   *
-	   * @public
-	   * @method close
-	   * @memberof menus.nav
-	   * @description Closes the navmenu.
-	   *
-	   */
-	  close: function close() {
-	    this.menu.close();
-	  },
-	
-	  /**
-	   *
-	   * @public
-	   * @method toggleActive
-	   * @param {string} id The unique nav identifier
-	   * @memberof menus.nav
-	   * @description Toggle the active nav menu item by id.
-	   *
-	   */
-	  toggleActive: function toggleActive(id) {
-	    var $navi = $_jsItems.find(".js-nav__" + id);
-	
-	    if ($navi.length) {
-	      $_jsItems.removeClass("is-active");
-	      $navi[0].className += " is-active";
-	    }
-	  },
-	
-	  /**
-	   *
-	   * @public
-	   * @method bindMainEvents
-	   * @memberof menus.nav
-	   * @description Setup main interaction events for nav/header.
-	   *
-	   */
-	  bindMainEvents: function bindMainEvents() {
-	    core.dom.nav.on("click", ".js-menu-nav", onTapNavMenu);
-	    core.dom.header.on("click", ".js-controller--nav", onTapNavIcon);
-	  }
-	};
-	
-	/**
-	 *
-	 * @private
-	 * @method onTapNavMenu
-	 * @memberof menus.nav
-	 * @description Handles list icon event.
-	 *
-	 */
-	var onTapNavMenu = function onTapNavMenu() {
-	  nav.close();
-	};
-	
-	/**
-	 *
-	 * @private
-	 * @method onTapNavIcon
-	 * @memberof menus.nav
-	 * @description Handles list icon event.
-	 *
-	 */
-	var onTapNavIcon = function onTapNavIcon() {
-	  nav.open();
-	};
-	
-	/******************************************************************************
-	 * Export
-	*******************************************************************************/
-	exports["default"] = nav;
-	module.exports = exports["default"];
-
-/***/ },
-/* 41 */
 /*!******************************!*\
-  !*** ./js_src/menus/Menu.js ***!
+  !*** ./js_src/nav-mobile.js ***!
   \******************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -18729,137 +18591,58 @@
 	    value: true
 	});
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var _core = __webpack_require__(/*! ../core */ 10);
+	var _core = __webpack_require__(/*! ./core */ 10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	/**
-	 *
-	 * @public
-	 * @class Menu
-	 * @classdesc Handle normalized open/close for overlay menus.
-	 * @param {Hobo} $node The menu element
-	 *
-	 */
+	var _js_libsJqueryDistJqueryJs = __webpack_require__(/*! js_libs/jquery/dist/jquery.js */ 2);
 	
-	var Menu = (function () {
-	    function Menu($node) {
-	        _classCallCheck(this, Menu);
+	var _js_libsJqueryDistJqueryJs2 = _interopRequireDefault(_js_libsJqueryDistJqueryJs);
 	
-	        this.$node = $node;
-	        this.tDuration = core.util.getTransitionDuration(this.$node[0]);
-	        this.isOpen = false;
+	var mobileNav = {
+	    classWhenOpen: "mobile-nav--open",
+	    open: function open() {
+	        core.dom.body.addClass("is-menu-open is-neverflow");
+	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav").attr("aria-hidden", "false");
+	        // core.dom.body.ontouchstart = function(e){ e.preventDefault(); }
+	    },
 	
-	        this.$node.detach();
-	    }
+	    close: function close() {
+	        core.dom.body.removeClass("is-menu-open is-neverflow");
+	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav").attr("aria-hidden", "true");
+	        // core.dom.body.ontouchstart = function(e){ return true; }
+	    },
 	
-	    /******************************************************************************
-	     * Export
-	    *******************************************************************************/
-	
-	    /**
-	     *
-	     * @public
-	     * @instance
-	     * @method open
-	     * @memberof menus.Menu
-	     * @description Open the menu.
-	     *
-	     */
-	
-	    _createClass(Menu, [{
-	        key: "open",
-	        value: function open() {
-	            var _this = this;
-	
-	            this.isOpen = true;
-	
-	            core.dom.html.addClass("is-neverflow is-menu-open");
-	            core.dom.body.append(this.$node);
-	
-	            setTimeout(function () {
-	                return _this.$node.addClass("is-active");
-	            }, 100);
-	            setTimeout(function () {
-	                return _this.$node.addClass("is-active-events");
-	            }, this.tDuration * 2);
-	        }
-	
-	        /**
-	         *
-	         * @public
-	         * @instance
-	         * @method close
-	         * @memberof menus.Menu
-	         * @description Close the menu.
-	         *
-	         */
-	    }, {
-	        key: "close",
-	        value: function close() {
-	            var _this2 = this;
-	
-	            this.isOpen = false;
-	
-	            this.$node.removeClass("is-active");
-	            core.dom.html.removeClass("is-neverflow");
-	
-	            setTimeout(function () {
-	                core.dom.html.removeClass("is-menu-open");
-	                _this2.$node.detach().removeClass("is-active-events");
-	            }, this.tDuration * 2);
-	        }
-	
-	        /**
-	         *
-	         * @public
-	         * @instance
-	         * @method toggle
-	         * @memberof menus.Menu
-	         * @description Open or Close the menu.
-	         *
-	         */
-	    }, {
-	        key: "toggle",
-	        value: function toggle() {
-	            if (this.isOpen) {
-	                this.close();
+	    toggle: function toggle() {
+	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav-trigger").on("click", function () {
+	            if (core.dom.body.hasClass("is-menu-open")) {
+	                mobileNav.close();
 	            } else {
-	                this.open();
+	                mobileNav.open();
 	            }
-	        }
+	        });
+	    },
 	
-	        /**
-	         *
-	         * @public
-	         * @instance
-	         * @method isActive
-	         * @memberof menus.Menu
-	         * @description Check the state of the menu.
-	         * @returns {boolean}
-	         *
-	         */
-	    }, {
-	        key: "isActive",
-	        value: function isActive() {
-	            return this.isOpen;
-	        }
-	    }]);
+	    init: function init() {
+	        console.log("nav is working");
+	        this.toggle();
+	    }
+	};
 	
-	    return Menu;
-	})();
+	// mobileNav.init();
 	
-	exports["default"] = Menu;
+	/******************************************************************************
+	 * Export
+	*******************************************************************************/
+	exports["default"] = mobileNav;
 	module.exports = exports["default"];
 
 /***/ },
-/* 42 */
+/* 41 */
 /*!***************************!*\
   !*** ./js_src/animate.js ***!
   \***************************/
@@ -19040,7 +18823,287 @@
 	module.exports = exports["default"];
 
 /***/ },
+/* 42 */
+/*!*****************************!*\
+  !*** ./js_src/menus/nav.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+	
+	var _core = __webpack_require__(/*! ../core */ 10);
+	
+	var core = _interopRequireWildcard(_core);
+	
+	var _Menu = __webpack_require__(/*! ./Menu */ 43);
+	
+	var _Menu2 = _interopRequireDefault(_Menu);
+	
+	var $_jsItems = core.dom.nav.find(".js-menu-nav-item");
+	
+	/**
+	 *
+	 * @public
+	 * @namespace nav
+	 * @description Handles opening / closing the main nav menu.
+	 * @memberof menus
+	 *
+	 */
+	var nav = {
+	  /**
+	   *
+	   * @public
+	   * @method init
+	   * @memberof menus.nav
+	   * @description Initializes navmenu interactions.
+	   *
+	   */
+	  init: function init() {
+	    this.bindMainEvents();
+	
+	    this.menu = new _Menu2["default"](core.dom.nav);
+	
+	    core.log("nav initialized");
+	  },
+	
+	  /**
+	   *
+	   * @public
+	   * @method open
+	   * @memberof menus.nav
+	   * @description Opens the navmenu.
+	   *
+	   */
+	  open: function open() {
+	    this.menu.open();
+	  },
+	
+	  /**
+	   *
+	   * @public
+	   * @method close
+	   * @memberof menus.nav
+	   * @description Closes the navmenu.
+	   *
+	   */
+	  close: function close() {
+	    this.menu.close();
+	  },
+	
+	  /**
+	   *
+	   * @public
+	   * @method toggleActive
+	   * @param {string} id The unique nav identifier
+	   * @memberof menus.nav
+	   * @description Toggle the active nav menu item by id.
+	   *
+	   */
+	  toggleActive: function toggleActive(id) {
+	    var $navi = $_jsItems.find(".js-nav__" + id);
+	
+	    if ($navi.length) {
+	      $_jsItems.removeClass("is-active");
+	      $navi[0].className += " is-active";
+	    }
+	  },
+	
+	  /**
+	   *
+	   * @public
+	   * @method bindMainEvents
+	   * @memberof menus.nav
+	   * @description Setup main interaction events for nav/header.
+	   *
+	   */
+	  bindMainEvents: function bindMainEvents() {
+	    core.dom.nav.on("click", ".js-menu-nav", onTapNavMenu);
+	    core.dom.header.on("click", ".js-controller--nav", onTapNavIcon);
+	  }
+	};
+	
+	/**
+	 *
+	 * @private
+	 * @method onTapNavMenu
+	 * @memberof menus.nav
+	 * @description Handles list icon event.
+	 *
+	 */
+	var onTapNavMenu = function onTapNavMenu() {
+	  nav.close();
+	};
+	
+	/**
+	 *
+	 * @private
+	 * @method onTapNavIcon
+	 * @memberof menus.nav
+	 * @description Handles list icon event.
+	 *
+	 */
+	var onTapNavIcon = function onTapNavIcon() {
+	  nav.open();
+	};
+	
+	/******************************************************************************
+	 * Export
+	*******************************************************************************/
+	exports["default"] = nav;
+	module.exports = exports["default"];
+
+/***/ },
 /* 43 */
+/*!******************************!*\
+  !*** ./js_src/menus/Menu.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var _core = __webpack_require__(/*! ../core */ 10);
+	
+	var core = _interopRequireWildcard(_core);
+	
+	/**
+	 *
+	 * @public
+	 * @class Menu
+	 * @classdesc Handle normalized open/close for overlay menus.
+	 * @param {Hobo} $node The menu element
+	 *
+	 */
+	
+	var Menu = (function () {
+	    function Menu($node) {
+	        _classCallCheck(this, Menu);
+	
+	        this.$node = $node;
+	        this.tDuration = core.util.getTransitionDuration(this.$node[0]);
+	        this.isOpen = false;
+	
+	        this.$node.detach();
+	    }
+	
+	    /******************************************************************************
+	     * Export
+	    *******************************************************************************/
+	
+	    /**
+	     *
+	     * @public
+	     * @instance
+	     * @method open
+	     * @memberof menus.Menu
+	     * @description Open the menu.
+	     *
+	     */
+	
+	    _createClass(Menu, [{
+	        key: "open",
+	        value: function open() {
+	            var _this = this;
+	
+	            this.isOpen = true;
+	
+	            core.dom.html.addClass("is-neverflow is-menu-open");
+	            core.dom.body.append(this.$node);
+	
+	            setTimeout(function () {
+	                return _this.$node.addClass("is-active");
+	            }, 100);
+	            setTimeout(function () {
+	                return _this.$node.addClass("is-active-events");
+	            }, this.tDuration * 2);
+	        }
+	
+	        /**
+	         *
+	         * @public
+	         * @instance
+	         * @method close
+	         * @memberof menus.Menu
+	         * @description Close the menu.
+	         *
+	         */
+	    }, {
+	        key: "close",
+	        value: function close() {
+	            var _this2 = this;
+	
+	            this.isOpen = false;
+	
+	            this.$node.removeClass("is-active");
+	            core.dom.html.removeClass("is-neverflow");
+	
+	            setTimeout(function () {
+	                core.dom.html.removeClass("is-menu-open");
+	                _this2.$node.detach().removeClass("is-active-events");
+	            }, this.tDuration * 2);
+	        }
+	
+	        /**
+	         *
+	         * @public
+	         * @instance
+	         * @method toggle
+	         * @memberof menus.Menu
+	         * @description Open or Close the menu.
+	         *
+	         */
+	    }, {
+	        key: "toggle",
+	        value: function toggle() {
+	            if (this.isOpen) {
+	                this.close();
+	            } else {
+	                this.open();
+	            }
+	        }
+	
+	        /**
+	         *
+	         * @public
+	         * @instance
+	         * @method isActive
+	         * @memberof menus.Menu
+	         * @description Check the state of the menu.
+	         * @returns {boolean}
+	         *
+	         */
+	    }, {
+	        key: "isActive",
+	        value: function isActive() {
+	            return this.isOpen;
+	        }
+	    }]);
+	
+	    return Menu;
+	})();
+	
+	exports["default"] = Menu;
+	module.exports = exports["default"];
+
+/***/ },
+/* 44 */
 /*!******************************!*\
   !*** ./js_src/filterlist.js ***!
   \******************************/

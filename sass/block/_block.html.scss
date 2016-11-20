@@ -2,27 +2,79 @@
    HTML/Text block
    ========================================================================== */
 
+
+.sqs-layout {
+    > .sqs-row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    ul,
+    ol {
+        padding: unit(2) unit(3) unit(3);
+
+        li:before {
+            font-family: $font-mono;
+            display: inline-block;
+            width: 2rem;
+            margin-left: -2rem;
+            color: color(secondary);
+            font-size: 1rem;
+            transform: translateY(-1px);
+        }
+    }
+
+
+    ul {
+        li:before {
+            content: "•"
+        }
+    }
+
+
+    ol {
+        counter-reset: section;
+
+        li:before {
+            counter-increment: section;
+            content: counter(section);
+        }
+    }
+}
+
+
+
+
 .sqs-block-html {
+
+    p, ul, ol {
+        @include txt(m);
+    }
+
+    h1 {
+        @include txt(xl);
+        margin: unit(3) 0 unit(1);
+    }
+
+    h2,
+    h3,
+    .video-caption {
+        @include txt(s);
+        font-family: $font-mono;
+        margin: unit(4) 0 unit(1);
+    }
+
+    blockquote {
+        @include txt(s);
+        font-family: $font-mono;
+        color: color(secondary);
+        padding: unit(2);
+
+    }
 
     .sqs-block-content {
         max-width: $wrap-medium;
         margin: 0 auto;
-        }
-
-    p {
-        text-indent: unit(2);
-
-        @include breakpoint($vp2) {
-            text-indent: unit(3);
-            }
-        }
-
-    h1, h2, h3 {
-        font-family: font(mono);
-        margin: unit(4) 0 unit(1);
-
-        @include breakpoint($vp3) {
-            margin: unit(6) 0 unit(1) (unit(2) * -1);
-            }
-        }
     }
+
+}

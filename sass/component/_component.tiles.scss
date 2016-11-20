@@ -1,260 +1,162 @@
 /* ==========================================================================
-   Tiles — used for posts
-   --------------------------------------------------------------------------
-   Contains image, category, title, excerpt
-   ========================================================================== */
+Tiles — used for posts
+--------------------------------------------------------------------------
+Contains image, category, title, excerpt
+========================================================================== */
 
-// origin container
+
+
+
 .tiles {
-    .wrap.-full {
-        @include breakpoint($vp4) {
-            .tile{
-                @include span(4 of 12);
-
-                &:nth-child(even) {
-                    @include span(4 of 12);
-                    }
-
-                &:nth-child(3n+1) {
-                    @include last;
-                    }
-                }
-            }
-        }
-    }
-
-.tiles.-small {
-    // break
-    .tile {
-
-        @include breakpoint($vp4) {
-            @include span(4 of 12);
-
-            &:nth-child(even) {
-                @include first;
-                }
-
-            &:nth-child(4n+1) {
-                @include last;
-                }
-            }
-        }
-
-    // no rotation on small categories
-    .tile-copy_cat {
-        min-width: 0;
-        width: auto;
-        margin-bottom: unit(.5);
-
-        small {
-            transform: rotate(0deg);
-            text-align: left;
-            }
-        }
-
-    //
-    }
-
-// individual tile
-.tile {
-    margin: 0 auto;
-    margin-bottom: unit(2);
-
-    @include breakpoint(0, $vp3) {
-        max-width: 40em;
-        }
-
-    @include breakpoint($vp3) {
-        @include span(6 of 12);
-        margin-bottom: unit(3, perc);
-
-        &:nth-child(even) {
-            @include last;
-            }
-        }
-
-    &:hover {
-        .tile-copy_excerpt {
-            color: color(black);
-            }
-        }
-
-    &.-bees {
-        .tile-copy_cat {
-            color: color(bee)
-            }
-
-        &:hover {
-            img {
-                border-color: color(bee);
-                }
-
-            .tile-copy_excerpt {
-                color: darken(color(bee), 5),;
-                }
-            }
-        }
-
-    &.-blooms {
-        .tile-img {
-            background: color(bloomAlt);
-            }
-
-        .tile-copy_cat {
-            color: color(bloom)
-            }
-
-        &:hover {
-            img {
-                border-color: color(bloom);
-                }
-
-            .tile-copy_excerpt {
-                color: color(bloom);
-                }
-            }
-        }
-
-    &.-noms {
-        .tile-img {
-            background: color(secondary);
-            }
-
-        .tile-copy_cat {
-            color: color(primary)
-            }
-
-        &:hover {
-            img {
-                border-color: color(primary);
-                }
-
-            .tile-copy_excerpt {
-                color: color(primary);
-                }
-            }
-        }
-
-    &.-life {
-        .tile-img {
-            background: color(lifeAlt);
-            }
-
-        .tile-copy_cat {
-            color: color(life)
-            }
-
-        &:hover {
-            img {
-                border-color: color(life);
-                }
-
-            .tile-copy_excerpt {
-                color: color(life);
-                }
-            }
-        }
-    }
-
-
-/* Notable elements
-   ========================================================================== */
-
-// image
-.tile-img {
-
-    img {
-        width: 100%;
-        }
-    }
-
-//screen, darken
-
-// mix-blend-mode: normal;
-// mix-blend-mode: multiply;
-// mix-blend-mode: screen;
-// mix-blend-mode: overlay;
-// mix-blend-mode: darken;
-// mix-blend-mode: lighten;
-// mix-blend-mode: color-dodge;
-// mix-blend-mode: color-burn;
-// mix-blend-mode: hard-light;
-// mix-blend-mode: soft-light;
-// mix-blend-mode: difference;
-// mix-blend-mode: exclusion;
-// mix-blend-mode: hue;
-// mix-blend-mode: saturation;
-// mix-blend-mode: color;
-// mix-blend-mode: luminosity;
-
-
-
-// potential link to wrap contents within
-.tile-link {
-    color: inherit;
-
-    // link images get a border
-    img {
-        transition: border-color $timing $easing;
-        border: unit(.314) solid color(grayAlt);
-        }
-    }
-
-// element containing all text
-.tile-copy {
-    display: flex;
-    padding: unit() 0 unit(2);
-
-    @include breakpoint($vp1) {
-        padding: unit(2) 0;
-        }
-
-    @include breakpoint($vp3) {
-        padding: unit(2, perc) 0;
-        }
-    }
-
-// category title (child of tile-copy)
-.tile-copy_cat {
-    min-width: 5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @include span(4);
-
-    @include breakpoint($vp3) {
-        @include span(1 of 6);
-        }
-
-    small {
-        transform: rotate(-45deg);
-        }
-    }
-
-// title and excerpt (child of tile-copy)
-.tile-copy_meta {}
-
-
-
-
-/* Granular elements
-   ========================================================================== */
-
-// title (child of tile-copy_meta)
-.tile-copy_title {
-    margin: 0 0 unit(.5);
-    }
-
-// excerpt (child of tile-copy_meta)
-.tile-copy_excerpt {
-    text-indent: 0;
+    font-size: 0;
     margin: 0;
-    max-width: 30em;
-    color: color(gray);
+    padding: unit(3.5) 0;
+    position: relative;
+    width: auto;
+
+    &.--aspect-4-3 {
+        .tile__img {
+            @include aspect-ratio(4, 3);
+
+            img {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
     }
 
-// shared styles
-.tile-copy_title,
-.tile-copy_excerpt {
-    transition: color $timing $easing;
+    .wrap {
+        padding: 0 unit(.5);
+        max-width: 30rem;
+
+        @include breakpoint($vp2) {
+            padding: 0 unit(1.5);
+            max-width: 40rem;
+        }
+        @include breakpoint($vp3) {
+            padding: 0 unit(4);
+            // max-width: $wrap-max;
+            max-width: none;
+        }
     }
+}
+
+
+
+
+.tile {
+    margin: 0 auto unit(3.5);
+    opacity: 0;
+    transform: translate3d(0,50px,0);
+    transition: opacity $long-duration $ease-out,
+                transform $long-duration $ease-out;
+
+    @include breakpoint($vp3) {
+        padding: 0 unit(.8);
+        display: inline-block;
+        vertical-align: top;
+        @include col(6);
+    }
+
+    @include breakpoint($vp5) {
+        @include col(4);
+    }
+
+    &.is-active {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+
+        .tile__img img {
+            opacity: 1;
+        }
+
+        .tile__info {
+            header,
+            footer {
+                opacity: 1;
+                transform: translate3d(0,0,0);
+            }
+        }
+    }
+
+    &.-bees:hover {
+        img {
+            border-color: color(yellow);
+        }
+        footer p {
+            color: color(yellow);
+        }
+    }
+    &.-blooms:hover {
+        img {
+            border-color: color(green);
+        }
+        footer p {
+            color: color(green);
+        }
+    }
+    &.-noms:hover {
+        img {
+            border-color: color(red);
+        }
+        footer p {
+            color: color(red);
+        }
+    }
+    &.-life:hover {
+        img {
+            border-color: color(blue);
+        }
+        footer p {
+            color: color(blue);
+        }
+    }
+}
+
+
+
+
+.tile__img img {
+    width: 100%;
+    border: 2px solid color(primary);
+    transition: border-color $fast-duration $ease-cubic;
+
+    @include breakpoint($vp2) {
+        padding: 0;
+    }
+}
+
+
+
+
+.tile__info {
+    padding: 0 unit(1.5);
+
+    @include breakpoint($vp2) {
+        padding: 0;
+    }
+
+    header,
+    footer {
+        opacity: 0;
+        transform: translate3d(0,25px,0);
+        transition: transform $long-duration $ease-out $midi-duration,
+                    opacity $long-duration $ease-out $midi-duration;
+    }
+
+    header {
+        padding-top: unit(1.5);
+        margin-bottom: unit(.5);
+    }
+
+    footer {
+        transition-delay: $long-duration;
+        color: color(secondary);
+
+        p {
+            transition: color $fast-duration $ease-cubic;
+        }
+    }
+}

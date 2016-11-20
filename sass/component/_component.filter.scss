@@ -7,23 +7,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        max-width: $wrap-large;
+        max-width: 80rem;
         margin-bottom: unit(2);
-        }
+    }
+
     .filter-item {
         width: 25%;
         display: block;
         cursor: pointer;
-        }
-    // ._icon {}
-    // ._text {}
     }
-
+}
 
 .filter-results {
+    margin: 0 auto;
+    max-width: $vp4;
+
+    @include breakpoint(max, $vp2) {
+        .wrap {
+            padding: 0;
+        }
+    }
 
     li {
-        height: 1.5em;
         opacity: 1;
         transition: all .5s ease-out;
         overflow: hidden;
@@ -33,35 +38,109 @@
             // transform: translate3d(0,-100%,0);
             opacity: .3;
             // height: 0;
-            }
-        }
-
-    // Icon
-    .filterlist-item__icon {
-        background: red;
-        height: 1em;
-        width: 1em;
-        flex: 1;
-        }
-
-    // Title
-    header {
-        flex: 4;
-        }
-
-    // Link to Content
-    footer {
-        flex: 1;
-        text-align: right;
-        }
-
-
-    .filterlist-item {
-        border-bottom: 1px solid color(grayAlt);
-
-        a {
-            display: flex;
-            justify-content: space-between;
-            }
         }
     }
+}
+
+.filterlist-item {
+    &.category-noms {
+        .filterlist-item__icon:before {
+            content: "🍰";
+        }
+    }
+    &.category-life {
+        .filterlist-item__icon:before {
+            content: "🌎";
+        }
+    }
+    &.category-blooms {
+        .filterlist-item__icon:before {
+            content: "🌱";
+        }
+    }
+    &.category-bees {
+        .filterlist-item__icon:before {
+            content: "🐝";
+        }
+    }
+
+    &.tag-link {
+        .filterlist-item__tag:before {
+            content: "🔗";
+        }
+    }
+    &.tag-article {
+        .filterlist-item__tag:before {
+            content: "📖";
+        }
+    }
+    &.tag-film {
+        .filterlist-item__tag:before {
+            content: "🎥";
+        }
+    }
+}
+
+
+
+.filterlist-item__row {
+    border-bottom: 1px solid color(grayAlt);
+
+    a {
+        padding: 1rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.filterlist-item__icon,
+.filterlist-item__tag {
+    flex: 1;
+    display: block;
+
+    &:before {
+        margin: 0 auto;
+    }
+}
+
+.filterlist-item__info {
+    flex: 4;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    footer {
+        color: color(secondary);
+    }
+}
+
+.filterlist-item__tag {
+    display: none;
+}
+
+
+
+@include breakpoint($vp3) {
+
+    .filterlist-item__row a {
+        padding: 1.5rem 0;
+    }
+
+    .filterlist-item__icon {
+        display: flex;
+    }
+
+    .filterlist-item__info {
+        flex-direction: row;
+        align-items: baseline;
+
+        footer {
+            text-align: right;
+        }
+    }
+
+    .filterlist-item__tag {
+        display: flex;
+    }
+}

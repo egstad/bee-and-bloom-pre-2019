@@ -1,3 +1,6 @@
+/* Component styles
+   ========================================================================== */
+
 .toolbar {
     @include breakpoint($vp3) {
         width: 100%;
@@ -5,8 +8,8 @@
         left: 0;
         z-index: 2;
         position: fixed;
-        }
     }
+}
 
 .toolbar-row {
 
@@ -18,64 +21,95 @@
         // positioning
         display: flex;
         justify-content: space-around;
-        // dimensions
-        height: 4vh;
-        min-height: 26px;
-        max-height: 36px;
-        }
+    }
 
     li {
         display: flex;
         align-items: center;
         position: relative;
-        }
+        flex: 1;
+        text-align: center;
+    }
 
     a {
         display: block;
-        padding: 0.33rem 2rem;
-        }
+        width: 100%;
+        height: 100%;
+        padding: .5rem 2rem .4rem;
+        line-height: 1em;
+    }
+}
 
 
 
-    // site header navigation
-    &.site-header_nav {
-        background: color(primary);
 
-        li {
-            &:hover {
-                background: color(white);
+/* Nav-specific styles
+   ========================================================================== */
 
-                    a {
-                        color: color(primary);
-                        }
-                }
-            }
+.site-header_nav {
+    background: color(primary);
+
+    // default color
+    a {
+        transition: color $fast-duration $ease-cubic,
+                    padding $fast-duration $ease-in-out;
+        color: color(secondary);
+    }
+
+
+    &:hover {
         a {
-            color: color(white);
-            }
+            padding: 1.5rem 2rem;
         }
+    }
 
-    // site weather banner
-    &.site-header_banner {
-        transition: transform ($timing * 1.5) $easing, opacity ($timing * 1.5) $easing;
-        background: color(secondary);
-        opacity: 0;
-        position: relative;
-        z-index: -1;
+    li {
+        &:hover {
 
-        &.show {
-            opacity: 1;
-            }
-
-        a {
-            color: color(primary);
+            a {
+                color: color(white);
             }
         }
     }
+}
+
+
+// nav links
+// .site-header_nav-item {
+//    &.-active a {
+//        color: color(white);
+//    }
+// }
+
+
+// site weather banner
+.site-header_banner {
+    transition: transform ($timing * 1.5) $easing, opacity ($timing * 1.5) $easing;
+    background: color(secondary);
+    opacity: 0;
+    position: relative;
+    z-index: -1;
+
+    &.show {
+        opacity: 1;
+    }
+
+    a {
+        color: color(primary);
+    }
+}
 
 
 html.is-scrolling-down {
     .site-header_banner {
         transform: translate3d(0, -100%, 0);
-        }
+    }
+}
+
+
+@include breakpoint(max, $vp2) {
+    .site-header_nav {
+        display: none;
+        visibility: hidden;    
+    }
 }

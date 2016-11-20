@@ -78,15 +78,13 @@ $grid-item-padding-bottom: #{"calc( ~\"11% + #{$bump-size}\" )"};
 /* Color
    ========================================================================== */
 $color: (
-    primary     : #EC2D00,
-    secondary   : #FDA3A2,
+    primary     : #403B37,
+    secondary   : #A69A8D,
     tertiary    : #F8F3F0,
-    bee         : #F8AC1C,
-    beeAlt      : #FFE8B6,
-    bloom       : #12AA2F,
-    bloomAlt    : #C9E4C3,
-    life        : #0C58EE,
-    lifeAlt     : #C2D0DD,
+    yellow      : #F8AC1C,
+    green       : #12AA2F,
+    red         : red,
+    blue        : #0C58EE,
     black       : #323235,
     gray        : #AEACAB,
     grayAlt     : #E4E4E4,

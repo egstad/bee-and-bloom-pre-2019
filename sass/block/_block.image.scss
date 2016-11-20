@@ -42,21 +42,22 @@
 
 
 
-// .js-lazy-image {
+.js-lazy-image {
+    transition: opacity 0.5s ease-out;
 
-//     &.-is-lazy-loading {
-//         opacity: 0;
-//         }
+    &.-is-lazy-loading {
+        opacity: 0;
+        }
 
-//     &.-is-lazy-transition {
-//         transition: opacity 0.5s ease-out;
-//         }
+    &.-is-lazy-transition {
+        transition: opacity 0.5s ease-out;
+        }
 
-//     &.-is-lazy-loaded {
-//         opacity: 1;
-//         }
-
-//     &.-is-lazy-handled {
-//         opacity: 1;
-//         }
-//     }
+    // &.-is-lazy-loaded {
+    //     opacity: 1;
+    //     }
+    //
+    // &.-is-lazy-handled {
+    //     opacity: 1;
+    //     }
+    }

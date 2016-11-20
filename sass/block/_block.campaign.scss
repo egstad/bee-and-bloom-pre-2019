@@ -1,0 +1,102 @@
+.m_campaign {
+
+    .wrap {
+        position: relative;
+        background-size: cover;
+        background-position: center center;
+        padding-top: 35vh;
+    }
+
+    .sqs-block,
+    .sqs-block-content {
+        padding: 0;
+        margin: 0;
+    }
+
+    .txt-s > .sqs-layout {
+        margin-top: 1rem;
+    }
+
+    .sqs-layout {
+        opacity: .7;
+
+        p {
+            text-indent: 0;
+        }
+    }
+
+    .sqs-layout > .sqs-row {
+        margin: 0;
+    }
+
+    a {
+        display: block;
+
+        &:hover {
+            .m_campaign--info:before {
+                border-color: color(primary);
+            }
+        }
+    }
+}
+
+.m_gradient {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.7));
+}
+
+.m_campaign--info {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 0 auto;
+    color: white;
+    max-width: 37em; // line up with tiles
+}
+
+@include breakpoint($vp3) {
+    .m_campaign {
+        padding: 0 unit(4.8);
+        margin-bottom: 5rem;
+
+        .wrap {
+            padding-top: 15vw;
+        }
+
+        .txt-s > .sqs-layout {
+            opacity: 1;
+        }
+    }
+
+    .m_gradient {
+        display: none;
+    }
+
+    .txt-s {
+        color: color(secondary);
+    }
+
+    .m_campaign--info {
+        padding: 5em;
+        background: white;
+        color: black;
+        max-width: $vp3;
+
+        &:before {
+            transition: border-color $ease-in-out $midi-duration;
+            content: " ";
+            position: absolute;
+            z-index: -1;
+            top: 1em;
+            left: 1em;
+            right: 1em;
+            bottom: 1em;
+            border: 2px solid lightgrey;
+        }
+    }
+}

@@ -1,30 +1,63 @@
 /* ==========================================================================
-   Footer
-   ========================================================================== */
+Footer
+========================================================================== */
 
 
-// Site Footer
-.site-footer_nav {
-    display: flex;
+.site-footer {
+    padding: 0 0 5rem;
 
-    // center alignment for mobile
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
-    ul {
+    .wrap {
         display: flex;
         flex-direction: column;
-        }
     }
 
-.site-footer_nav-item--home {
-    display: flex;
+    @include breakpoint($vp4) {
+        .wrap {
+            flex-direction: row;
+            justify-content: space-between;
 
-    svg {
-        min-width: 2em;
-        width: 2.7vw;
-        max-width: 3em;
+            ul {
+                display: flex;
+            }
         }
+    }
 }
 
+
+.footer_brand {
+    padding: 1.5rem 0;
+}
+
+.footer-nav {
+    a {
+        display: block;
+        padding: 1.5rem 0;
+    }
+
+    @include breakpoint($vp4) {
+        a {
+            margin: 0 2rem;
+        }
+
+        &.footer_nav-two {
+            flex: 1 1 auto;
+        }
+
+        &.footer_nav-one {
+            order: 3;
+
+            li:last-child a {
+                margin-right: 0;
+            }
+        }
+
+    }
+}
+
+.footer_copyright {
+    padding: 1.5rem 0;
+
+    @include breakpoint($vp4) {
+        display: none;
+    }
+}

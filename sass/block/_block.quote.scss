@@ -2,49 +2,43 @@
    Quote block
    ========================================================================== */
 
-.sqs-block-quote {
+// .sqs-block-quote {
+//     blockquote.bq
+// }
 
-    .sqs-block-content {
-        @include container($wrap-large);
-        }
+.bq_quote {
+    letter-spacing: -0.08rem;
+}
 
-    // block quote figure
-    .bq {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 2;
-        }
-
-    .bq_quote {
-        @include span(8 of 12);
-        }
-
-    .bq_source {
-        @include span(last 4 of 12);
-        }
-
-    }
+.bq_source {
+    margin-top: unit(1.5);
+    color: color(secondary);
+}
 
 
-.bq {
+blockquote.bq {
     margin: 0 auto;
     max-width: $wrap-large;
     padding: 0 unit(4, vw);
 
     @include breakpoint($vp3) {
+        margin: 0 auto;
         padding: 0;
-        }
+    }
 
     &.-large {
         padding: 0 unit(2, perc);
 
+        .bq_quote {
+            letter-spacing: -0.1rem;
+        }
+
         @include breakpoint($vp2) {
             padding: 0 unit(4, perc);
-            }
+        }
 
         @include breakpoint($vp4) {
             padding: 0;
-            }
         }
     }
+}
