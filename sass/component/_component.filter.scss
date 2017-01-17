@@ -2,13 +2,24 @@
    Filter
    ========================================================================== */
 
+.page-resources .filter {
+    margin-bottom: $space-rela;
+
+    @include breakpoint($vp2) {
+        margin-bottom: ($space-perc * 2);
+    }
+    @include breakpoint($vp3) {
+        margin-bottom: ($space-rela * 3);
+    }
+}
+
+
 .filter {
     .wrap {
         display: flex;
         justify-content: space-between;
         align-items: center;
         max-width: 80rem;
-        margin-bottom: unit(2);
     }
 
     .filter-item {
@@ -66,10 +77,10 @@
 
     &.tag-link {
         .filterlist-item__tag:before {
-            content: "🔗";
+            content: "🔗";    
         }
     }
-    &.tag-article {
+    &.tag-book {
         .filterlist-item__tag:before {
             content: "📖";
         }
@@ -110,7 +121,13 @@
     justify-content: space-between;
     flex-direction: column;
 
+    header {
+        flex: 3;
+        padding-right: unit(1.5);
+    }
+
     footer {
+        flex: 1;
         color: color(secondary);
     }
 }

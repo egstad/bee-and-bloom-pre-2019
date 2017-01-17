@@ -13,11 +13,6 @@ var mod = {
         },
 
         {
-            test: /(hobo|hobo.build)\.js$/,
-            loader: "expose?hobo"
-        },
-
-        {
             test: /vendor\/.+\.(jsx|js)$/,
             loader: 'imports?jQuery=jquery,$=jquery,this=>window'
         }

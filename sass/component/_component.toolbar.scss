@@ -47,13 +47,13 @@
    ========================================================================== */
 
 .site-header_nav {
-    background: color(primary);
+    background: color(red);
 
     // default color
     a {
         transition: color $fast-duration $ease-cubic,
                     padding $fast-duration $ease-in-out;
-        color: color(secondary);
+        color: #FDA3A2;
     }
 
 
@@ -110,6 +110,6 @@ html.is-scrolling-down {
 @include breakpoint(max, $vp2) {
     .site-header_nav {
         display: none;
-        visibility: hidden;    
+        visibility: hidden;
     }
 }

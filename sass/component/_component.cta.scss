@@ -1,0 +1,47 @@
+.m_cta {
+    padding: $space-rela 0;
+
+    // remove padding from default sqs styles
+    .sqs-block,
+    .sqs-block-content h1 {
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    //
+    // @include breakpoint($vp3) {
+    //     padding: unit(6) 0;
+    //
+    //     .wrap {
+    //         display: flex;
+    //         justify-content: space-around;
+    //         align-items: center;
+    //     }
+    //
+    //     .cta__icon {
+    //         flex: 1;
+    //         order: 3;
+    //     }
+    //
+    //     .cta__text {
+    //         flex: 1;
+    //         order: 1;
+    //     }
+    //
+    //     .cta__info {
+    //         flex: 4;
+    //         order: 2;
+    //     }
+    // }
+}
+
+.cta__info .sqs-block-content a {
+    @include txt(l);
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    letter-spacing: 0;
+
+    @include breakpoint($vp4) { font-size: 3.3vw; }
+    @include breakpoint($vp4) { font-size: 3.5rem; }
+}

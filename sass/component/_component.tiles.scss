@@ -10,9 +10,17 @@ Contains image, category, title, excerpt
 .tiles {
     font-size: 0;
     margin: 0;
-    padding: unit(3.5) 0;
     position: relative;
     width: auto;
+    padding: unit(1.5) 0;
+    @include breakpoint($vp2) {
+        padding: ($space-perc * 2) 0;
+    }
+    @include breakpoint($vp3) {
+        padding: unit(3.5) 0;
+    }
+
+
 
     &.--aspect-4-3 {
         .tile__img {
@@ -29,16 +37,15 @@ Contains image, category, title, excerpt
 
     .wrap {
         padding: 0 unit(.5);
-        max-width: 30rem;
+        max-width: none;
 
         @include breakpoint($vp2) {
-            padding: 0 unit(1.5);
-            max-width: 40rem;
+            padding-left: ($space-perc * 2);
+            padding-right: ($space-perc * 2);
         }
         @include breakpoint($vp3) {
-            padding: 0 unit(4);
-            // max-width: $wrap-max;
-            max-width: none;
+            padding-left: $space-rela;
+            padding-right: $space-rela;
         }
     }
 }
@@ -47,21 +54,30 @@ Contains image, category, title, excerpt
 
 
 .tile {
-    margin: 0 auto unit(3.5);
-    opacity: 0;
-    transform: translate3d(0,50px,0);
-    transition: opacity $long-duration $ease-out,
-                transform $long-duration $ease-out;
+    opacity: 0.4;
+    margin: 0 auto ($space-rela * 1.5);
+    transition: opacity $long-duration $ease-out;
 
+    @include breakpoint($vp2) {
+        margin-bottom: ($space-perc * 2);
+    }
     @include breakpoint($vp3) {
+        margin-bottom: $space-perc;
         padding: 0 unit(.8);
         display: inline-block;
         vertical-align: top;
         @include col(6);
     }
+    @include breakpoint($vp4) {
+        margin-bottom: ($space-rela * 2);
+    }
 
     @include breakpoint($vp5) {
         @include col(4);
+    }
+
+    &:last-child {
+        margin-bottom: 0;
     }
 
     &.is-active {
@@ -141,12 +157,13 @@ Contains image, category, title, excerpt
     header,
     footer {
         opacity: 0;
-        transform: translate3d(0,25px,0);
+        // transform: translate3d(0,25px,0);
         transition: transform $long-duration $ease-out $midi-duration,
                     opacity $long-duration $ease-out $midi-duration;
     }
 
     header {
+        line-height: 1.2;
         padding-top: unit(1.5);
         margin-bottom: unit(.5);
     }

@@ -46,22 +46,17 @@
         }
 
     .gallery_item {
-        margin-bottom: unit(4, perc);
-
-        @include breakpoint($vp2) {
-            padding: 0 unit(2, perc);
-            }
+        flex: 1;
+        margin-bottom: $space-rela;
 
         @include breakpoint($vp3) {
-            width: 33.333%;
-            padding: 0 unit(1, perc);
-            }
-
-        &:last-child {
+            margin-right: $space-rela;
             margin-bottom: 0;
             }
-        }
+
+        &:last-child { margin: 0; }
     }
+}
 
 
 

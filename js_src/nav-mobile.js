@@ -9,6 +9,8 @@ const mobileNav = {
         core.dom.body.addClass( "is-menu-open is-neverflow" );
         $(".mobile-nav").attr("aria-hidden", "false");
         // core.dom.body.ontouchstart = function(e){ e.preventDefault(); }
+
+        console.log('nav is open');
     },
 
 
@@ -16,6 +18,8 @@ const mobileNav = {
         core.dom.body.removeClass( "is-menu-open is-neverflow" );
         $(".mobile-nav").attr("aria-hidden", "true");
         // core.dom.body.ontouchstart = function(e){ return true; }
+
+        console.log('nav is closed');
     },
 
 

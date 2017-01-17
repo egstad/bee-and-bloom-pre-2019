@@ -3,24 +3,214 @@
    ========================================================================== */
 
 
+
+
+/**
+* Reset
+*/
+
+// column reset
+.sqs-col-12 [class*=sqs-col] {
+   float: none;
+   width: auto;
+}
+
+
+// removes default padding on all blocks
+[class*=sqs-col] .sqs-block {
+   padding: 0;
+}
+
+
+
+
+/**
+ * Layout Styles
+ */
+
+// padding styles
+.sqs-block,
+.m_region {
+    margin-bottom: $space-rela;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    @include breakpoint($vp2) {
+        margin-bottom: ($space-perc * 2);
+    }
+    @include breakpoint($vp3) {
+        margin-bottom: ($space-rela * 3);
+    }
+}
+
+
+// rows with columns!
+.sqs-col-12 > .sqs-row {
+    max-width: $wrap-medium;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint($vp2) {
+        flex-direction: row;
+
+        .sqs-col-4 {
+            flex: 4;
+        }
+        .sqs-col-6 {
+            flex: 6;
+        }
+    }
+
+    > .row {
+        @include breakpoint($vp2) {
+            padding: 0 $space-perc;
+        }
+        @include breakpoint($vp4) {
+            max-width: $wrap-large;
+        }
+    }
+
+    > .col {
+        @include breakpoint($vp2) {
+            padding: 0 $space-perc;
+        }
+        @include breakpoint($vp4) {
+            padding: 0 $space-rela;
+        }
+
+        > .sqs-block-html {
+            @include breakpoint($vp2) {
+                padding: 0;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+// layout styles
 .sqs-layout {
+    margin-bottom: $space-rela;
+    @include breakpoint($vp2) {
+        margin-bottom: ($space-perc * 2);
+    }
+    @include breakpoint($vp3) {
+        margin-bottom: ($space-rela * 3);
+    }
+
+    // reset row margins
     > .sqs-row {
         margin-left: 0;
         margin-right: 0;
     }
 
+    // hide gutters (spacers with 1 col) for a bit
+    .sqs-col-12 .sqs-col-1 {
+        @include breakpoint(max, $vp2) {
+            display: none;
+        }
+    }
+
+    // text blocks
+    .sqs-block-html,
+    .sqs-block-quote,
+    .bq.-large {
+        padding: 0 unit(1.5);
+        margin-left: auto;
+        margin-right: auto;
+
+        @include breakpoint($vp2) {
+            padding-left: ($space-perc * 2);
+            padding-right: ($space-perc * 2);
+        }
+        @include breakpoint($vp3) {
+            padding-left: ($space-perc * 3);
+            padding-right: ($space-perc * 3);
+        }
+        @include breakpoint($vp4) {
+            max-width: $wrap-medium;
+            padding-left: $space-rela;
+            padding-right: $space-rela;
+        }
+    }
+
+    // block quotes
+    .sqs-block-quote,
+    .bq.-large {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+}
+
+
+// type styles
+.sqs-block {
+
+    p, ul, ol {
+        // max-width: 50rem;
+        @include txt(m);
+        margin: 0;
+    }
+
+    p + p {
+        text-indent: $space-rela;
+    }
+
+    p, a {
+        letter-spacing: -0.02em;
+    }
+
+    strong, em {
+        letter-spacing: -0.04em;
+    }
+
+    a {
+        transition: background-color $fast-duration $ease-in-out,
+                    color $fast-duration $ease-in-out;
+        border-bottom: 2px solid #FDA3A2;
+
+        &:hover {
+            color: color(red);
+            background-color: #FDA3A2;
+        }
+    }
+
     ul,
     ol {
-        padding: unit(2) unit(3) unit(3);
+        padding-top: unit(2);
+        padding-left: unit(1);
+        padding-bottom: unit(3);
+
+        @include breakpoint($vp3) {
+            padding-top: $space-perc;
+            padding-bottom: $space-perc;
+        }
+
+        @include breakpoint($vp4) {
+            padding-top: ($space-rela * 2);
+            padding-bottom: ($space-rela * 2);
+        }
+
 
         li:before {
+            @include txt(s);
             font-family: $font-mono;
             display: inline-block;
             width: 2rem;
             margin-left: -2rem;
-            color: color(secondary);
-            font-size: 1rem;
+            color: color(red);
             transform: translateY(-1px);
+        }
+
+        li {
+            padding: 0.5rem 1rem;
+            position: relative;
         }
     }
 
@@ -40,41 +230,60 @@
             content: counter(section);
         }
     }
-}
 
-
-
-
-.sqs-block-html {
-
-    p, ul, ol {
-        @include txt(m);
+    h1 + ul,
+    h1 + ol,
+    h2 + ul,
+    h2 + ol,
+    h3 + ul,
+    h3 + ol {
+        padding-top: 0;
     }
 
     h1 {
+        @include txt(l);
+        font-weight: bold;
+        letter-spacing: -0.06rem;
+    }
+
+    h2 {
+        @include txt(s);
+        @include uppercase(1px);
+        font-weight: bold;
+    }
+
+    h3 {
+        @include txt(s);
+        font-family: $font-mono;
+        margin-top: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    h1,
+    h2 {
+        margin-top: $space-rela;
+        margin-bottom: 1rem;
+
+        @include breakpoint($vp2) {
+            margin-top: ($space-perc * 2);
+        }
+        @include breakpoint($vp3) {
+            margin-top: ($space-rela * 2);
+        }
+    }
+
+    h3 {
+        margin-top: ($space-rela / 2);
+        @include breakpoint($vp2) {
+            margin-top: $space-rela;
+        }
+    }
+
+    .bq_quote {
         @include txt(xl);
-        margin: unit(3) 0 unit(1);
+        line-height: 1.2;
     }
-
-    h2,
-    h3,
-    .video-caption {
-        @include txt(s);
-        font-family: $font-mono;
-        margin: unit(4) 0 unit(1);
+    .bq_source {
+        color: color(red);
     }
-
-    blockquote {
-        @include txt(s);
-        font-family: $font-mono;
-        color: color(secondary);
-        padding: unit(2);
-
-    }
-
-    .sqs-block-content {
-        max-width: $wrap-medium;
-        margin: 0 auto;
-    }
-
 }

@@ -146,6 +146,10 @@ a {
         }
     }
 
+.txt-serif {
+    font-family: $font-serif;
+    }
+
 .txt-mono {
     font-family: $font-mono;
 
@@ -155,17 +159,17 @@ a {
     }
 
 .txt-bee {
-    color: color(yellow);
+    color: color(yellow) !important;
     }
 
 .txt-bloom {
-    color: color(green);
+    color: color(green) !important;
     }
 
 .txt-nom {
-    color: color(red);
+    color: color(red) !important;
     }
 
 .txt-life {
-    color: color(blue);
+    color: color(blue) !important;
     }

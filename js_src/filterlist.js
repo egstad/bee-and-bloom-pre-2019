@@ -3,6 +3,7 @@ import $ from "js_libs/jquery/dist/jquery.js";
 const filterlist = {
     init () {
         this.toggleItems();
+        //this.populateLinks();
     },
     hideAll () {
         $( ".filterlist-item").addClass( "-is-hidden" );
@@ -10,10 +11,17 @@ const filterlist = {
     showAll () {
         $( ".filterlist-item").removeClass( "-is-hidden" );
     },
+    populateLinks () {
+        const linkEl = $(".filterlist-link");
+
+        linkEl.each(function() {
+            const linkText = this.dataset.link.replace('http://', '');
+            this.textContent = linkText;
+        });
+    },
     toggleItems () {
-        $( "#trigger--bee").on( "click", () => {
+        $( "#trigger--bee").on( "click", (e) => {
             this.hideAll();
-            $( ".category-bees").removeClass( "-is-hidden" );
         });
         $( "#trigger--bloom").on( "click", () => {
             this.hideAll();

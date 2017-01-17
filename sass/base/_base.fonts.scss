@@ -80,3 +80,18 @@
     src: url('../assets/fonts/SimplonMono-Regular-WebS.woff2') format('woff2'),
          url('../assets/fonts/SimplonMono-Regular-WebS.woff') format('woff');
     }
+
+
+
+/**
+ * Domaine Display Condensed
+ */
+
+@font-face {
+    font-family: 'Domaine-Display';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../assets/fonts/DomaineDisplayCondensedWeb-Medium.eot');
+    src: url('../assets/fonts/DomaineDisplayCondensedWeb-Medium.woff2') format('woff2'),
+    url('../assets/fonts/DomaineDisplayCondensedWeb-Medium.woff') format('woff');
+    }

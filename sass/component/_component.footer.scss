@@ -4,14 +4,22 @@ Footer
 
 
 .site-footer {
-    padding: 0 0 5rem;
+    background: color(black);
 
     .wrap {
+        max-width: none;
         display: flex;
         flex-direction: column;
+        padding: $space-rela unit(1.5);
+        @include breakpoint($vp2) {
+            padding: ($space-rela * 2) 0;
+        }
+        @include breakpoint($vp3) {
+            padding: ($space-rela * 2) 3.2rem;
+        }
     }
 
-    @include breakpoint($vp4) {
+    @include breakpoint($vp3) {
         .wrap {
             flex-direction: row;
             justify-content: space-between;
@@ -30,34 +38,79 @@ Footer
 
 .footer-nav {
     a {
+        @include uppercase();
+        color: color(white);
         display: block;
         padding: 1.5rem 0;
     }
 
-    @include breakpoint($vp4) {
-        a {
-            margin: 0 2rem;
+    @include breakpoint($vp2) {
+        ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
         }
+        a {
+            padding: $space-rela;
+            display: inline-block;
+        }
+    }
+
+    @include breakpoint($vp3) {
 
         &.footer_nav-two {
+            order: 1;
             flex: 1 1 auto;
-        }
 
-        &.footer_nav-one {
-            order: 3;
+            ul {
+                justify-content: flex-start;
+            }
 
-            li:last-child a {
-                margin-right: 0;
+            li:first-child a {
+                padding-left: 0;
             }
         }
 
+        &.footer_nav-one {
+            order: 2;
+
+            ul {
+                justify-content: flex-end;
+            }
+
+            li:last-child a {
+                padding-right: 0;
+            }
+        }
     }
+
+    @include breakpoint($vp4) {
+        &.footer_nav-two {
+            li:first-child a {
+                padding-left: 0;
+            }
+        }
+        &.footer_nav-one {
+            li:last-child a {
+                padding-right: 0;
+            }
+        }
+    }
+
 }
 
 .footer_copyright {
+    order: 3;
     padding: 1.5rem 0;
+    @include uppercase();
+    opacity: 0.5;
+    color: color(white);
 
-    @include breakpoint($vp4) {
+    @include breakpoint($vp2) {
+        text-align: center;
+    }
+
+    @include breakpoint($vp3) {
         display: none;
     }
 }

@@ -44,11 +44,18 @@ const sqs = {
 const updateImages = function () {
     const images = $( `[${core.config.imageLoaderAttr}]` );
 
-    if ( images.length ) {
-        images.forEach(( image ) => {
-            image.removeAttribute( core.config.imageLoaderAttr );
-        });
+    console.log(images);
 
+    if ( images.length ) {
+
+        // images.forEach(( image ) => {
+        //     // console.log(this);
+        //     image.removeData( core.config.imageLoaderAttr );
+        // });
+
+        images.removeData( core.config.imageLoaderAttr );
+
+        // then it is reinstated
         core.util.loadImages( images, core.util.noop );
     }
 };

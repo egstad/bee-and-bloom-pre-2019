@@ -1,20 +1,97 @@
-.intro {
-    pointer-events: none;
-    text-align: center;
-    z-index: 1000;
+.home-intro {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    @include breakpoint($vp2) {
+        padding: ($space-perc * 2);
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+    @include breakpoint($vp3) {
+        padding: unit(3.5);
+    }
+
+    ._text {
+        @include hide-text();
+    }
+
+    ._icon {
+        align-self: center;
+        width: 100%;
+    }
+
+    svg {
+        display: block;
+        margin: 0 0 2rem;
+        width: 50%;
+        max-width: 18rem;
+        @include breakpoint(max, $vp2) {
+            max-width: 12rem;
+            .fill {
+                fill: #fff;
+            }
+        }
+        @include breakpoint($vp4) {
+            width: 100%;
+            max-width: none;
+            margin-bottom: 0;
+        }
+    }
+
+    h2 {
+        @include breakpoint(max, $vp2) {
+            color: #fff;
+        }
+    }
 }
 
-.screen {
-    background-color: #fff;
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    position: fixed;
-    right: 0;
-    top: 0;
-    transition: opacity 200ms cubic-bezier(.55,.055,.675,.19),visibility 200ms cubic-bezier(.55,.055,.675,.19);
-    visibility: hidden;
-    z-index: 1000;
+.home-intro__wrap {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1.5rem;
+    @include breakpoint($vp2) {
+        border: 2px solid color(primary);
+        padding: 4em;
+        background: white;
+        color: black;
+    }
+    @include breakpoint($vp3) {
+        width: 80%;
+        margin-left: 0;
+        // max-width: ;
+    }
+    @include breakpoint($vp4) {
+        width: 66.666%;
+        max-width: $wrap-medium;
+        flex-direction: row;
+
+        .col {
+            display: flex;
+            flex: 2;
+
+            &:first-child {
+                flex: 1;
+                min-width: 15rem;
+            }
+
+            &:last-child {
+                padding-left: $space-rela;
+            }
+        }
+    }
+
+
+
+    &:before {
+        transition: border-color $ease-in-out $midi-duration;
+        content: " ";
+        position: absolute;
+        z-index: -1;
+        top: 1em;
+        left: 1em;
+        right: 1em;
+        bottom: 1em;
+        border: 2px solid lightgrey;
+    }
 }

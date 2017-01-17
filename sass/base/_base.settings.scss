@@ -11,6 +11,7 @@ $font-size      : 16;
 $line-height    : 1.6;
 $font-scale     : 1.618; // Defines intervals within text-size() mixin.
 $font-sans      : "Domaine-Text-Sans", "Helvetica Neue", sans-serif;
+$font-serif     : "Domaine-Display", "Georgia", serif;
 $font-mono      : "Simplon-Mono", "Courier", monospace;
 
 
@@ -25,6 +26,9 @@ $unit-perc      : gutter(12);
 $unit-vert      : ($unit-perc / 100%) * 100;
 $unit-hori      : ($unit-perc / 100%) * 100;
 
+$space-perc     : 5.25vw;
+$space-rela     : 2.5rem;
+
 
 
 /**
@@ -36,8 +40,8 @@ $susy: (
     );
 
 $wrap-max       : 120rem;
-$wrap-large     : 65rem;
-$wrap-medium    : 50rem;
+$wrap-large     : 112rem;
+$wrap-medium    : 70rem;
 $wrap-small     : 30rem;
 
 
@@ -83,7 +87,7 @@ $color: (
     tertiary    : #F8F3F0,
     yellow      : #F8AC1C,
     green       : #12AA2F,
-    red         : red,
+    red         : #EC2D00,
     blue        : #0C58EE,
     black       : #323235,
     gray        : #AEACAB,
@@ -96,7 +100,7 @@ $color: (
 
 /* Breakpoints
    ========================================================================== */
-$vp1            : 20em; // 320px
+$vp1            : 10em;
 $vp2            : 40em; // 640px
 $vp3            : 60em; // 960px
 $vp4            : 90em; // 1440px

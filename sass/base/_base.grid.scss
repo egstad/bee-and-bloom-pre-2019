@@ -1,46 +1,11 @@
-/* ==========================================================================
-   Grid - based on http://l.je.gs/1RiOkSw
-   ========================================================================== */
-
 .is-neverflow {
     overflow-x: hidden;
     overflow-y: hidden;
 }
 
-.wrap,
-.sqs-block-video .sqs-block-content,
-.sqs-block.html-block {
+.wrap {
     @include container();
     position: relative;
     width: 100%;
-    padding: 0 unit(2);
-
-    @include breakpoint($vp2) {;
-        padding: 0 unit(4);
-    }
-}
-
-.wrap {
     max-width: $wrap-max;
-
-    &.-full {
-        max-width: none;
-        padding: 0;
-    }
-
-    &.--campaign {
-        padding: 2em;
-        max-width: none;
-
-        @include breakpoint($vp3) {
-            padding: 15vw;
-        }
-    }
 }
-
-.page-journal .sqs-block-video .sqs-block-content,
-.page-journal .sqs-block-html .sqs-block-content {
-    @include breakpoint($vp3) {
-        padding: 0;
-        }
-    }

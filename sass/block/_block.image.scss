@@ -8,27 +8,27 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        // padding: 0 unit(4, vw);
-
-        @include breakpoint($vp2) {
-            padding: 0 unit(2, perc);
-            }
-        @include breakpoint($vp3) {
-            padding: 0 unit(1, perc);
-            }
         }
     }
 
 // custom image block element
 .figure {
-    min-width: 0;
-    max-width: 1200px;
+    width: 100%;
+    max-width: $wrap-large;
+
+    @include breakpoint($vp2) {
+        padding: 0 $space-perc;
     }
+    @include breakpoint($vp3) {
+        padding: 0 ($space-perc * 1.5);
+    }
+}
 
 .figure_image {
     display: block;
     width: 100%;
     height: auto;
+
     @include breakpoint($vp3) {
         min-width: 800px;
         }
@@ -45,13 +45,25 @@
 .js-lazy-image {
     transition: opacity 0.5s ease-out;
 
-    &.-is-lazy-loading {
-        opacity: 0;
-        }
+    // element loading state
+    &.-is-lazy-loading {}
 
-    &.-is-lazy-transition {
-        transition: opacity 0.5s ease-out;
-        }
+    // element transitioning state
+    &.-is-lazy-transition {}
+
+    // elements loaded state
+    &.-is-lazy-loaded {}
+
+    // defines the element as having been loaded
+    &.-is-lazy-handled {}
+
+    // &.-is-lazy-loading {
+    //     opacity: 0;
+    //     }
+    //
+    // &.-is-lazy-transition {
+    //     transition: opacity 0.5s ease-out;
+    //     }
 
     // &.-is-lazy-loaded {
     //     opacity: 1;

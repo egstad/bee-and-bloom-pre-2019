@@ -3,45 +3,35 @@
    ========================================================================== */
 
 .article_banner {
-    @include container($wrap-max);
     display: flex;
     flex-direction: column;
+    max-width: $wrap-large;
+    margin-bottom: $space-rela;
+    margin-left: auto;
+    margin-right: auto;
 
     @include breakpoint($vp2) {
-        padding: 0 unit(2, perc);
-        }
-
-    @include breakpoint($vp3) {
-        flex-direction: row;
-        align-items: center;
-        }
+        padding: 0 $space-perc;
+        margin-bottom: ($space-perc * 2);
     }
+    @include breakpoint($vp3) {
+        padding: 0 ($space-perc * 1.5);
+        margin-bottom: ($space-rela * 3);
+    }
+}
 
 // figure within banner
 .article_banner-image {
-    width: 100%;
     order: 2;
-
-    @include breakpoint($vp2) {
-        order: 1;
-        padding: 0 unit(4, perc);
-        }
-
-    @include breakpoint($vp3) {
-        @include span(6);
-        padding: 0;
-        }
-
-    @include breakpoint($vp3) {
-        @include span(7);
-        }
+    width: 100%;
 
     img {
+        border: 2px solid color(black);
         display: block;
         height: auto;
         width: 100%;
         margin: 0 auto;
-        max-width: 40em;
+        // max-width: 40em;
 
         @include breakpoint($vp3) {
             max-width: none;
@@ -51,41 +41,23 @@
 
 // text within banner
 .article_banner-text {
-    text-align: center;
-    position: relative;
     order: 1;
+    position: relative;
+    line-height: 1.2;
+    padding: unit(1.5);
 
     @include breakpoint($vp2) {
-        order: 2;
-        }
-
-    @include breakpoint($vp3) {
-        text-align: left;
-        @include span(last 6);
-        padding: 0 unit(1, perc);
-        }
-
-    @include breakpoint($vp4) {
-        @include span(last 5);
-        }
-
+        text-align: center;
+        padding: 0 ($space-perc * 2);
+        margin-top: 2rem;
     }
+    @include breakpoint($vp3) {
+        padding: 0 $space-rela;
+    }
+}
 
 .article_header {
     @include breakpoint($vp2) {
-        margin-top: unit(2);
-        }
-    }
-
-// category and date
-.article_meta {
-
-    }
-
-.article_meta-col {
-    @include span(6);
-
-    &:last-child {
-        @include last;
+        margin: 0 0 $space-rela;
         }
     }

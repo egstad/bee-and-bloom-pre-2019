@@ -35,11 +35,11 @@
 
         @include breakpoint($vp3) {
             // padding: unit(5, perc) 0 unit(2.5, perc);
-            padding: unit(6) 0;
+            padding: unit(5) 0 unit(4);
             }
 
         @include breakpoint($vp4) {
-            padding: unit(8) 0;
+            padding: unit(6) 0;
             }
         }
 

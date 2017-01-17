@@ -1,4 +1,21 @@
+.m_region.-campaign {
+    margin-bottom: 0;
+}
+
 .m_campaign {
+
+    /**
+     * SQS Reset
+     */
+     .sqs-layout .sqs-block-html,
+     .sqs-layout > .sqs-row  {
+         padding: 0;
+         margin: 0;
+     }
+     .sqs-layout .sqs-block-html {
+         margin-bottom: 0;
+     }
+
 
     .wrap {
         position: relative;
@@ -7,26 +24,8 @@
         padding-top: 35vh;
     }
 
-    .sqs-block,
-    .sqs-block-content {
-        padding: 0;
-        margin: 0;
-    }
-
-    .txt-s > .sqs-layout {
-        margin-top: 1rem;
-    }
-
     .sqs-layout {
         opacity: .7;
-
-        p {
-            text-indent: 0;
-        }
-    }
-
-    .sqs-layout > .sqs-row {
-        margin: 0;
     }
 
     a {
@@ -56,16 +55,31 @@
     display: block;
     margin: 0 auto;
     color: white;
-    max-width: 37em; // line up with tiles
+    padding: unit(1.5);
+    @include breakpoint($vp2) {
+        padding: ($space-perc * 2);
+    }
+    @include breakpoint($vp3) {
+        padding: $space-rela;
+    }
+
+    h1 {
+        line-height: 1.2;
+    }
 }
+
+.m_campaign-info--title {
+    @include uppercase(0);
+    margin-bottom: unit(1);
+}
+
+
 
 @include breakpoint($vp3) {
     .m_campaign {
-        padding: 0 unit(4.8);
-        margin-bottom: 5rem;
 
         .wrap {
-            padding-top: 15vw;
+            padding: 15vw;
         }
 
         .txt-s > .sqs-layout {
@@ -82,7 +96,7 @@
     }
 
     .m_campaign--info {
-        padding: 5em;
+        padding: ($space-rela * 2);
         background: white;
         color: black;
         max-width: $vp3;

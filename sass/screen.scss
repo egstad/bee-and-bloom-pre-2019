@@ -28,6 +28,7 @@
 @import "./block/block.image";
 @import "./block/block.quote";
 @import "./block/block.modifiers";
+@import "./block/block.button";
 
 /* Component styles */
 @import "./component/component.header-alt";
@@ -38,6 +39,7 @@
 @import "./component/component.toolbar";
 @import "./component/component.video";
 @import "./component/component.articles";
+@import "./component/component.cta";
 @import "./component/component.filter";
 
 /* State styles */

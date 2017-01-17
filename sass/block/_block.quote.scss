@@ -8,6 +8,8 @@
 
 .bq_quote {
     letter-spacing: -0.08rem;
+    color: color(primary);
+    line-height: 1.8;
 }
 
 .bq_source {
@@ -18,8 +20,7 @@
 
 blockquote.bq {
     margin: 0 auto;
-    max-width: $wrap-large;
-    padding: 0 unit(4, vw);
+    max-width: $wrap-medium;
 
     @include breakpoint($vp3) {
         margin: 0 auto;
@@ -27,18 +28,11 @@ blockquote.bq {
     }
 
     &.-large {
-        padding: 0 unit(2, perc);
+        max-width: $wrap-large !important;
 
         .bq_quote {
+            @include txt(l);
             letter-spacing: -0.1rem;
-        }
-
-        @include breakpoint($vp2) {
-            padding: 0 unit(4, perc);
-        }
-
-        @include breakpoint($vp4) {
-            padding: 0;
         }
     }
 }

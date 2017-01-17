@@ -13595,7 +13595,7 @@
 	    return new _properjsImageloader2["default"]({
 	        elements: images,
 	        property: _config2["default"].lazyImageAttr,
-	        transitionDelay: 200
+	        transitionDelay: 0
 	
 	    }).on("data", handler);
 	};
@@ -18609,12 +18609,16 @@
 	        core.dom.body.addClass("is-menu-open is-neverflow");
 	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav").attr("aria-hidden", "false");
 	        // core.dom.body.ontouchstart = function(e){ e.preventDefault(); }
+	
+	        console.log('nav is open');
 	    },
 	
 	    close: function close() {
 	        core.dom.body.removeClass("is-menu-open is-neverflow");
 	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav").attr("aria-hidden", "true");
 	        // core.dom.body.ontouchstart = function(e){ return true; }
+	
+	        console.log('nav is closed');
 	    },
 	
 	    toggle: function toggle() {
@@ -19124,6 +19128,7 @@
 	var filterlist = {
 	    init: function init() {
 	        this.toggleItems();
+	        //this.populateLinks();
 	    },
 	    hideAll: function hideAll() {
 	        (0, _js_libsJqueryDistJqueryJs2["default"])(".filterlist-item").addClass("-is-hidden");
@@ -19131,12 +19136,19 @@
 	    showAll: function showAll() {
 	        (0, _js_libsJqueryDistJqueryJs2["default"])(".filterlist-item").removeClass("-is-hidden");
 	    },
+	    populateLinks: function populateLinks() {
+	        var linkEl = (0, _js_libsJqueryDistJqueryJs2["default"])(".filterlist-link");
+	
+	        linkEl.each(function () {
+	            var linkText = this.dataset.link.replace('http://', '');
+	            this.textContent = linkText;
+	        });
+	    },
 	    toggleItems: function toggleItems() {
 	        var _this = this;
 	
-	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--bee").on("click", function () {
+	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--bee").on("click", function (e) {
 	            _this.hideAll();
-	            (0, _js_libsJqueryDistJqueryJs2["default"])(".category-bees").removeClass("-is-hidden");
 	        });
 	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--bloom").on("click", function () {
 	            _this.hideAll();
