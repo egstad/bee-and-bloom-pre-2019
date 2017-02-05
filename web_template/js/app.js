@@ -77,11 +77,9 @@
 	
 	var _menusNav2 = _interopRequireDefault(_menusNav);
 	
+	// import filterSort from "./filterizr";
 	// import intro from "./menus/intro";
-	
-	var _filterlist = __webpack_require__(/*! ./filterlist */ 44);
-	
-	var _filterlist2 = _interopRequireDefault(_filterlist);
+	// import filterlist from "./filterlist";
 	
 	/**
 	 *
@@ -100,7 +98,7 @@
 	    this.mobileNav = _navMobile2["default"];
 	    this.core = core;
 	    this.router = _router2["default"];
-	    this.filterlist = _filterlist2["default"];
+	    // this.filterSort = filterSort;
 	
 	    this.initEvents();
 	    this.initModules();
@@ -130,7 +128,7 @@
 	      this.mobileNav.init(this);
 	      this.nav.init(this);
 	      // this.intro.init( this );
-	      this.filterlist.init(this);
+	      // this.filterSort.init( this );
 	
 	      this.analytics = new this.core.Analytics();
 	    }
@@ -19104,71 +19102,6 @@
 	})();
 	
 	exports["default"] = Menu;
-	module.exports = exports["default"];
-
-/***/ },
-/* 44 */
-/*!******************************!*\
-  !*** ./js_src/filterlist.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	var _js_libsJqueryDistJqueryJs = __webpack_require__(/*! js_libs/jquery/dist/jquery.js */ 2);
-	
-	var _js_libsJqueryDistJqueryJs2 = _interopRequireDefault(_js_libsJqueryDistJqueryJs);
-	
-	var filterlist = {
-	    init: function init() {
-	        this.toggleItems();
-	        //this.populateLinks();
-	    },
-	    hideAll: function hideAll() {
-	        (0, _js_libsJqueryDistJqueryJs2["default"])(".filterlist-item").addClass("-is-hidden");
-	    },
-	    showAll: function showAll() {
-	        (0, _js_libsJqueryDistJqueryJs2["default"])(".filterlist-item").removeClass("-is-hidden");
-	    },
-	    populateLinks: function populateLinks() {
-	        var linkEl = (0, _js_libsJqueryDistJqueryJs2["default"])(".filterlist-link");
-	
-	        linkEl.each(function () {
-	            var linkText = this.dataset.link.replace('http://', '');
-	            this.textContent = linkText;
-	        });
-	    },
-	    toggleItems: function toggleItems() {
-	        var _this = this;
-	
-	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--bee").on("click", function (e) {
-	            _this.hideAll();
-	        });
-	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--bloom").on("click", function () {
-	            _this.hideAll();
-	            (0, _js_libsJqueryDistJqueryJs2["default"])(".category-blooms").removeClass("-is-hidden");
-	        });
-	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--nom").on("click", function () {
-	            _this.hideAll();
-	            (0, _js_libsJqueryDistJqueryJs2["default"])(".category-noms").removeClass("-is-hidden");
-	        });
-	        (0, _js_libsJqueryDistJqueryJs2["default"])("#trigger--life").on("click", function () {
-	            _this.hideAll();
-	            (0, _js_libsJqueryDistJqueryJs2["default"])(".category-life").removeClass("-is-hidden");
-	        });
-	    }
-	};
-	
-	/******************************************************************************
-	 * Export
-	*******************************************************************************/
-	exports["default"] = filterlist;
 	module.exports = exports["default"];
 
 /***/ }

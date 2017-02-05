@@ -2,8 +2,9 @@ import router from "./router";
 import * as core from "./core";
 import mobileNav from "./nav-mobile";
 import nav from "./menus/nav";
+// import filterSort from "./filterizr";
 // import intro from "./menus/intro";
-import filterlist from "./filterlist";
+// import filterlist from "./filterlist";
 
 
 /**
@@ -20,7 +21,7 @@ class App {
         this.mobileNav = mobileNav;
         this.core = core;
         this.router = router;
-        this.filterlist = filterlist;
+        // this.filterSort = filterSort;
 
         this.initEvents();
         this.initModules();
@@ -44,7 +45,7 @@ class App {
         this.mobileNav.init( this );
         this.nav.init( this );
         // this.intro.init( this );
-        this.filterlist.init( this );
+        // this.filterSort.init( this );
 
 
         this.analytics = new this.core.Analytics();
