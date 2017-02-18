@@ -7,15 +7,18 @@
     /**
      * SQS Reset
      */
-     .sqs-layout .sqs-block-html,
-     .sqs-layout > .sqs-row  {
-         padding: 0;
-         margin: 0;
-     }
-     .sqs-layout .sqs-block-html {
-         margin-bottom: 0;
-     }
+    .sqs-layout,
+    .sqs-layout .sqs-block-html,
+    .sqs-layout > .sqs-row  {
+      padding: 0;
+      margin: 0;
+    }
 
+    .sqs-block p,
+    .sqs-block ul,
+    .sqs-block ol {
+      @include txt(s);
+    }
 
     .wrap {
         position: relative;
@@ -25,7 +28,7 @@
     }
 
     .sqs-layout {
-        opacity: .7;
+        opacity: .5;
     }
 
     a {
@@ -80,6 +83,7 @@
 
         .wrap {
             padding: 15vw;
+            max-width: none;
         }
 
         .txt-s > .sqs-layout {
