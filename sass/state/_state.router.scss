@@ -19,5 +19,6 @@ html.is-routing {
 
 .site-page,
 .site-footer {
+    opacity: 1;
     transition: opacity $base-duration $ease-cubic;
     }

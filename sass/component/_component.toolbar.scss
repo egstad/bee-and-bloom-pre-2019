@@ -2,13 +2,12 @@
    ========================================================================== */
 
 .toolbar {
-    @include breakpoint($vp3) {
-        width: 100%;
-        top: 0;
-        left: 0;
-        z-index: 2;
-        position: fixed;
-    }
+    transition: transform ($timing * 1.5) $easing;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    position: fixed;
 }
 
 .toolbar-row {
@@ -39,6 +38,21 @@
         line-height: 1em;
     }
 }
+
+// make links tappable
+.is-touchable {
+  .toolbar-row a {
+    padding: 1.5rem 2rem;
+  }
+}
+
+.is-scrolling-down {
+    .toolbar {
+        transform: translate3d(0, -100%, 0);
+    }
+}
+
+
 
 
 
@@ -74,42 +88,14 @@
 }
 
 
-// nav links
-// .site-header_nav-item {
-//    &.-active a {
-//        color: color(white);
-//    }
-// }
-
-
-// site weather banner
-.site-header_banner {
-    transition: transform ($timing * 1.5) $easing, opacity ($timing * 1.5) $easing;
-    background: color(secondary);
-    opacity: 0;
-    position: relative;
-    z-index: -1;
-
-    &.show {
-        opacity: 1;
-    }
-
-    a {
-        color: color(primary);
-    }
-}
-
-
-html.is-scrolling-down {
-    .site-header_banner {
-        transform: translate3d(0, -100%, 0);
-    }
-}
-
 
 @include breakpoint(max, $vp2) {
     .site-header_nav {
-        display: none;
-        visibility: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+
+        &.toolbar-row > ul {
+          justify-content: flex-start;;
+        }
     }
 }

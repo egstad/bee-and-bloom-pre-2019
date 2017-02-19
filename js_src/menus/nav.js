@@ -27,7 +27,7 @@ const nav = {
 
         this.menu = new Menu( core.dom.nav );
 
-        core.log( "nav initialized" );
+        // core.log( "nav initialized" );
     },
 
 

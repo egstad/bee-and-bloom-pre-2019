@@ -50,7 +50,7 @@ class Store {
 
         this.flush();
 
-        log( "Singleton Store initialized", this );
+        // log( "Singleton Store initialized", this );
     }
 
 
@@ -83,7 +83,7 @@ class Store {
      */
     save () {
         if ( !this._opts.enableStorage || !Store.isStorageSupported ) {
-            log( "Cache Storage disabled - Not writing to SessionStorage" );
+            // log( "Cache Storage disabled - Not writing to SessionStorage" );
             return;
         }
 

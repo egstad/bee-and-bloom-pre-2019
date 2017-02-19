@@ -21,7 +21,7 @@ class Metrics {
 
             core.emitter.on( "app--analytics-push", this.pushTrack.bind( this ) );
 
-            core.log( "Metrics initialized", this );
+            // core.log( "Metrics initialized", this );
 
             _instance = this;
         }
@@ -58,7 +58,7 @@ class Metrics {
      *
      */
     track ( type, data ) {
-        core.log( "Metrics track", type, data );
+        // core.log( "Metrics track", type, data );
 
         // Squarespace Metrics
         window.Y.Squarespace.Analytics.view( type, data );
@@ -116,7 +116,7 @@ class Metrics {
                     ctx = JSON.parse( ctx );
 
                 } catch ( error ) {
-                    core.log( "warn", "Analytics JSON.parse Error", error );
+                    // core.log( "warn", "Analytics JSON.parse Error", error );
                 }
 
                 // Cache context locally

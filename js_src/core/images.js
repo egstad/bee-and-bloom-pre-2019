@@ -25,7 +25,7 @@ const images = {
      *
      */
     init () {
-        log( "images initialized" );
+        // log( "images initialized" );
     },
 
 

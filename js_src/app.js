@@ -1,10 +1,7 @@
 import router from "./router";
 import * as core from "./core";
-import mobileNav from "./nav-mobile";
 import nav from "./menus/nav";
-// import filterSort from "./filterizr";
-// import intro from "./menus/intro";
-// import filterlist from "./filterlist";
+// import filterSort from "./filtersort";
 
 
 /**
@@ -16,9 +13,7 @@ import nav from "./menus/nav";
  */
 class App {
     constructor () {
-        this.nav = nav;
-        // this.intro = intro;
-        this.mobileNav = mobileNav;
+        // this.nav = nav;
         this.core = core;
         this.router = router;
         // this.filterSort = filterSort;
@@ -42,11 +37,8 @@ class App {
         this.core.resizes.init( this );
         this.core.scrolls.init( this );
         this.router.init( this );
-        this.mobileNav.init( this );
-        this.nav.init( this );
-        // this.intro.init( this );
+        // this.nav.init( this );
         // this.filterSort.init( this );
-
 
         this.analytics = new this.core.Analytics();
     }
@@ -82,8 +74,6 @@ class App {
 
         this.core.dom.html.removeClass( "is-clipped" );
         this.core.dom.body.removeClass( "is-clipped" );
-
-        // this.intro.teardown();
     }
 }
 

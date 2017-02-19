@@ -14,79 +14,78 @@
 }
 
 
-.filter {
+.filter-bar {
+
     .wrap {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 80rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 80rem;
     }
 
     .filter-item {
-        width: 25%;
-        display: block;
-        cursor: pointer;
+      outline: none;
+      width: 25%;
+      display: block;
+      cursor: pointer;
+    }
+
+    ._text {
+      font-size: 80%;
+
+      @include breakpoint($vp2) {
+        font-size: 100%;
+      }
     }
 }
 
-.filter-results {
-    margin: 0 auto;
-    max-width: $vp4;
+.filter {
+  padding: unit(5) 0;
+  margin: 0 auto;
+  max-width: $vp4;
 
-    @include breakpoint(max, $vp2) {
-        .wrap {
-            padding: 0;
-        }
-    }
+  @include breakpoint(max, $vp2) {
+      .wrap {
+          padding: 0;
+      }
+  }
 
-    li {
-        opacity: 1;
-        transition: all .5s ease-out;
-        overflow: hidden;
-        transform: translate3d(0,0,0);
+  li {
+      opacity: 1;
+      transition: all .5s ease-out;
+      overflow: hidden;
+      transform: translate3d(0,0,0);
 
-        &.-is-hidden {
-            // transform: translate3d(0,-100%,0);
-            opacity: .3;
-            // height: 0;
-        }
-    }
+      &.-is-hidden {
+          // transform: translate3d(0,-100%,0);
+          opacity: .3;
+          // height: 0;
+      }
+
+      &:last-child .filter__item-row {
+        border-bottom: none;
+      }
+  }
+
+  &__item {
+    width: 100%;
+  }
 }
 
-.filterlist-item {
-    &.category-noms {
-        .filterlist-item__icon:before {
-            content: "🍰";
-        }
-    }
-    &.category-life {
-        .filterlist-item__icon:before {
-            content: "🌎";
-        }
-    }
-    &.category-blooms {
-        .filterlist-item__icon:before {
-            content: "🌱";
-        }
-    }
-    &.category-bees {
-        .filterlist-item__icon:before {
-            content: "🐝";
-        }
-    }
 
-    &.tag-link {
-        .filterlist-item__tag:before {
-            content: "🔗";    
+.filter__item {
+    &.link {
+        .filter-item__tag:before {
+            content: "🔗";
         }
     }
-    &.tag-book {
-        .filterlist-item__tag:before {
+    &.book {
+        .filter-item__tag:before {
             content: "📖";
         }
     }
-    &.tag-film {
-        .filterlist-item__tag:before {
+    &.film {
+        .filter-item__tag:before {
             content: "🎥";
         }
     }
@@ -94,7 +93,7 @@
 
 
 
-.filterlist-item__row {
+.filter__item-row {
     border-bottom: 1px solid color(grayAlt);
 
     a {
@@ -105,8 +104,8 @@
     }
 }
 
-.filterlist-item__icon,
-.filterlist-item__tag {
+
+.filter-item__tag {
     flex: 1;
     display: block;
 
@@ -115,7 +114,7 @@
     }
 }
 
-.filterlist-item__info {
+.filter-item__info {
     flex: 4;
     display: flex;
     justify-content: space-between;
@@ -127,37 +126,30 @@
     }
 
     footer {
+        padding: unit(0.5) unit(1.5) 0 0;
         flex: 1;
         color: color(secondary);
     }
-}
-
-.filterlist-item__tag {
-    display: none;
 }
 
 
 
 @include breakpoint($vp3) {
 
-    .filterlist-item__row a {
+    .filter-item__row a {
         padding: 1.5rem 0;
     }
 
-    .filterlist-item__icon {
-        display: flex;
-    }
-
-    .filterlist-item__info {
+    .filter-item__info {
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
 
         footer {
-            text-align: right;
+            text-align: center;
         }
     }
 
-    .filterlist-item__tag {
+    .filter-item__tag {
         display: flex;
     }
 }

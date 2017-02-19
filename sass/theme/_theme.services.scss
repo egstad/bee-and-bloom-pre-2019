@@ -1,0 +1,33 @@
+.site-page--services {
+  //blocks
+  .image-block{
+    margin-top: -1.5rem;
+
+    @include breakpoint($vp2) {
+      margin-top: -4rem;
+    }
+
+    @include breakpoint($vp3) {
+      margin-top: -6rem;
+    }
+  }
+
+  .spacer-block {
+    margin-bottom: unit(0);
+
+    @include breakpoint($vp2) {
+      margin-bottom: unit();
+    }
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-family: $font-serif;
+    font-weight: normal;
+    @include txt(xl);
+
+    @include breakpoint($vp2) {
+      text-align: center;
+    }
+  }
+}

@@ -44,7 +44,9 @@
 
 /* State styles */
 @import "./state/state.router";
-@import "./state/state.touch";
+
+/* Component styles */
+@import "./theme/theme.services";
 
 /* Fonts go last */
 @import "./base/base.fonts";

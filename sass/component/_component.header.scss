@@ -2,44 +2,24 @@
    Header
    ========================================================================== */
 
-.site-header {
-    .toolbar-row {
-        display: none;
-
-        &.site-header_nav {
-            @include breakpoint($vp2) {
-                display: block;
-                }
-            }
-
-        &.site-header_banner {
-
-            @include breakpoint(($vp3 + $vp4) / 2) {
-                display: block;
-                }
-            }
-        }
-    }
 
 .site-header_meta {
 
     .wrap {
         display: flex;
         align-items: center;
-
-        padding: unit(1.5);
+        padding: unit(4.5) unit(1.5) unit(3.5);
 
         @include breakpoint($vp2) {
-            padding: unit(2) 0;
+            padding: unit(5) unit(1.8) unit(3.5);
             }
 
         @include breakpoint($vp3) {
-            // padding: unit(5, perc) 0 unit(2.5, perc);
             padding: unit(5) 0 unit(4);
             }
 
         @include breakpoint($vp4) {
-            padding: unit(6) 0;
+            padding: unit(7) 0 unit(6);
             }
         }
 
@@ -62,9 +42,10 @@
 
 .site-header_meta_logomark {
     @include span(3);
-    display: flex;
+    display: none;
 
     @include breakpoint($vp2) {
+        display: flex;
         justify-content: center;
         align-items: flex-start;
         }
@@ -81,12 +62,11 @@
     }
 
 .site-header_meta_logotype {
-    display: none;
+    @include span(6 of 12);
 
     @include breakpoint($vp2) {
         display: flex;
         justify-content: center;
-        @include span(6 of 12);
         }
 
     @include breakpoint($vp2) {
@@ -113,20 +93,28 @@
 
     svg {
         display: block;
-        min-width: 13.5em;
+        width: 20vw;
+        min-width: 10em;
         max-width: 20em;
-        margin: 0 auto;
+        position: relative;
+        top: -0.3rem;
+
+        @include breakpoint($vp2) {
+          top: 0;
+          margin: 0 auto;
+        }
         }
     }
 
 .site-header_meta_title {
     @include uppercase(.1em);
     color: color(gray);
-    text-align: center;
+    text-align: right;
     display: block;
     @include span(6);
 
     @include breakpoint($vp2) {
+        text-align: center;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -138,30 +126,17 @@
         }
     }
 
-.site-header_nav-trigger {
-    display: block;
-    @include span(last 3 of 12);
 
-    @include breakpoint($vp2) {
-        display: none;
-        }
 
-    button {
-        border:0;
-        padding: 0;
-        background: 0;
-        outline: 0;
-        max-width: 2em;
-        display: block;
-        float: right;
-        }
+
+/**
+ * Mobile
+ */
+
+html.is-touchable {
+  .site-header_meta {
+    .wrap {
+      padding-top: 7rem;
     }
-
-
-
-.header-banner--icon {
-    line-height: 0;
-    margin-left: unit(.5);
-    position: relative;
-    top: 1px;
-    }
+  }
+}

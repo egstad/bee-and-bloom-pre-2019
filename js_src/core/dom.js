@@ -84,7 +84,18 @@ const dom = {
      * @description The cached intro node.
      *
      */
-    intro: $( ".js-intro" )
+    intro: $( ".js-intro" ),
+
+
+    /**
+     *
+     * @public
+     * @member filterSort
+     * @memberof core.dom
+     * @description The filter node.
+     *
+     */
+    filter: $( ".js-filter" )
 };
 
 

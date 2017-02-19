@@ -37,7 +37,7 @@ const scrolls = {
 
         this.topout();
 
-        log( "scrolls initialized" );
+        // log( "scrolls initialized" );
     },
 
 
@@ -154,7 +154,7 @@ const suppressEvents = function ( scrollPos ) {
         clearTimeout( _timeout );
 
     } catch ( error ) {
-        log( error );
+        // log( error );
     }
 
     if ( !_isSuppressedEvents ) {

@@ -1,5 +1,9 @@
 var res = {
-    root: __dirname
+    root: __dirname,
+    alias: {
+      'masonry': 'masonry-layout',
+      'isotope': 'isotope-layout'
+    }
 };
 
 
@@ -20,7 +24,7 @@ var mod = {
         {
             test: /vendor\/.+\.(jsx|js)$/,
             loader: 'expose?jQuery!expose?$'
-        }
+        },
     ]
 };
 

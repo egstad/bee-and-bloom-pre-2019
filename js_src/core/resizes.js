@@ -33,7 +33,7 @@ const resizes = {
         // @bug: iOS window size changes when Safari's chrome switches between full and minimal-ui.
         resizer.on( "resizewidth", debounce( onDebounce, _debounced ) );
 
-        log( "resizes initialized" );
+        // log( "resizes initialized" );
     }
 };
 

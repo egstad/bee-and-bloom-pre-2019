@@ -21,7 +21,7 @@ class Waypoints {
         this.executor = (executor || util.isElementLoadable);
 
         if ( !this.elements || !this.callback ) {
-            log( "warn", "Waypoints needs `elements` and a `callback` method!" );
+            // log( "warn", "Waypoints needs `elements` and a `callback` method!" );
         }
 
         this._onScroller = this.onScroller.bind( this );

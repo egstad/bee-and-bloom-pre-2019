@@ -52,7 +52,7 @@ const detect = {
             dom.html.addClass( "is-hoverable" );
         }
 
-        log( "detect initialized" );
+        // log( "detect initialized" );
     },
 
 

@@ -22,7 +22,7 @@ const animate = {
      *
      */
     init () {
-        core.log( "animate initialized" );
+        // core.log( "animate initialized" );
 
         core.emitter.on( "app--intro-art", this.onIntroArt.bind( this ) );
         core.emitter.on( "app--update-animate", this.onUpdateAnimate.bind( this ) );

@@ -2,7 +2,7 @@ import $ from "js_libs/jquery/dist/jquery.js";
 import PageController from "properjs-pagecontroller";
 import * as core from "./core";
 // import nav from "./menus/nav";
-import mobileNav from "./nav-mobile";
+// import mobileNav from "./nav-mobile";
 import animate from "./animate";
 
 
@@ -28,7 +28,7 @@ const router = {
         this.bindEmptyHashLinks();
         this.initPageController();
 
-        core.log( "router initialized" );
+        // core.log( "router initialized" );
     },
 
 
@@ -158,7 +158,7 @@ const router = {
             animate
         ]);
 
-        this.controller.on( "page-controller-router-samepage", () => mobileNav.close() );
+        // this.controller.on( "page-controller-router-samepage", () => mobileNav.close() );
         this.controller.on( "page-controller-router-transition-out", this.changePageOut.bind( this ) );
         this.controller.on( "page-controller-router-refresh-document", this.changeContent.bind( this ) );
         this.controller.on( "page-controller-router-transition-in", this.changePageIn.bind( this ) );
@@ -283,7 +283,7 @@ const router = {
         core.dom.html.addClass( "is-routing" );
         core.dom.page.addClass( "is-inactive" );
 
-        setTimeout( () => mobileNav.close(), this.pageDuration );
+        // setTimeout( () => mobileNav.close(), this.pageDuration );
 
         core.emitter.on( "app--preload-done", this.onPreloadDone );
     },

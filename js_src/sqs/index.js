@@ -29,7 +29,7 @@ const sqs = {
         core.emitter.on( "app--resize-debounced", updateImages );
         core.emitter.on( "app--util--load-images", onLoadImages );
 
-        core.log( "sqs initialized" );
+        // core.log( "sqs initialized" );
     }
 };
 
@@ -43,8 +43,6 @@ const sqs = {
  */
 const updateImages = function () {
     const images = $( `[${core.config.imageLoaderAttr}]` );
-
-    console.log(images);
 
     if ( images.length ) {
 

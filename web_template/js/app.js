@@ -69,17 +69,11 @@
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _navMobile = __webpack_require__(/*! ./nav-mobile */ 40);
-	
-	var _navMobile2 = _interopRequireDefault(_navMobile);
-	
-	var _menusNav = __webpack_require__(/*! ./menus/nav */ 42);
+	var _menusNav = __webpack_require__(/*! ./menus/nav */ 41);
 	
 	var _menusNav2 = _interopRequireDefault(_menusNav);
 	
-	// import filterSort from "./filterizr";
-	// import intro from "./menus/intro";
-	// import filterlist from "./filterlist";
+	// import filterSort from "./filtersort";
 	
 	/**
 	 *
@@ -93,9 +87,7 @@
 	  function App() {
 	    _classCallCheck(this, App);
 	
-	    this.nav = _menusNav2["default"];
-	    // this.intro = intro;
-	    this.mobileNav = _navMobile2["default"];
+	    // this.nav = nav;
 	    this.core = core;
 	    this.router = _router2["default"];
 	    // this.filterSort = filterSort;
@@ -125,9 +117,7 @@
 	      this.core.resizes.init(this);
 	      this.core.scrolls.init(this);
 	      this.router.init(this);
-	      this.mobileNav.init(this);
-	      this.nav.init(this);
-	      // this.intro.init( this );
+	      // this.nav.init( this );
 	      // this.filterSort.init( this );
 	
 	      this.analytics = new this.core.Analytics();
@@ -166,8 +156,6 @@
 	
 	      this.core.dom.html.removeClass("is-clipped");
 	      this.core.dom.body.removeClass("is-clipped");
-	
-	      // this.intro.teardown();
 	    }
 	  }]);
 	
@@ -212,12 +200,9 @@
 	var core = _interopRequireWildcard(_core);
 	
 	// import nav from "./menus/nav";
+	// import mobileNav from "./nav-mobile";
 	
-	var _navMobile = __webpack_require__(/*! ./nav-mobile */ 40);
-	
-	var _navMobile2 = _interopRequireDefault(_navMobile);
-	
-	var _animate = __webpack_require__(/*! ./animate */ 41);
+	var _animate = __webpack_require__(/*! ./animate */ 40);
 	
 	var _animate2 = _interopRequireDefault(_animate);
 	
@@ -243,7 +228,7 @@
 	        this.bindEmptyHashLinks();
 	        this.initPageController();
 	
-	        core.log("router initialized");
+	        // core.log( "router initialized" );
 	    },
 	
 	    /**
@@ -360,9 +345,7 @@
 	
 	        this.controller.setModules([core.images, _animate2["default"]]);
 	
-	        this.controller.on("page-controller-router-samepage", function () {
-	            return _navMobile2["default"].close();
-	        });
+	        // this.controller.on( "page-controller-router-samepage", () => mobileNav.close() );
 	        this.controller.on("page-controller-router-transition-out", this.changePageOut.bind(this));
 	        this.controller.on("page-controller-router-refresh-document", this.changeContent.bind(this));
 	        this.controller.on("page-controller-router-transition-in", this.changePageIn.bind(this));
@@ -482,9 +465,7 @@
 	        core.dom.html.addClass("is-routing");
 	        core.dom.page.addClass("is-inactive");
 	
-	        setTimeout(function () {
-	            return _navMobile2["default"].close();
-	        }, this.pageDuration);
+	        // setTimeout( () => mobileNav.close(), this.pageDuration );
 	
 	        core.emitter.on("app--preload-done", this.onPreloadDone);
 	    },
@@ -14611,7 +14592,17 @@
 	   * @description The cached intro node.
 	   *
 	   */
-	  intro: (0, _js_libsJqueryDistJqueryJs2["default"])(".js-intro")
+	  intro: (0, _js_libsJqueryDistJqueryJs2["default"])(".js-intro"),
+	
+	  /**
+	   *
+	   * @public
+	   * @member filterSort
+	   * @memberof core.dom
+	   * @description The filter node.
+	   *
+	   */
+	  filter: (0, _js_libsJqueryDistJqueryJs2["default"])(".js-filter")
 	};
 	
 	/******************************************************************************
@@ -15010,7 +15001,7 @@
 	                _dom2["default"].html.addClass("is-hoverable");
 	            }
 	
-	        (0, _log2["default"])("detect initialized");
+	        // log( "detect initialized" );
 	    },
 	
 	    /**
@@ -15342,7 +15333,7 @@
 	     *
 	     */
 	    init: function init() {
-	        (0, _log2["default"])("images initialized");
+	        // log( "images initialized" );
 	    },
 	
 	    /**
@@ -15517,11 +15508,11 @@
 	        value: function handlePreload() {
 	            var _this = this;
 	
-	            (0, _log2["default"])("ImageController preload queue:", this.$preload.length);
+	            // log( "ImageController preload queue:", this.$preload.length );
 	
 	            this.preLoader = util.loadImages(this.$preload, util.noop);
 	            this.preLoader.on("done", function () {
-	                (0, _log2["default"])("ImageController preloaded:", _this.$preload.length);
+	                // log( "ImageController preloaded:", this.$preload.length );
 	
 	                _this.fire("preload");
 	            });
@@ -15540,11 +15531,11 @@
 	        value: function handleLazyload() {
 	            var _this2 = this;
 	
-	            (0, _log2["default"])("ImageController lazyload queue:", this.$lazyload.length);
+	            // log( "ImageController lazyload queue:", this.$lazyload.length );
 	
 	            this.lazyLoader = util.loadImages(this.$lazyload, util.isElementLoadable);
 	            this.lazyLoader.on("done", function () {
-	                (0, _log2["default"])("ImageController lazyloaded:", _this2.$lazyload.length);
+	                // log( "ImageController lazyloaded:", this.$lazyload.length );
 	
 	                _this2.fire("lazyload");
 	            });
@@ -15619,7 +15610,7 @@
 	    // @bug: iOS window size changes when Safari's chrome switches between full and minimal-ui.
 	    _resizer2["default"].on("resizewidth", (0, _properjsDebounce2["default"])(onDebounce, _debounced));
 	
-	    (0, _log2["default"])("resizes initialized");
+	    // log( "resizes initialized" );
 	  }
 	};
 	
@@ -16092,7 +16083,7 @@
 	
 	        this.topout();
 	
-	        (0, _log2["default"])("scrolls initialized");
+	        // log( "scrolls initialized" );
 	    },
 	
 	    /**
@@ -16201,7 +16192,7 @@
 	    try {
 	        clearTimeout(_timeout);
 	    } catch (error) {
-	        (0, _log2["default"])(error);
+	        // log( error );
 	    }
 	
 	    if (!_isSuppressedEvents) {
@@ -16555,7 +16546,7 @@
 	        this.executor = executor || util.isElementLoadable;
 	
 	        if (!this.elements || !this.callback) {
-	            (0, _log2["default"])("warn", "Waypoints needs `elements` and a `callback` method!");
+	            // log( "warn", "Waypoints needs `elements` and a `callback` method!" );
 	        }
 	
 	        this._onScroller = this.onScroller.bind(this);
@@ -16743,7 +16734,7 @@
 	
 	            this.flush();
 	
-	            (0, _log2["default"])("Singleton Store initialized", this);
+	            // log( "Singleton Store initialized", this );
 	        }
 	
 	        /**
@@ -16778,7 +16769,7 @@
 	        key: "save",
 	        value: function save() {
 	            if (!this._opts.enableStorage || !Store.isStorageSupported) {
-	                (0, _log2["default"])("Cache Storage disabled - Not writing to SessionStorage");
+	                // log( "Cache Storage disabled - Not writing to SessionStorage" );
 	                return;
 	            }
 	
@@ -16969,7 +16960,7 @@
 	
 	            _emitter2["default"].on("app--analytics-push", this.pushTrack.bind(this));
 	
-	            (0, _log2["default"])("Analytics initialized", this);
+	            // log( "Analytics initialized", this );
 	
 	            _instance = this;
 	        }
@@ -17007,14 +16998,14 @@
 	                try {
 	                    window.ga.q = (window.ga.q || []).push(arguments);
 	                } catch (error) {
-	                    (0, _log2["default"])("warn", "GA Error", error);
+	                    // log( "warn", "GA Error", error );
 	                }
 	            };
 	            window.ga.l = Number(new Date());
 	
 	            // Load GA Javascript
 	            (0, _fgLoadjs2["default"])(this.GAScript, function () {
-	                (0, _log2["default"])("Analytics GA loaded");
+	                // log( "Analytics GA loaded" );
 	
 	                window.ga("create", _this.GAUATag, "auto");
 	                window.ga("send", "pageview");
@@ -17032,7 +17023,7 @@
 	    }, {
 	        key: "track",
 	        value: function track() {
-	            (0, _log2["default"])("Analytics track pageview");
+	            // log( "Analytics track pageview" );
 	
 	            // Google Analytics
 	            window.ga("send", "pageview", window.location.href);
@@ -18578,73 +18569,6 @@
 
 /***/ },
 /* 40 */
-/*!******************************!*\
-  !*** ./js_src/nav-mobile.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
-	
-	var _core = __webpack_require__(/*! ./core */ 10);
-	
-	var core = _interopRequireWildcard(_core);
-	
-	var _js_libsJqueryDistJqueryJs = __webpack_require__(/*! js_libs/jquery/dist/jquery.js */ 2);
-	
-	var _js_libsJqueryDistJqueryJs2 = _interopRequireDefault(_js_libsJqueryDistJqueryJs);
-	
-	var mobileNav = {
-	    classWhenOpen: "mobile-nav--open",
-	    open: function open() {
-	        core.dom.body.addClass("is-menu-open is-neverflow");
-	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav").attr("aria-hidden", "false");
-	        // core.dom.body.ontouchstart = function(e){ e.preventDefault(); }
-	
-	        console.log('nav is open');
-	    },
-	
-	    close: function close() {
-	        core.dom.body.removeClass("is-menu-open is-neverflow");
-	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav").attr("aria-hidden", "true");
-	        // core.dom.body.ontouchstart = function(e){ return true; }
-	
-	        console.log('nav is closed');
-	    },
-	
-	    toggle: function toggle() {
-	        (0, _js_libsJqueryDistJqueryJs2["default"])(".mobile-nav-trigger").on("click", function () {
-	            if (core.dom.body.hasClass("is-menu-open")) {
-	                mobileNav.close();
-	            } else {
-	                mobileNav.open();
-	            }
-	        });
-	    },
-	
-	    init: function init() {
-	        console.log("nav is working");
-	        this.toggle();
-	    }
-	};
-	
-	// mobileNav.init();
-	
-	/******************************************************************************
-	 * Export
-	*******************************************************************************/
-	exports["default"] = mobileNav;
-	module.exports = exports["default"];
-
-/***/ },
-/* 41 */
 /*!***************************!*\
   !*** ./js_src/animate.js ***!
   \***************************/
@@ -18682,7 +18606,7 @@
 	     *
 	     */
 	    init: function init() {
-	        core.log("animate initialized");
+	        // core.log( "animate initialized" );
 	
 	        core.emitter.on("app--intro-art", this.onIntroArt.bind(this));
 	        core.emitter.on("app--update-animate", this.onUpdateAnimate.bind(this));
@@ -18825,7 +18749,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 42 */
+/* 41 */
 /*!*****************************!*\
   !*** ./js_src/menus/nav.js ***!
   \*****************************/
@@ -18845,7 +18769,7 @@
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _Menu = __webpack_require__(/*! ./Menu */ 43);
+	var _Menu = __webpack_require__(/*! ./Menu */ 42);
 	
 	var _Menu2 = _interopRequireDefault(_Menu);
 	
@@ -18873,7 +18797,7 @@
 	
 	    this.menu = new _Menu2["default"](core.dom.nav);
 	
-	    core.log("nav initialized");
+	    // core.log( "nav initialized" );
 	  },
 	
 	  /**
@@ -18963,7 +18887,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 43 */
+/* 42 */
 /*!******************************!*\
   !*** ./js_src/menus/Menu.js ***!
   \******************************/

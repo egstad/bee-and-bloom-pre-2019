@@ -41,11 +41,11 @@ class ImageController extends Controller {
      *
      */
     handlePreload () {
-        log( "ImageController preload queue:", this.$preload.length );
+        // log( "ImageController preload queue:", this.$preload.length );
 
         this.preLoader = util.loadImages( this.$preload, util.noop );
         this.preLoader.on( "done", () => {
-            log( "ImageController preloaded:", this.$preload.length );
+            // log( "ImageController preloaded:", this.$preload.length );
 
             this.fire( "preload" );
         });
@@ -61,11 +61,11 @@ class ImageController extends Controller {
      *
      */
     handleLazyload () {
-        log( "ImageController lazyload queue:", this.$lazyload.length );
+        // log( "ImageController lazyload queue:", this.$lazyload.length );
 
         this.lazyLoader = util.loadImages( this.$lazyload, util.isElementLoadable );
         this.lazyLoader.on( "done", () => {
-            log( "ImageController lazyloaded:", this.$lazyload.length );
+            // log( "ImageController lazyloaded:", this.$lazyload.length );
 
             this.fire( "lazyload" );
         });

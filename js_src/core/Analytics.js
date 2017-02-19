@@ -30,7 +30,7 @@ class Analytics {
 
             emitter.on( "app--analytics-push", this.pushTrack.bind( this ) );
 
-            log( "Analytics initialized", this );
+            // log( "Analytics initialized", this );
 
             _instance = this;
         }
@@ -61,14 +61,14 @@ class Analytics {
                 window.ga.q = (window.ga.q || []).push( arguments );
 
             } catch ( error ) {
-                log( "warn", "GA Error", error );
+                // log( "warn", "GA Error", error );
             }
         });
         window.ga.l = Number( new Date() );
 
         // Load GA Javascript
         loadJS( this.GAScript, () => {
-            log( "Analytics GA loaded" );
+            // log( "Analytics GA loaded" );
 
             window.ga( "create", this.GAUATag, "auto" );
             window.ga( "send", "pageview" );
@@ -85,7 +85,7 @@ class Analytics {
      *
      */
     track () {
-        log( "Analytics track pageview" );
+        // log( "Analytics track pageview" );
 
         // Google Analytics
         window.ga( "send", "pageview", window.location.href );
