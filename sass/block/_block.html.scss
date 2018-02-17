@@ -149,6 +149,10 @@
 }
 
 
+.sqs-block-gallery .sqs-block-content {
+  padding-bottom: 0 !important;
+}
+
 // type styles
 .sqs-block {
 
@@ -159,7 +163,8 @@
     }
 
     p + p {
-        text-indent: $space-rela;
+        // text-indent: $space-rela;
+        margin-top: $space-rela;
     }
 
     p, a {
@@ -277,6 +282,20 @@
         @include breakpoint($vp2) {
             margin-top: $space-rela;
         }
+    }
+
+    .txt-l {
+        font-weight: normal;
+        @include txt(l);
+    }
+
+    .txt-m {
+        font-weight: normal;
+        @include txt(m);
+    }
+
+    .txt-s {
+        @include txt(s);
     }
 
     .bq_quote {

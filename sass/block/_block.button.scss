@@ -1,17 +1,20 @@
 .sqs-block-button {
-    margin-top: 4rem;
+    margin-top: unit(1.5);
+    margin-bottom: unit(3);
 
     .sqs-block-button-element {
-        transition: $timing $ease-cubic;
-        @include txt(l);
+        transition: border-color $timing $ease-cubic;
+        @include txt(s);
         font-family: $font-sans;
-        padding: 2rem 3rem;
+        padding: ($unit-rela * 1) ($unit-rela * 1.5);
         background: transparent;
-        border: 2px solid color(green);
-        color: color(primary);
+        border: 2px solid color(secondary);
+        color: color(primary) !important;
 
         &:hover {
-            color: color(green);
+            color: color(primary);
+            background: transparent;
+            border: 2px solid color(primary);
         }
     }
 

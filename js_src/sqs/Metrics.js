@@ -61,7 +61,7 @@ class Metrics {
         // core.log( "Metrics track", type, data );
 
         // Squarespace Metrics
-        window.Y.Squarespace.Analytics.view( type, data );
+        // window.Y.Squarespace.Analytics.view( type, data );
     }
 
 

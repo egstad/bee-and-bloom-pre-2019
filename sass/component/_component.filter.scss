@@ -21,13 +21,21 @@
       justify-content: space-between;
       align-items: center;
       max-width: 80rem;
+      flex-wrap: wrap;
     }
 
     .filter-item {
       outline: none;
-      width: 25%;
+      flex-grow: 1;
+      width: 50%;
       display: block;
       cursor: pointer;
+      padding: ($space-rela / 2) 0;
+
+      @include breakpoint(30em) {
+        width: 25%;
+        padding: 0;
+      }
     }
 
     ._text {

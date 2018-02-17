@@ -46,11 +46,11 @@
   }
 }
 
-.is-scrolling-down {
-    .toolbar {
-        transform: translate3d(0, -100%, 0);
-    }
-}
+// .is-scrolling-down {
+//     .toolbar {
+//         transform: translate3d(0, -100%, 0);
+//     }
+// }
 
 
 
@@ -95,7 +95,11 @@
         -webkit-overflow-scrolling: touch;
 
         &.toolbar-row > ul {
-          justify-content: flex-start;;
+          justify-content: flex-start;
+        }
+
+        li {
+          margin-right: unit(0.5);
         }
     }
 }

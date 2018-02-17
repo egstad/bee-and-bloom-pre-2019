@@ -20,6 +20,11 @@
       @include txt(s);
     }
 
+    .sqs-block-button {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
     .wrap {
         position: relative;
         background-size: cover;
@@ -27,7 +32,7 @@
         padding-top: 35vh;
     }
 
-    .sqs-layout {
+    .sqs-block-html {
         opacity: .5;
     }
 
@@ -73,7 +78,7 @@
 
 .m_campaign-info--title {
     @include uppercase(0);
-    margin-bottom: unit(1);
+    margin-bottom: unit(1.5);
 }
 
 

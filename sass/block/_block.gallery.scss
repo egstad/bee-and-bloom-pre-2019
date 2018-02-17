@@ -21,7 +21,7 @@
 
 .gallery_image {
     display: block;
-    max-width: 100%;
+    width: 100%;
     height: auto;
     margin: 0 auto;
     }
@@ -55,6 +55,26 @@
             }
 
         &:last-child { margin: 0; }
+    }
+}
+
+.gallery_image_caption {
+    padding-left: ($unit-rela * 2);
+    padding-right: ($unit-rela * 2);
+}
+
+.gallery_image_caption-title {
+    margin-top: $unit-rela;
+}
+
+.gallery_image_caption-body {
+    margin-top: ($unit-rela / 2);
+}
+
+// for unpadded region, align images at top, not the default middle
+.m_region.-unpadded {
+    .gallery_items {
+        align-items: flex-start;
     }
 }
 

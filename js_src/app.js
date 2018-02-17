@@ -15,7 +15,7 @@ class App {
     constructor () {
         // this.nav = nav;
         this.core = core;
-        this.router = router;
+        // this.router = router;
         // this.filterSort = filterSort;
 
         this.initEvents();
@@ -33,10 +33,11 @@ class App {
      *
      */
     initModules () {
+        // add device classes to htmle (touch, hover, surface classes)
         this.core.detect.init( this );
-        this.core.resizes.init( this );
         this.core.scrolls.init( this );
-        this.router.init( this );
+        // this.core.resizes.init( this );
+        // this.router.init( this );
         // this.nav.init( this );
         // this.filterSort.init( this );
 

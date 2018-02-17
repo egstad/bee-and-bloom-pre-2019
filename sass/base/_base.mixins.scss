@@ -61,13 +61,13 @@
 
 @mixin txt($size: m) {
     @if $size == xs {
-        font-size: 0.75rem;
-        @include breakpoint($vp4) { font-size: 1rem; }
+        font-size: 0.6rem;
+        @include breakpoint($vp4) { font-size: 0.8rem; }
     }
 
     @elseif $size == s {
-        font-size: 1rem;
-        @include breakpoint($vp4) { font-size: 1.125rem; }
+        font-size: 0.8rem;
+        @include breakpoint($vp4) { font-size: 1rem; }
     }
 
 

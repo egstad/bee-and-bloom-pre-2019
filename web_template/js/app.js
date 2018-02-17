@@ -45,7 +45,7 @@
 /*!***********************!*\
   !*** ./js_src/app.js ***!
   \***********************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -89,7 +89,7 @@
 	
 	    // this.nav = nav;
 	    this.core = core;
-	    this.router = _router2["default"];
+	    // this.router = router;
 	    // this.filterSort = filterSort;
 	
 	    this.initEvents();
@@ -113,10 +113,11 @@
 	  _createClass(App, [{
 	    key: "initModules",
 	    value: function initModules() {
+	      // add device classes to htmle (touch, hover, surface classes)
 	      this.core.detect.init(this);
-	      this.core.resizes.init(this);
 	      this.core.scrolls.init(this);
-	      this.router.init(this);
+	      // this.core.resizes.init( this );
+	      // this.router.init( this );
 	      // this.nav.init( this );
 	      // this.filterSort.init( this );
 	
@@ -170,12 +171,12 @@
 	exports["default"] = window.app;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 1 */
 /*!**************************!*\
   !*** ./js_src/router.js ***!
   \**************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -518,12 +519,12 @@
 	exports["default"] = router;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 2 */
 /*!***************************************!*\
   !*** ./js_libs/jquery/dist/jquery.js ***!
   \***************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	 * jQuery JavaScript Library v3.1.1-pre
@@ -10743,12 +10744,12 @@
 	} );
 
 
-/***/ },
+/***/ }),
 /* 3 */
 /*!*****************************************************!*\
   !*** ./~/properjs-pagecontroller/PageController.js ***!
   \*****************************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -10789,7 +10790,7 @@
 	        },
 	        _initialized = false,
 	        _timeBefore = null,
-	        _timeDelay = 600,
+	        _timeDelay = 0,
 	        _eventPrefix = "page-controller-",
 	        _currentRoute = null,
 	        _isFirstRoute = true,
@@ -10914,7 +10915,7 @@
 	        _isRoutingActive = true;
 	
 	        function __route() {
-	            if ( (Date.now() - _timeBefore) >= _instance._transitionTime ) {
+	            if ( (Date.now() - _timeBefore) >= _instance._options.transitionTime ) {
 	                _instance.stop();
 	
 	                handleRouterResponse( data );
@@ -10935,7 +10936,7 @@
 	        setTimeout( function () {
 	            handleRouterResponse( data );
 	
-	        }, _instance._transitionTime );
+	        }, _instance._options.transitionTime );
 	    },
 	
 	
@@ -10951,7 +10952,9 @@
 	        var isSameRequest = (_currentToString === getRouteDataToString( data ));
 	
 	        if ( isSameRequest ) {
-	            fire( "router-samepage", data );
+	            fire( "router-samepage", {
+	                request: data
+	            });
 	            _isSamePage = true;
 	            return;
 	        }
@@ -10959,7 +10962,9 @@
 	        _timeBefore = Date.now();
 	
 	        if ( !_isFirstRoute ) {
-	            fire( "router-transition-out", data );
+	            fire( "router-transition-out", {
+	                request: data
+	            });
 	        }
 	    },
 	
@@ -10992,7 +10997,7 @@
 	            syncModules();
 	            execOnload();
 	
-	            fire( "initialized-page", data.response );
+	            fire( "initialized-page", data );
 	
 	        // All other Router sequences fall here
 	        } else {
@@ -11003,7 +11008,7 @@
 	                execUnload();
 	
 	                // 0.2 Refresh the document content
-	                fire( "router-refresh-document", data.response );
+	                fire( "router-refresh-document", data );
 	
 	                // 0.3 Sync modules and onload newly active ones
 	                syncModules();
@@ -11024,7 +11029,7 @@
 	                    }
 	                }
 	
-	            }, _instance._transitionTime );
+	            }, _instance._options.transitionTime );
 	        }
 	    };
 	
@@ -11039,8 +11044,8 @@
 	     * @memberof! <global>
 	     * @param {object} options Settings for control features
 	     * <ul>
-	     * <li>transitionTime - Number</li>
-	     * <li>routerOptions - Object</li>
+	     * <li>transitionTime</li>
+	     * <li>routerOptions</li>
 	     * </ul>
 	     *
 	     */
@@ -11049,31 +11054,34 @@
 	        if ( !_instance ) {
 	            _instance = this;
 	
-	            options = (options || {});
-	
 	            /**
 	             *
-	             * The duration of your transition for page content
-	             * @memberof PageController
-	             * @member _transitionTime
-	             * @private
-	             *
-	             */
-	            this._transitionTime = (options.transitionTime || _timeDelay);
-	
-	            /**
-	             *
-	             * The flag to anchor to top of page on transitions
-	             * @memberof PageController
+	             * The default options
+	             * @memberof _options
 	             * @member _routerOptions
 	             * @private
 	             *
 	             */
-	            this._routerOptions = (options.routerOptions || {
-	                async: true,
-	                caching: true,
-	                preventDefault: true
-	            });
+	            this._options = {
+	                transitionTime: _timeDelay,
+	                routerOptions: {
+	                    pushStateOptions: {}
+	                }
+	            };
+	
+	            // Normalize usage options passed in
+	            options = (options || {});
+	
+	            // Merge usage options with defaults
+	            if ( options.transitionTime ) {
+	                this._options.transitionTime = options.transitionTime;
+	            }
+	
+	            if ( options.routerOptions ) {
+	                for ( var i in options.routerOptions ) {
+	                    this._options.routerOptions[ i ] = options.routerOptions[ i ];
+	                }
+	            }
 	        }
 	
 	        return _instance;
@@ -11101,7 +11109,7 @@
 	         * @private
 	         *
 	         */
-	        _router = new Router( this._routerOptions );
+	        _router = new Router( this._options.routerOptions );
 	
 	        if ( _router._matcher.parse( window.location.href, _config ).matched ) {
 	            _router.bind();
@@ -11263,48 +11271,16 @@
 	        return _currentQuery;
 	    };
 	
-	    /**
-	     *
-	     * Returns true if current page path equals slug
-	     * Loose match if no second parameter is passed
-	     * @memberof PageController
-	     * @method is
-	     * @param {string} slug The page slug to check
-	     * @param {boolean} looseMatch Perform a less strict match
-	     * @returns boolean
-	     *
-	     */
-	    PageController.prototype.is = function ( slug, looseMatch ) {
-	        var ret = false,
-	            reg;
-	
-	        reg = new RegExp( looseMatch ? ("^" + slug) : ("^" + slug + "$") );
-	        ret = reg.test( _currentRoute );
-	
-	        return ret;
-	    };
-	
-	    /**
-	     *
-	     * Flushes the current route known as `active`
-	     * @memberof PageController
-	     * @method flushRoute
-	     *
-	     */
-	    PageController.prototype.flushRoute = function () {
-	        _currentToString = "";
-	    };
-	
 	    return PageController;
 	
 	});
 
-/***/ },
+/***/ }),
 /* 4 */
 /*!*************************************!*\
   !*** ./~/properjs-router/Router.js ***!
   \*************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -11315,25 +11291,23 @@
 	 *
 	 */
 	(function ( factory ) {
-	    
+	
 	    if ( true ) {
 	        module.exports = factory();
 	
 	    } else if ( typeof window !== "undefined" ) {
 	        window.Router = factory();
 	    }
-	    
+	
 	})(function () {
 	
 	    var PushState = __webpack_require__( /*! properjs-pushstate */ 5 ),
 	        MatchRoute = __webpack_require__( /*! properjs-matchroute */ 6 ),
 	        matchElement = __webpack_require__( /*! properjs-matchelement */ 8 ),
-	        _isRouting = false,
-	        _rSameDomain = new RegExp( document.domain ),
 	        _initDelay = 200,
 	        _triggerEl;
-	    
-	    
+	
+	
 	    /**
 	     *
 	     * A simple router Class
@@ -11347,10 +11321,50 @@
 	    var Router = function () {
 	        return this.init.apply( this, arguments );
 	    };
-	    
+	
 	    Router.prototype = {
 	        constructor: Router,
-	        
+	
+	        /**
+	         *
+	         * Expression match http/https
+	         * @memberof Router
+	         * @member _rHTTPs
+	         * @private
+	         *
+	         */
+	        _rHTTPs: /^http[s]?:\/\/.*?\//,
+	
+	        /**
+	         *
+	         * Expression match common file types...
+	         * @memberof Router
+	         * @member _rFiles
+	         * @private
+	         *
+	         */
+	        _rFiles: /\.(jpg|jpeg|png|gif|pdf|csv|txt|md|doc|docx|xls|xlsx|webm|mp4|mp3)$/gi,
+	
+	        /**
+	         *
+	         * Expression match this documents domain
+	         * @memberof Router
+	         * @member _rDomain
+	         * @private
+	         *
+	         */
+	        _rDomain: new RegExp( document.domain ),
+	
+	        /**
+	         *
+	         * Flag routing state
+	         * @memberof Router
+	         * @member _isRouting
+	         * @private
+	         *
+	         */
+	        _isRouting: false,
+	
 	        /**
 	         *
 	         * Router init constructor method
@@ -11358,16 +11372,45 @@
 	         * @method init
 	         * @param {object} options Settings for PushState
 	         * <ul>
-	         * <li>options.async</li>
 	         * <li>options.caching</li>
+	         * <li>options.proxy</li>
+	         * <li>options.proxy.domain</li>
+	         * <li>options.handle404</li>
+	         * <li>options.handle500</li>
+	         * <li>options.pushStateOptions</li>
 	         * </ul>
 	         *
-	         * @fires beforeget
-	         * @fires afterget
+	         * @fires preget
+	         * @fires popget
 	         * @fires get
 	         *
 	         */
 	        init: function ( options ) {
+	            /**
+	             *
+	             * Router Store user options
+	             * @memberof Router
+	             * @member _options
+	             * @private
+	             *
+	             */
+	            this._options = {
+	                async: true,
+	                proxy: false,
+	                caching: true,
+	                handle404: true,
+	                handle500: true,
+	                pushStateOptions: {}
+	            };
+	
+	            // Normalize usage options passed in
+	            options = (options || {});
+	
+	            // Merge usage options with defaults
+	            for ( var i in options ) {
+	                this._options[ i ] = options[ i ];
+	            }
+	
 	            /**
 	             *
 	             * Internal MatchRoute instance
@@ -11377,7 +11420,7 @@
 	             *
 	             */
 	            this._matcher = new MatchRoute();
-	            
+	
 	            /**
 	             *
 	             * Internal PushState instance
@@ -11386,8 +11429,8 @@
 	             * @private
 	             *
 	             */
-	            this._pusher = null;
-	            
+	            this._pusher = new PushState( this._options.pushStateOptions );
+	
 	            /**
 	             *
 	             * Event handling callbacks
@@ -11397,17 +11440,17 @@
 	             *
 	             */
 	            this._callbacks = {};
-	            
+	
 	            /**
 	             *
-	             * Router Store user options
+	             * Stored XHR responses
 	             * @memberof Router
-	             * @member _options
+	             * @member _responses
 	             * @private
 	             *
 	             */
-	            this._options = options;
-	            
+	            this._responses = {};
+	
 	            /**
 	             *
 	             * Router unique ID
@@ -11417,8 +11460,18 @@
 	             *
 	             */
 	            this._uid = 0;
+	
+	            /**
+	             *
+	             * Router is READY status ?
+	             * @memberof Router
+	             * @member _ready
+	             * @private
+	             *
+	             */
+	            this._ready = false;
 	        },
-	        
+	
 	        /**
 	         *
 	         * Create PushState instance and add event listener
@@ -11428,75 +11481,49 @@
 	         */
 	        bind: function () {
 	            var self = this,
-	                isReady = false;
-	            
+	                // Ensure this first cache URL is clean as a whistle
+	                url = window.location.href.replace( window.location.hash, "" );
+	
 	            // Bind GET requests to links
-	            if ( document.addEventListener ) {
-	                document.addEventListener( "click", function ( e ) {
-	                    self._handler( this, e );
-	                    
-	                }, false );
-	                
-	            } else if ( document.attachEvent ) {
-	                document.attachEvent( "onclick", function ( e ) {
-	                    self._handler( this, e );
-	                });
-	            }
-	            
-	            /**
-	             *
-	             * Instantiate PushState
-	             *
-	             */
-	            this._pusher = new PushState( this._options );
-	            
-	            /**
-	             *
-	             * @event popstate
-	             *
-	             */
-	            this._pusher.on( "popstate", function ( url, data, status ) {
-	                // Hook around browsers firing popstate on pageload
-	                if ( isReady ) {
-	                    for ( var i = self._callbacks.get.length; i--; ) {
-	                        var dat = self._matcher.parse( url, self._callbacks.get[ i ]._routerRoutes );
-	                        
-	                        if ( dat.matched ) {
-	                            break;
-	                        }
-	                    }
-	                    
-	                    data = {
-	                        route: self._matcher._cleanRoute( url ),
-	                        response: data,
-	                        request: dat,
-	                        status: status || data.status
-	                    };
-	                    
-	                    self._fire( "popget", url, data, status );
-	                    
-	                } else {
-	                    isReady = true;
-	                }
+	            document.addEventListener( "click", function ( e ) {
+	                self._handleClick( this, e );
+	
+	            }, false );
+	
+	            // Bind popstate event for history
+	            this._pusher.on( "popstate", function ( url, state ) {
+	                self._handlePopstate( url, state );
 	            });
-	            
-	            // Manually fire first GET
+	
+	            // Fire first route
 	            // Async this in order to allow .get() to work after instantiation
-	            setTimeout(function () {
-	                self._pusher.push( window.location.href, function ( response, status ) {
-	                    self._fire( "get", window.location.href, response, status );
-	                    
-	                    isReady = true;
+	            if ( this._options.async && this._options.handle404 ) {
+	                this._route( url, function ( response, status ) {
+	                    self._ready = true;
 	                });
-	                
-	            }, _initDelay );
+	
+	            // Shim a little and bypass true XHR here if not handling 404s
+	            } else {
+	                setTimeout(function () {
+	                    // https://developer.mozilla.org/en-US/docs/Web/API/XMLSerializer
+	                    var doc = new XMLSerializer().serializeToString( document );
+	                    var xhr = {
+	                        status: 200,
+	                        responseText: doc
+	                    };
+	
+	                    self._fire( "get", url, xhr, xhr.status );
+	                    self._cache( url, xhr );
+	                    self._ready = true;
+	
+	                }, _initDelay );
+	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Add an event listener
-	         * Binding "beforeget" and "afterget" is a wrapper
-	         * to hook into the PushState classes "beforestate" and "afterstate".
+	         * Binding "beforeget" and "afterget" wraps the XHR request
 	         * @memberof Router
 	         * @method on
 	         * @param {string} event The event to bind to
@@ -11506,7 +11533,7 @@
 	        on: function ( event, callback ) {
 	            this._bind( event, callback );
 	        },
-	    
+	
 	        /**
 	         *
 	         * Remove an event listener
@@ -11519,7 +11546,7 @@
 	        off: function ( event, callback ) {
 	            this._unbind( event, callback );
 	        },
-	    
+	
 	        /**
 	         *
 	         * Support router triggers by url
@@ -11532,14 +11559,14 @@
 	            if ( !_triggerEl ) {
 	                _triggerEl = document.createElement( "a" );
 	            }
-	    
+	
 	            _triggerEl.href = url;
-	    
-	            this._handler( _triggerEl, {
+	
+	            this._handleClick( _triggerEl, {
 	                target: _triggerEl
 	            });
 	        },
-	        
+	
 	        /**
 	         *
 	         * Bind a GET request route
@@ -11552,15 +11579,15 @@
 	        get: function ( route, callback ) {
 	            // Add route to matcher
 	            this._matcher.config( [route] );
-	            
+	
 	            // Bind the route to the callback
 	            if ( callback._routerRoutes ) {
 	                callback._routerRoutes.push( route );
-	                
+	
 	            } else {
 	                callback._routerRoutes = [route];
 	            }
-	            
+	
 	            // When binding multiple routes to a single
 	            // callback, we need to make sure the callbacks
 	            // routes array is updated above but the callback
@@ -11569,7 +11596,7 @@
 	                this._bind( "get", callback );
 	            }
 	        },
-	    
+	
 	        /**
 	         *
 	         * Get a sanitized route for a url
@@ -11582,7 +11609,7 @@
 	        getRouteForUrl: function ( url ) {
 	            return this._matcher._cleanRoute( url );
 	        },
-	    
+	
 	        /**
 	         *
 	         * Get the match data for a url against the routes config
@@ -11595,7 +11622,7 @@
 	        getRouteDataForUrl: function ( url ) {
 	            return this._matcher.parse( url, this._matcher.getRoutes() ).params;
 	        },
-	        
+	
 	        /**
 	         *
 	         * Get a unique ID
@@ -11606,10 +11633,10 @@
 	         */
 	        getUID: function () {
 	            this._uid = (this._uid + 1);
-	            
+	
 	            return this._uid;
 	        },
-	        
+	
 	        /**
 	         * Compatible event preventDefault
 	         * @memberof Router
@@ -11619,22 +11646,18 @@
 	         *
 	         */
 	        _preventDefault: function ( e ) {
-	            if ( !this._options.preventDefault ) {
-	                return this;
-	            }
-	            
 	            if ( e.preventDefault ) {
 	                e.preventDefault();
-	                
+	
 	            } else {
 	                e.returnValue = false;
 	            }
 	        },
-	        
+	
 	        /**
 	         * GET click event handler
 	         * @memberof Router
-	         * @method _handler
+	         * @method _handleClick
 	         * @param {object} el The event context element
 	         * @param {object} e The event object
 	         * @private
@@ -11642,59 +11665,213 @@
 	         * @fires get
 	         *
 	         */
-	        _handler: function ( el, e ) {
+	        _handleClick: function ( el, e ) {
 	            var elem = (matchElement( el, "a" ) || matchElement( e.target, "a" )),
-	                isDomain = elem && _rSameDomain.test( elem.href ),
-	                isHashed = elem && elem.href.indexOf( "#" ) !== -1,
 	                isMatched = elem && this._matcher.test( elem.href ),
+	                isDomain = elem && this._rDomain.test( elem.href ),
+	                isProxy = elem && this._options.proxy && this._options.proxy.domain,
+	                isHashed = elem && elem.href.indexOf( "#" ) !== -1,
 	                isIgnore = elem && elem.className.indexOf( "js-router--ignore" ) !== -1,
 	                isMetaKey = elem && e.metaKey,
-	                isBlank = elem && elem.target === "_blank";
-	            
+	                isBlank = elem && elem.target === "_blank",
+	                isFile = elem && isDomain && elem.href.match( this._rFiles );
+	
 	            // 0.1 => Ensure url passes MatchRoute config
 	            // 0.2 => Ensure url is on the Document's Domain
-	            // 0.3 => Ensure url is not a #hash
-	            // 0.4 => Ensure the element does not contain a `js-router--ignore` className
-	            // 0.5 => Ensure the Event.metaKey is not TRUE - Command+click
-	            // 0.6 => Ensure the element target is not for a new tab
-	            if ( isMatched && isDomain && !isHashed && !isIgnore && !isMetaKey && !isBlank ) {
-	                this._preventDefault( e );
-	                
-	                if ( !_isRouting ) {
-	                    this._route( elem );
+	            // 0.X => Allow proxy domain's to go through this checkpoint
+	            if ( (isMatched && isDomain) || isProxy ) {
+	                // 0.3 => Ensure url is not a #hash
+	                // 0.4 => Ensure the element does not contain a `js-router--ignore` className
+	                // 0.5 => Ensure the Event.metaKey is not TRUE - Command+click
+	                // 0.6 => Ensure the element target is not for a new tab
+	                // 0.7 => Ensure url is not a file link on the same document domain
+	                if ( !isHashed && !isIgnore && !isMetaKey && !isBlank && !isFile ) {
+	                    this._preventDefault( e );
+	
+	                    if ( !this._isRouting ) {
+	                        this._route( elem.href );
+	                    }
 	                }
 	            }
 	        },
-	        
-	        
+	
+	        /**
+	         * Handle history popstate event from PushState
+	         * @memberof Router
+	         * @method _handlePopstate
+	         * @param {string} url The url popped to
+	         * @param {object} state The PushState state object
+	         * @private
+	         *
+	         * @fires get
+	         *
+	         */
+	        _handlePopstate: function ( url, state ) {
+	            // Hook around browsers firing popstate on pageload
+	            if ( this._ready ) {
+	                for ( var i = this._callbacks.get.length; i--; ) {
+	                    var dat = this._matcher.parse( url, this._callbacks.get[ i ]._routerRoutes );
+	
+	                    if ( dat.matched ) {
+	                        break;
+	                    }
+	                }
+	
+	                data = {
+	                    route: this._matcher._cleanRoute( url ),
+	                    response: this._responses[ url ],
+	                    request: dat,
+	                    status: this._responses[ url ].status
+	                };
+	
+	                this._fire( "popget", url, data );
+	
+	            } else {
+	                this._ready = true;
+	            }
+	        },
+	
 	        /**
 	         * Execute the route
 	         * @memberof Router
-	         * @method _handler
-	         * @param {object} elem The event context element
+	         * @method _route
+	         * @param {string} url The url in question
+	         * @param {function} callback Optional, fired with done
 	         * @private
 	         *
 	         */
-	        _route: function ( elem ) {
-	            var self = this;
-	            
-	            _isRouting = true;
-	            
+	        _route: function ( url, callback ) {
+	            var self = this,
+	                urls = {
+	                    // For XHR
+	                    request: url,
+	
+	                    // For pushState and Cache
+	                    original: url
+	                };
+	
+	            this._isRouting = true;
+	
+	            this._matchUrl( urls.original );
+	
+	            // Handle proxy first since we modify the request URL
+	            // Basically, just piece together a URL that swaps this domain with proxy domain
+	            if ( this._options.proxy && this._options.proxy.domain ) {
+	                // Use window.location.host so it includes port for localhost
+	                urls.request = (this._options.proxy.domain + "/" + urls.request.replace( this._rHTTPs, "" ));
+	            }
+	
+	            this._getUrl( urls, function ( response, status ) {
+	                self._isRouting = false;
+	
+	                // Push the URL to window History
+	                self._pusher.push( urls.original );
+	
+	                // Fire event for routing
+	                self._fire( "get", urls.original, response, status );
+	
+	                if ( typeof callback === "function" ) {
+	                    callback( response, status );
+	                }
+	            });
+	        },
+	
+	        /**
+	         * Match a URL and fire "preget"
+	         * @memberof Router
+	         * @method _matchUrl
+	         * @param {string} url The url in question
+	         * @private
+	         *
+	         */
+	        _matchUrl: function ( url ) {
+	            if ( !this._ready ) {
+	                return;
+	            }
+	
 	            for ( var i = this._callbacks.get.length; i--; ) {
-	                var data = this._matcher.parse( elem.href, this._callbacks.get[ i ]._routerRoutes );
-	                
+	                var data = this._matcher.parse( url, this._callbacks.get[ i ]._routerRoutes );
+	
 	                if ( data.matched ) {
-	                    this._fire( "preget", elem.href, data );
+	                    this._fire( "preget", url, data );
 	                    break;
 	                }
 	            }
-	            
-	            this._pusher.push( elem.href, function ( response, status ) {
-	                _isRouting = false;
-	                self._fire( "get", elem.href, response, status );
-	            });
 	        },
-	        
+	
+	        /**
+	         *
+	         * Request a url with an XMLHttpRequest
+	         * @memberof Router
+	         * @method _getUrl
+	         * @param {object} urls The urls to request / push / cache
+	         * @param {function} callback The function to call when done
+	         * @private
+	         *
+	         */
+	        _getUrl: function ( urls, callback ) {
+	            var handler = function ( res, stat ) {
+	                    try {
+	                        // Cache if option enabled
+	                        self._cache( urls.original, res );
+	
+	                        if ( typeof callback === "function" ) {
+	                            callback( res, stat );
+	                        }
+	
+	                    } catch ( error ) {}
+	                },
+	                xhr = null,
+	                self = this;
+	
+	            // Cached response ?
+	            if ( this._responses[ urls.original ] ) {
+	                handler( this._responses[ urls.original ], this._responses[ urls.original ].status );
+	
+	            // Fresh request ?
+	            } else if ( this._options.async ) {
+	                xhr = new XMLHttpRequest();
+	
+	                xhr.open( "GET", urls.request, true );
+	
+	                xhr.onreadystatechange = function ( e ) {
+	                    if ( this.readyState === 4 ) {
+	                        if ( this.status === 200 ) {
+	                            handler( this, 200 );
+	
+	                        } else if ( this.status === 404 && self._options.handle404 ) {
+	                            handler( this, 404 );
+	
+	                        } else if ( this.status === 500 && self._options.handle500 ) {
+	                            handler( this, 500 );
+	                        }
+	                    }
+	                };
+	
+	                xhr.send();
+	
+	            } else {
+	                handler( { responseText: "" }, 200 );
+	            }
+	        },
+	
+	        /**
+	         *
+	         * Cache an XHR response object
+	         * @memberof Router
+	         * @method _cache
+	         * @param {string} url The url to cache for
+	         * @param {object} res The XHR object
+	         * @private
+	         *
+	         */
+	        _cache: function ( url, res ) {
+	            // Caching is enabled, Not currently cached yet
+	            if ( this._options.caching && !this._responses[ url ] ) {
+	                this._responses[ url ] = res;
+	            }
+	        },
+	
 	        /**
 	         *
 	         * Bind an event to a callback
@@ -11710,13 +11887,13 @@
 	                if ( !this._callbacks[ event ] ) {
 	                    this._callbacks[ event ] = [];
 	                }
-	                
+	
 	                callback._jsRouterID = this.getUID();
-	                
+	
 	                this._callbacks[ event ].push( callback );
 	            }
 	        },
-	    
+	
 	        /**
 	         *
 	         * Unbind an event to a callback(s)
@@ -11731,27 +11908,27 @@
 	            if ( !this._callbacks[ event ] ) {
 	                return this;
 	            }
-	    
+	
 	            // Remove a single callback
 	            if ( callback ) {
 	                for ( var i = 0, len = this._callbacks[ event ].length; i < len; i++ ) {
 	                    if ( callback._jsRouterID === this._callbacks[ event ][ i ]._jsRouterID ) {
 	                        this._callbacks[ event ].splice( i, 1 );
-	        
+	
 	                        break;
 	                    }
 	                }
-	    
+	
 	            // Remove all callbacks for event
 	            } else {
 	                for ( var j = this._callbacks[ event ].length; j--; ) {
 	                    this._callbacks[ event ][ j ] = null;
 	                }
-	        
+	
 	                delete this._callbacks[ event ];
 	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Fire an event to a callback
@@ -11766,12 +11943,12 @@
 	         */
 	        _fire: function ( event, url, response, status ) {
 	            var i;
-	            
+	
 	            // GET events have routes and are special ;-P
 	            if ( event === "get" ) {
 	                for ( i = this._callbacks[ event ].length; i--; ) {
 	                    var data = this._matcher.parse( url, this._callbacks[ event ][ i ]._routerRoutes );
-	                    
+	
 	                    if ( data.matched ) {
 	                        this._callbacks[ event ][ i ].call( this, {
 	                            route: this._matcher._cleanRoute( url ),
@@ -11781,8 +11958,8 @@
 	                        });
 	                    }
 	                }
-	            
-	            // Fires basic timing events "beforeget" / "afterget"    
+	
+	            // Fires basic timing events "preget", "popget"
 	            } else if ( this._callbacks[ event ] ) {
 	                for ( i = this._callbacks[ event ].length; i--; ) {
 	                    this._callbacks[ event ][ i ].call( this, response );
@@ -11790,18 +11967,19 @@
 	            }
 	        }
 	    };
-	    
-	    
+	
+	
 	    return Router;
 	
 	});
 
-/***/ },
+
+/***/ }),
 /* 5 */
 /*!*******************************************!*\
   !*** ./~/properjs-pushstate/PushState.js ***!
   \*******************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -11813,25 +11991,19 @@
 	 *
 	 */
 	(function ( factory ) {
-	    
+	
 	    if ( true ) {
 	        module.exports = factory();
 	
 	    } else if ( typeof window !== "undefined" ) {
 	        window.PushState = factory();
 	    }
-	    
+	
 	})(function () {
 	
 	    /**
 	     *
 	     * A simple pushState Class
-	     * Supported events with .on():
-	     * <ul>
-	     * <li>popstate</li>
-	     * <li>beforestate</li>
-	     * <li>afterstate</li>
-	     * </ul>
 	     * @constructor PushState
 	     * @memberof! <global>
 	     *
@@ -11839,30 +12011,10 @@
 	    var PushState = function () {
 	        return this.init.apply( this, arguments );
 	    };
-	    
+	
 	    PushState.prototype = {
 	        constructor: PushState,
-	        
-	        /**
-	         *
-	         * Expression match #
-	         * @memberof PushState
-	         * @member _rHash
-	         * @private
-	         *
-	         */
-	        _rHash: /#/,
-	        
-	        /**
-	         *
-	         * Expression match http/https
-	         * @memberof PushState
-	         * @member _rHTTPs
-	         * @private
-	         *
-	         */
-	        _rHTTPs: /^http[s]?:\/\/.*?\//,
-	        
+	
 	        /**
 	         *
 	         * Flag whether pushState is enabled
@@ -11872,7 +12024,7 @@
 	         *
 	         */
 	        _pushable: ("history" in window && "pushState" in window.history),
-	        
+	
 	        /**
 	         *
 	         * Fallback to hashchange if needed. Support:
@@ -11889,7 +12041,7 @@
 	         *
 	         */
 	        _hashable: ("onhashchange" in window),
-	        
+	
 	        /**
 	         *
 	         * PushState init constructor method
@@ -11897,16 +12049,35 @@
 	         * @method PushState.init
 	         * @param {object} options Settings for PushState
 	         * <ul>
-	         * <li>options.async</li>
-	         * <li>options.caching</li>
-	         * <li>options.handle404</li>
-	         * <li>options.handle500</li>
+	         * <li>options.forceHash</li>
 	         * </ul>
+	         *
+	         * @fires backstate
+	         * @fires forwardstate
+	         * @fires popstate
 	         *
 	         */
 	        init: function ( options ) {
-	            var url = window.location.href;
-	            
+	            /**
+	             *
+	             * Ensure this first cache URL is clean as a whistle
+	             * @memberof PushState
+	             * @member _initUrl
+	             * @private
+	             *
+	             */
+	            this._initUrl = window.location.href.replace( window.location.hash, "" );
+	
+	            /**
+	             *
+	             * User options for usage
+	             * @memberof PushState
+	             * @member _options
+	             * @private
+	             *
+	             */
+	            this._options = (options || {});
+	
 	            /**
 	             *
 	             * Flag whether state is enabled
@@ -11916,7 +12087,7 @@
 	             *
 	             */
 	            this._enabled = false;
-	            
+	
 	            /**
 	             *
 	             * Flag when hash is changed by PushState
@@ -11926,8 +12097,8 @@
 	             * @private
 	             *
 	             */
-	            this._ishashpushed = false;
-	            
+	            this._ishashpushed = false;;
+	
 	            /**
 	             *
 	             * Unique ID ticker
@@ -11937,7 +12108,7 @@
 	             *
 	             */
 	            this._uid = 0;
-	            
+	
 	            /**
 	             *
 	             * Stored state objects
@@ -11947,17 +12118,7 @@
 	             *
 	             */
 	            this._states = {};
-	            
-	            /**
-	             *
-	             * Stored response objects
-	             * @memberof PushState
-	             * @member _responses
-	             * @private
-	             *
-	             */
-	            this._responses = {};
-	            
+	
 	            /**
 	             *
 	             * Event callbacks
@@ -11967,57 +12128,16 @@
 	             *
 	             */
 	            this._callbacks = {};
-	            
-	            /**
-	             *
-	             * Flag whether to use ajax
-	             * @memberof PushState
-	             * @member _async
-	             * @private
-	             *
-	             */
-	            this._async = ( options && options.async !== undefined ) ? options.async : true;
-	            
-	            /**
-	             *
-	             * Flag whether to use cached responses
-	             * @memberof PushState
-	             * @member _caching
-	             * @private
-	             *
-	             */
-	            this._caching = ( options && options.caching !== undefined ) ? options.caching : true;
-	            
-	            /**
-	             *
-	             * Flag whether to handle 404 pages
-	             * @memberof PushState
-	             * @member _handle404
-	             * @private
-	             *
-	             */
-	            this._handle404 = ( options && options.handle404 !== undefined ) ? options.handle404 : true;
-	            
-	            /**
-	             *
-	             * Flag whether to handle 500 pages
-	             * @memberof PushState
-	             * @member _handle500
-	             * @private
-	             *
-	             */
-	            this._handle500 = ( options && options.handle500 !== undefined ) ? options.handle500 : true;
-	            
+	
 	            // Set initial state
-	            this._states[ url ] = {
-	                uid: this.getUID(),
-	                cached: false
+	            this._states[ this._initUrl ] = {
+	                uid: this.getUID()
 	            };
-	    
-	            // Enable the popstate event
+	
+	            // Enable popstate management
 	            this._stateEnable();
 	        },
-	        
+	
 	        /**
 	         *
 	         * Bind a callback to an event
@@ -12032,14 +12152,14 @@
 	                if ( !this._callbacks[ event ] ) {
 	                    this._callbacks[ event ] = [];
 	                }
-	                
+	
 	                callback._pushstateID = this.getUID();
 	                callback._pushstateType = event;
-	                
+	
 	                this._callbacks[ event ].push( callback );
 	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Unbind a callback to an event
@@ -12059,67 +12179,28 @@
 	                }
 	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Push onto the History state
 	         * @memberof PushState
 	         * @method push
 	         * @param {string} url address to push to history
-	         * @param {function} callback function to call when done
-	         *
-	         * @fires beforestate
-	         * @fires afterstate
 	         *
 	         */
-	        push: function ( url, callback ) {
-	            var self = this;
-	            
-	            // Break on pushing current url
-	            if ( url === window.location.href && this._stateCached( url ) ) {
-	                callback( this._responses[ url ], 200 );
-	                
+	        push: function ( url ) {
+	            // Dont push current URL
+	            if ( url === window.location.href ) {
 	                return;
 	            }
-	            
-	            this._fire( "beforestate" );
-	            
-	            // Break on cached
-	            if ( this._stateCached( url ) ) {
-	                this._push( url );
-	                        
-	                callback( this._responses[ url ], 200 );
-	            
-	            // Push new state    
-	            } else {
-	                this._states[ url ] = {
-	                    uid: this.getUID(),
-	                    cached: false
-	                };
-	                
-	                if ( this._async ) {
-	                    this._getUrl( url, function ( response, status ) {
-	                        self._push( url );
-	        
-	                        self._fire( "afterstate", response, status );
-	                        
-	                        if ( typeof callback === "function" ) {
-	                            callback( response, status );
-	                        }
-	                    });
-	        
-	                } else {
-	                    this._push( url );
-	    
-	                    this._fire( "afterstate" );
-	                    
-	                    if ( typeof callback === "function" ) {
-	                        callback();
-	                    }
-	                }
-	            }
+	
+	            this._push( url );
+	
+	            this._states[ url ] = {
+	                uid: this.getUID()
+	            };
 	        },
-	        
+	
 	        /**
 	         *
 	         * Manually go back in history state
@@ -12131,10 +12212,10 @@
 	         */
 	        goBack: function () {
 	            window.history.back();
-	            
+	
 	            this._fire( "backstate" );
 	        },
-	        
+	
 	        /**
 	         *
 	         * Manually go forward in history state
@@ -12146,10 +12227,10 @@
 	         */
 	        goForward: function () {
 	            window.history.forward();
-	            
+	
 	            this._fire( "forwardstate" );
 	        },
-	        
+	
 	        /**
 	         *
 	         * Get a unique ID
@@ -12160,10 +12241,10 @@
 	         */
 	        getUID: function () {
 	            this._uid = (this._uid + 1);
-	            
+	
 	            return this._uid;
 	        },
-	        
+	
 	        /**
 	         *
 	         * Calls window.history.pushState
@@ -12174,96 +12255,30 @@
 	         *
 	         */
 	        _push: function ( url ) {
-	            if ( this._pushable ) {
+	            if ( this._pushable && !this._options.forceHash ) {
 	                window.history.pushState( this._states[ url ], "", url );
-	                
+	
 	            } else {
-	                this._ishashpushed = true;
-	                
-	                window.location.hash = url.replace( this._rHTTPs, "" );
-	            }
-	        },
-	        
-	        /**
-	         *
-	         * Check if state has been cached for a url
-	         * @memberof PushState
-	         * @method _stateCached
-	         * @param {string} url The url to check
-	         * @private
-	         *
-	         */
-	        _stateCached: function ( url ) {
-	            var ret = false;
-	            
-	            if ( this._caching && this._states[ url ] && this._states[ url ].cached && this._responses[ url ] ) {
-	                ret = true;
-	            }
-	            
-	            return ret;
-	        },
-	        
-	        /**
-	         *
-	         * Cache the response for a url
-	         * @memberof PushState
-	         * @method _cacheState
-	         * @param {string} url The url to cache for
-	         * @param {object} response The XMLHttpRequest response object
-	         * @private
-	         *
-	         */
-	        _cacheState: function ( url, response ) {
-	            if ( this._caching ) {
-	                this._states[ url ].cached = true;
-	                this._responses[ url ] = response;
-	            }
-	        },
-	        
-	        /**
-	         *
-	         * Request a url with an XMLHttpRequest
-	         * @memberof PushState
-	         * @method _getUrl
-	         * @param {string} url The url to request
-	         * @param {function} callback The function to call when done
-	         * @private
-	         *
-	         */
-	        _getUrl: function ( url, callback ) {
-	            var handler = function ( res, stat ) {
-	                    try {
-	                        // Cache if option enabled
-	                        self._cacheState( url, res );
-	                        
-	                        if ( typeof callback === "function" ) {
-	                            callback( res, (stat ? stat : undefined) );
-	                        }
-	                        
-	                    } catch ( error ) {}
-	                },
-	                xhr = new XMLHttpRequest(),
-	                self = this;
-	            
-	            xhr.open( "GET", url, true );
-	            
-	            xhr.onreadystatechange = function ( e ) {
-	                if ( this.readyState === 4 ) {
-	                    if ( this.status === 200 ) {
-	                        handler( this, 200 );
-	                        
-	                    } else if ( this.status === 404 && self._handle404 ) {
-	                        handler( this, 404 );
-	                        
-	                    } else if ( this.status === 500 && self._handle500 ) {
-	                        handler( this, 500 );
-	                    }
+	                // This replace ensures we get the following:
+	                // "/":         root
+	                // "/foo/bar/": uri path
+	                var hashUri = url.replace( window.location.origin, "" );
+	
+	                // Fix for root hash uri.
+	                // Ensure we dont get the following:
+	                // "/foo/bar/#/foo/bar/"
+	                // Rather we would get the following:
+	                // "/foo/bar/#/"
+	                if ( hashUri === window.location.pathname ) {
+	                    hashUri = "/";
 	                }
-	            };
-	            
-	            xhr.send();
+	
+	                this._ishashpushed = true;
+	
+	                window.location.hash = hashUri;
+	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Fire an events callbacks
@@ -12281,7 +12296,7 @@
 	                }
 	            }
 	        },
-	        
+	
 	        /**
 	         *
 	         * Bind this instances state handler
@@ -12296,53 +12311,72 @@
 	            if ( this._enabled ) {
 	                return this;
 	            }
-	    
+	
 	            var self = this,
 	                handler = function () {
-	                    var url = window.location.href.replace( self._rHash, "/" );
-	                    
-	                    if ( self._stateCached( url ) ) {
-	                        self._fire( "popstate", url, self._responses[ url ] );
-	                        
-	                    } else {
-	                        self._getUrl( url, function ( response, status ) {
-	                            self._fire( "popstate", url, response, status );
-	                        });
+	                    var url = window.location.href,
+	                        roots = ["#/", "#", ""];
+	
+	                    // Ensure we clean out the hash for Router
+	                    // Example:
+	                    // Start:  http://localhost/foo/#/bar/
+	                    // Result: http://localhost/foo/bar/
+	                    if ( self._options.forceHash ) {
+	                        // Shave the hash from the end of the URL
+	                        url = url.replace( window.location.hash, "" );
+	
+	                        // Shave the hash root from the end of the URL
+	                        url = url.replace( window.location.pathname, "" );
+	
+	                        // Empty hash means we have gone back to root
+	                        if ( roots.indexOf( window.location.hash ) !== -1 ) {
+	                            // Append the hash root to the URL
+	                            url = (url + window.location.pathname);
+	
+	                        } else {
+	                            // Append the applied hash pathname to the URL
+	                            url = (url + window.location.hash.replace( "#", "" ));
+	                        }
 	                    }
+	
+	                    self._fire( "popstate", url, self._states[ url ] );
 	                };
-	    
+	
 	            this._enabled = true;
-	            
-	            if ( this._pushable ) {
+	
+	            if ( this._pushable && !this._options.forceHash ) {
 	                window.addEventListener( "popstate", function ( e ) {
 	                    handler();
-	                    
+	
 	                }, false );
-	                
+	
 	            } else if ( this._hashable ) {
+	                // For hashstate we should apply initial hash on page load
+	                this._push( this._initUrl );
+	
 	                window.addEventListener( "hashchange", function ( e ) {
 	                    if ( !self._ishashpushed ) {
 	                        handler();
-	                        
+	
 	                    } else {
 	                        self._ishashpushed = false;
 	                    }
-	                    
+	
 	                }, false );
 	            }
 	        }
 	    };
-	    
+	
 	    return PushState;
 	
 	});
 
-/***/ },
+/***/ }),
 /* 6 */
 /*!*********************************************!*\
   !*** ./~/properjs-matchroute/MatchRoute.js ***!
   \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -12696,12 +12730,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 7 */
 /*!************************************!*\
   !*** ./~/paramalama/paramalama.js ***!
   \************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -12765,12 +12799,12 @@
 	});
 
 
-/***/ },
+/***/ }),
 /* 8 */
 /*!*************************************************!*\
   !*** ./~/properjs-matchelement/matchElement.js ***!
   \*************************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -12827,12 +12861,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 9 */
 /*!*********************************************!*\
   !*** ./~/properjs-controller/Controller.js ***!
   \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -13135,12 +13169,12 @@
 	    return Controller;
 	});
 
-/***/ },
+/***/ }),
 /* 10 */
 /*!******************************!*\
   !*** ./js_src/core/index.js ***!
   \******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 *
@@ -13245,12 +13279,12 @@
 	exports.scroller = _scroller2["default"];
 	exports.resizer = _resizer2["default"];
 
-/***/ },
+/***/ }),
 /* 11 */
 /*!****************************!*\
   !*** ./js_src/core/api.js ***!
   \****************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -13392,12 +13426,12 @@
 	exports["default"] = api;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 12 */
 /*!*****************************!*\
   !*** ./js_src/core/util.js ***!
   \*****************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 *
@@ -13823,12 +13857,12 @@
 	};
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 13 */
 /*!***********************************************!*\
   !*** ./~/properjs-imageloader/ImageLoader.js ***!
   \***********************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -13850,110 +13884,7 @@
 	
 	})(function () {
 	
-	    var raf = window.requestAnimationFrame,
-	        caf = window.cancelAnimationFrame,
-	
-	        _i,
-	        _all = 0,
-	        _num = 0,
-	        _raf = null,
-	        _ini = false,
-	
-	        // Holds all "instances"
-	        // This way we can use a single animator
-	        _instances = [];
-	
-	
-	    // Should support elements as null, undefined, DOMElement, HTMLCollection, string selector
-	    function setElements( elements ) {
-	        // Handles string selector
-	        if ( typeof elements === "string" ) {
-	            elements = document.querySelectorAll( elements );
-	
-	        // Handles DOMElement
-	        } else if ( elements && elements.nodeType === 1 ) {
-	            elements = [ elements ];
-	
-	        } else if ( !elements ) {
-	            elements = [];
-	        }
-	
-	        // Default:
-	        // HTMLCollection / Array
-	        return elements;
-	    }
-	
-	
-	    // Called when instances are created
-	    function initializer( instance ) {
-	        // Increment ALL
-	        _all = _all + instance._num2Load;
-	
-	        // Private instances array
-	        _instances.push( instance );
-	
-	        // One stop shopping
-	        if ( !_ini ) {
-	            _ini = true;
-	            animate();
-	        }
-	    }
-	
-	
-	    // Called on each iteration of the animation cycle
-	    function animate() {
-	        if ( _num !== _all ) {
-	            _raf = raf( animate );
-	
-	            for ( _i = _instances.length; _i--; ) {
-	                if ( _instances[ _i ]._numLoaded !== _instances[ _i ]._num2Load && _instances[ _i ]._loadType === "async" ) {
-	                    _instances[ _i ].handle();
-	                }
-	            }
-	
-	        } else {
-	            stop();
-	        }
-	    }
-	
-	
-	    // Stops the animation cycle queue for loading images
-	    function stop () {
-	        caf( _raf );
-	
-	        _raf = null;
-	        _ini = false;
-	    }
-	
-	
-	    // Simple add class polyfill
-	    function addClass( el, str ) {
-	        var newClass = str.split( " " ),
-	            elsClass = el.className.split( " " );
-	
-	        for ( var i = 0, len = newClass.length; i < len; i++ ) {
-	            if ( elsClass.indexOf( newClass[ i ] ) === -1 ) {
-	                elsClass.push( newClass[ i ] );
-	            }
-	        }
-	
-	        el.className = elsClass.join( " " );
-	    }
-	
-	
-	    // Simple remove class polyfill
-	    function removeClass( el, str ) {
-	        var oldClass = str.split( " " ),
-	            elsClass = el.className.split( " " );
-	
-	        for ( var i = 0, len = oldClass.length; i < len; i++ ) {
-	            if ( elsClass.indexOf( oldClass[ i ] ) !== -1 ) {
-	                elsClass.splice( elsClass.indexOf( oldClass[ i ] ), 1 );
-	            }
-	        }
-	
-	        el.className = elsClass.join( " " );
-	    }
+	    var Controller = __webpack_require__( /*! properjs-controller */ 9 );
 	
 	
 	    /**
@@ -13971,415 +13902,304 @@
 	     * </ul>
 	     *
 	     */
-	    var ImageLoader = function () {
-	        return this.init.apply( this, arguments );
-	    };
+	    var ImageLoader = function ( options ) {
+	        var self = this;
 	
+	        if ( !options ) {
+	            throw new Error( "ImageLoader Class requires options to be passed" );
+	        }
 	
-	    /**
-	     *
-	     * Stop all instances and reset the stack for EVERYTHING
-	     * @method killInstances
-	     * @memberof ImageLoader
-	     *
-	     */
-	    ImageLoader.killInstances = function () {
-	        stop();
-	
-	        _all = 0;
-	        _num = 0;
-	        _instances = [];
-	    };
-	
-	
-	    /**
-	     *
-	     * ClassName for the element loading state
-	     * @member IS_LOADING
-	     * @memberof ImageLoader
-	     *
-	     */
-	    ImageLoader.IS_LOADING = "-is-lazy-loading";
-	
-	
-	    /**
-	     *
-	     * ClassName for the element transitioning state
-	     * @member IS_TRANSITION
-	     * @memberof ImageLoader
-	     *
-	     */
-	    ImageLoader.IS_TRANSITION = "-is-lazy-transition";
-	
-	
-	    /**
-	     *
-	     * ClassName for the elements loaded state
-	     * @member IS_LOADED
-	     * @memberof ImageLoader
-	     *
-	     */
-	    ImageLoader.IS_LOADED = "-is-lazy-loaded";
-	
-	
-	    /**
-	     *
-	     * ClassName to define the element as having been loaded
-	     * @member IS_HANDLED
-	     * @memberof ImageLoader
-	     *
-	     */
-	    ImageLoader.IS_HANDLED = "-is-lazy-handled";
-	
-	
-	    ImageLoader.prototype = {
-	        constructor: ImageLoader,
-	
-	        init: function ( options ) {
-	            var self = this;
-	
-	            if ( !options ) {
-	                throw new Error( "ImageLoader Class requires options to be passed" );
-	            }
-	
-	            /**
-	             *
-	             * The Collection to load against
-	             * @memberof ImageLoader
-	             * @member _elements
-	             * @private
-	             *
-	             */
-	            this._elements = setElements( options.elements );
-	
-	            /**
-	             *
-	             * The property to get image source from
-	             * @memberof ImageLoader
-	             * @member _property
-	             * @private
-	             *
-	             */
-	            this._property = (options.property || "data-src");
-	
-	            /**
-	             *
-	             * The way to load, async or sync
-	             * Using "sync" loading requires calling .start() on the instance
-	             * and the "handle" event will not be utilized, rather each image
-	             * will be loaded in succession as the previous finishes loading
-	             * @memberof ImageLoader
-	             * @member _loadType
-	             * @private
-	             *
-	             */
-	            this._loadType = (options.loadType || "async");
-	
-	            /**
-	             *
-	             * The current amount of elements lazy loaded
-	             * @memberof ImageLoader
-	             * @member _numLoaded
-	             * @private
-	             *
-	             */
-	            this._numLoaded = 0;
-	
-	            /**
-	             *
-	             * The total amount of elements to lazy load
-	             * @memberof ImageLoader
-	             * @member _num2Load
-	             * @private
-	             *
-	             */
-	            this._num2Load = (this._elements ? this._elements.length : 0);
-	
-	            /**
-	             *
-	             * The delay to execute lazy loading on an element in ms
-	             * @memberof ImageLoader
-	             * @member _transitionDelay
-	             * @default 100
-	             * @private
-	             *
-	             */
-	            this._transitionDelay = (options.transitionDelay || 100);
-	
-	            /**
-	             *
-	             * The duration on a lazy loaded elements fade in in ms
-	             * @memberof ImageLoader
-	             * @member _transitionDuration
-	             * @default 600
-	             * @private
-	             *
-	             */
-	            this._transitionDuration = (options.transitionDuration || 600);
-	
-	            /**
-	             *
-	             * This flags that all elements have been loaded
-	             * @memberof ImageLoader
-	             * @member _resolved
-	             * @private
-	             *
-	             */
-	            this._resolved = false;
-	
-	            /**
-	             *
-	             * Defined event namespaced handlers
-	             * @memberof ImageLoader
-	             * @member _handlers
-	             * @private
-	             *
-	             */
-	            this._handlers = {
-	                data: null,
-	                load: null,
-	                done: null,
-	                error: null,
-	                update: null
-	            };
-	
-	            // Break out if no elements in collection
-	            if ( !this._elements.length ) {
-	                return this;
-	            }
-	
-	            // Only run animation frame for async loading
-	            if ( this._loadType === "async" ) {
-	                initializer( this );
-	
-	            } else {
-	                this._syncLoad();
-	            }
-	        },
+	        // Up, up and away...
+	        Controller.call( this );
 	
 	        /**
 	         *
-	         * Add a callback handler for the specified event name
+	         * The method to determine if an image should load itself
 	         * @memberof ImageLoader
-	         * @method on
-	         * @param {string} event The event name to listen for
-	         * @param {function} handler The handler callback to be fired
+	         * @member _executor
+	         * @private
 	         *
 	         */
-	        on: function ( event, handler ) {
-	            this._handlers[ event ] = handler;
+	        this._executor = (options.executor || function ( elem ) {
+	            return elem;
+	        });
 	
+	        /**
+	         *
+	         * The Collection to load against
+	         * @memberof ImageLoader
+	         * @member _elements
+	         * @private
+	         *
+	         */
+	        this._elements = options.elements;
+	
+	        /**
+	         *
+	         * The property to get image source from
+	         * @memberof ImageLoader
+	         * @member _property
+	         * @private
+	         *
+	         */
+	        this._property = (options.property || "data-src");
+	
+	        /**
+	         *
+	         * The way to load, async or sync
+	         * Using "sync" loading requires calling .start() on the instance
+	         * and the "handle" event will not be utilized, rather each image
+	         * will be loaded in succession as the previous finishes loading
+	         * @memberof ImageLoader
+	         * @member _loadType
+	         * @private
+	         *
+	         */
+	        this._loadType = (options.loadType || "async");
+	
+	        /**
+	         *
+	         * The current amount of elements lazy loaded
+	         * @memberof ImageLoader
+	         * @member _numLoaded
+	         * @private
+	         *
+	         */
+	        this._numLoaded = 0;
+	
+	        /**
+	         *
+	         * The total amount of elements to lazy load
+	         * @memberof ImageLoader
+	         * @member _num2Load
+	         * @private
+	         *
+	         */
+	        this._num2Load = (this._elements ? this._elements.length : 0);
+	
+	        /**
+	         *
+	         * The delay to execute lazy loading on an element in ms
+	         * @memberof ImageLoader
+	         * @member _transitionDelay
+	         * @default 100
+	         * @private
+	         *
+	         */
+	        this._transitionDelay = (options.transitionDelay || 0);
+	
+	        /**
+	         *
+	         * The duration on a lazy loaded elements fade in in ms
+	         * @memberof ImageLoader
+	         * @member _transitionDuration
+	         * @default 600
+	         * @private
+	         *
+	         */
+	        this._transitionDuration = (options.transitionDuration || 400);
+	
+	        /**
+	         *
+	         * This flags that all elements have been loaded
+	         * @memberof ImageLoader
+	         * @member _resolved
+	         * @private
+	         *
+	         */
+	        this._resolved = false;
+	
+	        // Break out if no elements in collection
+	        if ( !this._elements.length ) {
 	            return this;
-	        },
+	        }
 	
-	        /**
-	         *
-	         * Fire the given event for the loaded element
-	         * @memberof ImageLoader
-	         * @method fire
-	         * @returns bool
-	         *
-	         */
-	        fire: function ( event, element ) {
-	            var ret = false;
+	        // Only run animation frame for async loading
+	        if ( this._loadType === "async" ) {
+	            this.initAsync();
 	
-	            if ( typeof this._handlers[ event ] === "function" ) {
-	                ret = this._handlers[ event ].call( this, element );
-	            }
+	        } else {
+	            this.initSync();
+	        }
+	    };
 	
-	            return ret;
-	        },
 	
-	        /**
-	         *
-	         * Iterate over elements and fire the update handler
-	         * @memberof ImageLoader
-	         * @method update
-	         *
-	         * @fires update
-	         *
-	         */
-	        update: function () {
-	            var self = this;
+	    /**
+	     *
+	     * @extends Controller
+	     *
+	     */
+	    ImageLoader.prototype = Object.create( Controller.prototype );
 	
-	            for ( var i = 0, len = this._elements.length; i < len; i++ ) {
-	                var element = this._elements[ i ];
 	
-	                this.fire( "update", element );
-	            }
-	        },
+	    /**
+	     *
+	     * Support asynchronous loading of a set of images
+	     * @memberof ImageLoader
+	     * @method initAsync
+	     *
+	     */
+	    ImageLoader.prototype.initAsync = function () {
+	        var self = this;
 	
-	        /**
-	         *
-	         * Perform the image loading and set correct values on element
-	         * @method load
-	         * @memberof ImageLoader
-	         * @param {object} $elem element object
-	         * @param {function} callback optional callback for each load
-	         *
-	         * @fires done
-	         *
-	         */
-	        load: function ( element, callback ) {
-	            var self = this,
-	                image = null,
-	                timeout = null,
-	                isImage = (element.nodeName.toLowerCase() === "img"),
-	                source = element.getAttribute( this._property );
-	
-	            element.setAttribute( "data-imageloader", true );
-	
-	            addClass( element, ImageLoader.IS_LOADING );
-	
-	            if ( isImage ) {
-	                image = element;
+	        this.go(function () {
+	            if ( self._resolved ) {
+	                self.stop();
 	
 	            } else {
-	                image = new Image();
+	                self.handle();
 	            }
+	        });
+	    };
 	
-	            timeout = setTimeout(function () {
-	                clearTimeout( timeout );
+	    /**
+	     *
+	     * Support batch synchronous loading of a set of images
+	     * @memberof ImageLoader
+	     * @method initSync
+	     *
+	     */
+	    ImageLoader.prototype.initSync = function () {
+	        var self = this;
 	
-	                addClass( element, ImageLoader.IS_TRANSITION );
+	        function syncLoad() {
+	            var elem = self._elements[ self._numLoaded ];
 	
-	                image.onload = function () {
-	                    self.fire( "load", element );
+	            self._numLoaded++;
 	
-	                    if ( !isImage ) {
-	                        element.style.backgroundImage = ("url(" + source + ")");
+	            self.load( elem, function ( error ) {
+	                if ( !error && !self._resolved ) {
+	                    syncLoad();
+	                }
+	            });
+	        }
 	
-	                        image = null;
-	                    }
+	        syncLoad();
+	    };
 	
-	                    addClass( element, ImageLoader.IS_LOADED );
+	    /**
+	     *
+	     * Perform the image loading and set correct values on element
+	     * @method load
+	     * @memberof ImageLoader
+	     * @param {object} $elem element object
+	     * @param {function} callback optional callback for each load
+	     * @fires done
+	     *
+	     */
+	    ImageLoader.prototype.load = function ( element, callback ) {
+	        var self = this,
+	            image = null,
+	            timeout = null,
+	            isImage = (element.nodeName === "IMG"),
+	            source = element.getAttribute( this._property );
 	
-	                    timeout = setTimeout(function () {
-	                        clearTimeout( timeout );
+	        element.setAttribute( "data-imageloader", true );
 	
-	                        removeClass( element, ImageLoader.IS_LOADING + " " + ImageLoader.IS_TRANSITION + " " + ImageLoader.IS_LOADED )
-	                        addClass( element, ImageLoader.IS_HANDLED );
+	        if ( isImage ) {
+	            image = element;
 	
-	                        if ( (self._numLoaded === self._num2Load) && !self._resolved ) {
-	                            self._resolveInstance( true );
+	        } else {
+	            image = new Image();
+	        }
 	
-	                        } else if ( typeof callback === "function" ) {
-	                            // Errors first
-	                            callback( false );
-	                        }
+	        timeout = setTimeout(function () {
+	            clearTimeout( timeout );
 	
-	                    }, self._transitionDuration );
-	                };
+	            image.onload = function () {
+	                self.fire( "load", element );
 	
-	                image.onerror = function () {
-	                    self.fire( "error", element );
+	                if ( !isImage ) {
+	                    element.style.backgroundImage = ("url(" + source + ")");
+	
+	                    image = null;
+	                }
+	
+	                timeout = setTimeout(function () {
+	                    clearTimeout( timeout );
 	
 	                    if ( (self._numLoaded === self._num2Load) && !self._resolved ) {
-	                        self._resolveInstance( true );
+	                        self._resolve( true );
 	
 	                    } else if ( typeof callback === "function" ) {
 	                        // Errors first
-	                        callback( true );
+	                        callback( false );
 	                    }
-	                };
 	
-	                image.src = source;
+	                }, self._transitionDuration );
+	            };
 	
-	            }, this._transitionDelay );
+	            image.onerror = function () {
+	                self.fire( "error", element );
 	
-	            return this;
-	        },
+	                if ( (self._numLoaded === self._num2Load) && !self._resolved ) {
+	                    self._resolve( true );
 	
-	        /**
-	         *
-	         * Handles element iterations and loading based on callbacks
-	         * @memberof ImageLoader
-	         * @method handle
-	         *
-	         * @fires handle
-	         *
-	         */
-	        handle: function () {
-	            var elems = this._getNotLoaded(),
-	                self = this;
-	
-	            for ( var i = 0, len = elems.length; i < len; i++ ) {
-	                var elem = elems[ i ];
-	
-	                // Fires the predefined "data" event
-	                if ( self.fire( "data", elem ) ) {
-	                    _num++;
-	
-	                    self._numLoaded++;
-	
-	                    self.load( elem );
+	                } else if ( typeof callback === "function" ) {
+	                    // Errors first
+	                    callback( true );
 	                }
-	            }
-	        },
+	            };
 	
-	        /**
-	         *
-	         * Resolve an instance and remove it from the stack
-	         * @memberof ImageLoader
-	         * @method _resolveInstance
-	         *
-	         */
-	        _resolveInstance: function () {
-	            // Resolved state
-	            this._resolved = true;
+	            image.src = source;
 	
-	            // Fires the predefined "done" event
-	            this.fire( "done" );
+	        }, this._transitionDelay );
 	
-	            // Purge the instance from the stack
-	            _instances.splice( _instances.indexOf( this ), 1 );
-	        },
+	        return this;
+	    };
 	
-	        /**
-	         *
-	         * Get all images in the set that have yet to be loaded
-	         * @memberof ImageLoader
-	         * @method _getNotLoaded
-	         * @private
-	         *
-	         */
-	        _getNotLoaded: function () {
-	            var elems = [];
+	    /**
+	     *
+	     * Handles element iterations and loading based on callbacks
+	     * @memberof ImageLoader
+	     * @method handle
+	     *
+	     */
+	    ImageLoader.prototype.handle = function () {
+	        var elems = this.getNotLoaded(),
+	            self = this;
 	
-	            for ( var i = 0, len = this._elements.length; i < len; i++ ) {
-	                if ( !this._elements[ i ].getAttribute( "data-imageloader" ) ) {
-	                    elems.push( this._elements[ i ] );
-	                }
-	            }
-	
-	            return elems;
-	        },
-	
-	        /**
-	         *
-	         * Support batch synchronous loading of a set of images
-	         * @memberof ImageLoader
-	         * @method _syncLoad
-	         * @private
-	         *
-	         */
-	        _syncLoad: function () {
-	            var self = this;
-	
-	            function syncLoad() {
-	                var elem = self._elements[ self._numLoaded ];
-	
+	        for ( var i = 0, len = elems.length; i < len; i++ ) {
+	            if ( self._executor( elems[ i ] ) ) {
 	                self._numLoaded++;
 	
-	                self.load( elem, function ( error ) {
-	                    if ( !error && !self._resolved ) {
-	                        syncLoad();
-	                    }
-	                });
+	                self.load( elems[ i ] );
 	            }
-	
-	            syncLoad();
 	        }
+	    };
+	
+	    /**
+	     *
+	     * Get all images in the set that have yet to be loaded
+	     * @memberof ImageLoader
+	     * @method getNotLoaded
+	     *
+	     */
+	    ImageLoader.prototype.getNotLoaded = function () {
+	        var elems = [];
+	
+	        for ( var i = 0, len = this._elements.length; i < len; i++ ) {
+	            if ( !this._elements[ i ].getAttribute( "data-imageloader" ) ) {
+	                elems.push( this._elements[ i ] );
+	            }
+	        }
+	
+	        return elems;
+	    };
+	
+	    /**
+	     *
+	     * Resolve an instance and remove it from the stack
+	     * @memberof ImageLoader
+	     * @method _resolve
+	     *
+	     */
+	    ImageLoader.prototype._resolve = function () {
+	        // Resolved state
+	        this._resolved = true;
+	
+	        // Fires the predefined "done" event
+	        this.fire( "done" );
 	    };
 	
 	
@@ -14388,13 +14208,12 @@
 	
 	});
 
-
-/***/ },
+/***/ }),
 /* 14 */
 /*!*********************************!*\
   !*** ./~/fg-loadcss/loadCSS.js ***!
   \*********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*!
 	loadCSS: load a CSS file asynchronously.
@@ -14464,12 +14283,12 @@
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 15 */
 /*!*******************************!*\
   !*** ./~/fg-loadjs/loadJS.js ***!
   \*******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*! loadJS: load a JS file asynchronously. [c]2014 @scottjehl, Filament Group, Inc. (Based on http://goo.gl/REQGQ by Paul Irish). Licensed MIT */
 	(function( w ){
@@ -14496,12 +14315,12 @@
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 16 */
 /*!****************************!*\
   !*** ./js_src/core/dom.js ***!
   \****************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -14611,12 +14430,12 @@
 	exports["default"] = dom;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 17 */
 /*!*******************************!*\
   !*** ./js_src/core/config.js ***!
   \*******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -14736,12 +14555,12 @@
 	exports["default"] = config;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 18 */
 /*!*************************************!*\
   !*** ./~/properjs-easing/Easing.js ***!
   \*************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -14933,12 +14752,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 19 */
 /*!*******************************!*\
   !*** ./js_src/core/detect.js ***!
   \*******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15103,12 +14922,12 @@
 	exports["default"] = detect;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 20 */
 /*!****************************!*\
   !*** ./js_src/core/log.js ***!
   \****************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15166,12 +14985,12 @@
 	exports["default"] = log;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 21 */
 /*!****************************!*\
   !*** ./js_src/core/env.js ***!
   \****************************/
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -15236,12 +15055,12 @@
 	exports["default"] = env;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 22 */
 /*!********************************!*\
   !*** ./js_src/core/emitter.js ***!
   \********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15270,12 +15089,12 @@
 	exports["default"] = emitter;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 23 */
 /*!*******************************!*\
   !*** ./js_src/core/images.js ***!
   \*******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15421,12 +15240,12 @@
 	exports["default"] = images;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 24 */
 /*!****************************************!*\
   !*** ./js_src/core/ImageController.js ***!
   \****************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15548,12 +15367,12 @@
 	exports["default"] = ImageController;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 25 */
 /*!********************************!*\
   !*** ./js_src/core/resizes.js ***!
   \********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15644,12 +15463,12 @@
 	exports["default"] = resizes;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 26 */
 /*!********************************!*\
   !*** ./js_src/core/resizer.js ***!
   \********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -15678,12 +15497,12 @@
 	exports["default"] = resizer;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 27 */
 /*!*********************************************************!*\
   !*** ./~/properjs-resizecontroller/ResizeController.js ***!
   \*********************************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -15695,26 +15514,17 @@
 	 *
 	 */
 	(function ( factory ) {
-	    
+	
 	    if ( true ) {
 	        module.exports = factory();
 	
 	    } else if ( typeof window !== "undefined" ) {
 	        window.ResizeController = factory();
 	    }
-	    
+	
 	})(function () {
 	
-	    var Controller = __webpack_require__( /*! properjs-controller */ 9 ),
-	
-	        // Orientation?
-	        _hasOrientation = ("orientation" in window),
-	
-	        // Current window viewport
-	        _currentView = null,
-	
-	        // Singleton
-	        _instance = null;
+	    var Controller = __webpack_require__( /*! properjs-controller */ 9 );
 	
 	    /**
 	     *
@@ -15735,108 +15545,127 @@
 	     *
 	     */
 	    var ResizeController = function () {
-	        // Singleton
-	        if ( !_instance ) {
-	            _instance = this;
+	        Controller.call( this );
 	
-	            // Initial viewport settings
-	            _currentView = _instance.getViewport();
+	        this.currentView = this.getViewport();
+	        this.hasOrientation = ("orientation" in window);
 	
-	            // Call on parent cycle
-	            this.go(function () {
-	                var currentView = _instance.getViewport(),
-	                    isStill = (currentView.width === _currentView.width && currentView.height === _currentView.height),
-	                    isResize = (currentView.width !== _currentView.width || currentView.height !== _currentView.height),
-	                    isResizeUp = (currentView.width > _currentView.width || currentView.height > _currentView.height),
-	                    isResizeDown = (currentView.width < _currentView.width || currentView.height < _currentView.height),
-	                    isResizeWidth = (currentView.width !== _currentView.width),
-	                    isResizeHeight = (currentView.height !== _currentView.height),
-	                    isOrientation = (currentView.orient !== _currentView.orient),
-	                    isOrientationPortrait = (currentView.orient !== _currentView.orient && currentView.orient !== 90),
-	                    isOrientationLandscape = (currentView.orient !== _currentView.orient && currentView.orient === 90);
-	
-	                // Fire blanket resize event
-	                if ( isResize ) {
-	                    /**
-	                     *
-	                     * @event resize
-	                     *
-	                     */
-	                    _instance.fire( "resize" );
-	                }
-	
-	                // Fire resizeup and resizedown
-	                if ( isResizeDown ) {
-	                    /**
-	                     *
-	                     * @event resizedown
-	                     *
-	                     */
-	                    _instance.fire( "resizedown" );
-	
-	                } else if ( isResizeUp ) {
-	                    /**
-	                     *
-	                     * @event resizeup
-	                     *
-	                     */
-	                    _instance.fire( "resizeup" );
-	                }
-	
-	                // Fire resizewidth and resizeheight
-	                if ( isResizeWidth ) {
-	                    /**
-	                     *
-	                     * @event resizewidth
-	                     *
-	                     */
-	                    _instance.fire( "resizewidth" );
-	
-	                } else if ( isResizeHeight ) {
-	                    /**
-	                     *
-	                     * @event resizeheight
-	                     *
-	                     */
-	                    _instance.fire( "resizeheight" );
-	                }
-	
-	                // Fire blanket orientationchange event
-	                if ( isOrientation ) {
-	                    /**
-	                     *
-	                     * @event orientationchange
-	                     *
-	                     */
-	                    _instance.fire( "orientationchange" );
-	                }
-	
-	                // Fire orientationportrait and orientationlandscape
-	                if ( isOrientationPortrait ) {
-	                    /**
-	                     *
-	                     * @event orientationportrait
-	                     *
-	                     */
-	                    _instance.fire( "orientationportrait" );
-	
-	                } else if ( isOrientationLandscape ) {
-	                    /**
-	                     *
-	                     * @event orientationlandscape
-	                     *
-	                     */
-	                    _instance.fire( "orientationlandscape" );
-	                }
-	
-	                _currentView = currentView;
-	            });
-	        }
-	
-	        return _instance;
+	        this.start();
 	    };
 	
-	    ResizeController.prototype = new Controller();
+	    ResizeController.prototype = Object.create( Controller.prototype );
+	
+	    /**
+	     *
+	     * Starts the request animation frame cycle
+	     * @memberof ResizeController
+	     * @method destroy
+	     *
+	     */
+	    ResizeController.prototype.start = function () {
+	        var self = this;
+	
+	        // Call on parent cycle
+	        this.go(function () {
+	            var currentView = self.getViewport(),
+	                isStill = (currentView.width === self.currentView.width && currentView.height === self.currentView.height),
+	                isResize = (currentView.width !== self.currentView.width || currentView.height !== self.currentView.height),
+	                isResizeUp = (currentView.width > self.currentView.width || currentView.height > self.currentView.height),
+	                isResizeDown = (currentView.width < self.currentView.width || currentView.height < self.currentView.height),
+	                isResizeWidth = (currentView.width !== self.currentView.width),
+	                isResizeHeight = (currentView.height !== self.currentView.height),
+	                isOrientation = (currentView.orient !== self.currentView.orient),
+	                isOrientationPortrait = (currentView.orient !== self.currentView.orient && currentView.orient !== 90),
+	                isOrientationLandscape = (currentView.orient !== self.currentView.orient && currentView.orient === 90);
+	
+	            // Fire blanket resize event
+	            if ( isResize ) {
+	                /**
+	                 *
+	                 * @event resize
+	                 *
+	                 */
+	                self.fire( "resize" );
+	            }
+	
+	            // Fire resizeup and resizedown
+	            if ( isResizeDown ) {
+	                /**
+	                 *
+	                 * @event resizedown
+	                 *
+	                 */
+	                self.fire( "resizedown" );
+	
+	            } else if ( isResizeUp ) {
+	                /**
+	                 *
+	                 * @event resizeup
+	                 *
+	                 */
+	                self.fire( "resizeup" );
+	            }
+	
+	            // Fire resizewidth and resizeheight
+	            if ( isResizeWidth ) {
+	                /**
+	                 *
+	                 * @event resizewidth
+	                 *
+	                 */
+	                self.fire( "resizewidth" );
+	
+	            } else if ( isResizeHeight ) {
+	                /**
+	                 *
+	                 * @event resizeheight
+	                 *
+	                 */
+	                self.fire( "resizeheight" );
+	            }
+	
+	            // Fire blanket orientationchange event
+	            if ( isOrientation ) {
+	                /**
+	                 *
+	                 * @event orientationchange
+	                 *
+	                 */
+	                self.fire( "orientationchange" );
+	            }
+	
+	            // Fire orientationportrait and orientationlandscape
+	            if ( isOrientationPortrait ) {
+	                /**
+	                 *
+	                 * @event orientationportrait
+	                 *
+	                 */
+	                self.fire( "orientationportrait" );
+	
+	            } else if ( isOrientationLandscape ) {
+	                /**
+	                 *
+	                 * @event orientationlandscape
+	                 *
+	                 */
+	                self.fire( "orientationlandscape" );
+	            }
+	
+	            self.currentView = currentView;
+	        });
+	    };
+	
+	    /**
+	     *
+	     * Stops the request animation frame cycle
+	     * @memberof ResizeController
+	     * @method destroy
+	     *
+	     */
+	    ResizeController.prototype.destroy = function () {
+	        this.stop();
+	    };
 	
 	    /**
 	     *
@@ -15850,7 +15679,7 @@
 	        return {
 	            width: window.innerWidth,
 	            height: window.innerHeight,
-	            orient: _hasOrientation ? Math.abs( window.orientation ) : null
+	            orient: this.hasOrientation ? Math.abs( window.orientation ) : null
 	        };
 	    };
 	
@@ -15887,12 +15716,13 @@
 	
 	});
 
-/***/ },
+
+/***/ }),
 /* 28 */
 /*!*****************************************!*\
   !*** ./~/properjs-throttle/throttle.js ***!
   \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -15946,12 +15776,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 29 */
 /*!*****************************************!*\
   !*** ./~/properjs-debounce/debounce.js ***!
   \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -16017,12 +15847,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 30 */
 /*!********************************!*\
   !*** ./js_src/core/scrolls.js ***!
   \********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -16280,12 +16110,12 @@
 	exports["default"] = scrolls;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 31 */
 /*!*********************************!*\
   !*** ./js_src/core/scroller.js ***!
   \*********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -16314,12 +16144,12 @@
 	exports["default"] = scroller;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 32 */
 /*!*********************************************************!*\
   !*** ./~/properjs-scrollcontroller/ScrollController.js ***!
   \*********************************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -16331,24 +16161,18 @@
 	 *
 	 */
 	(function ( factory ) {
-	    
+	
 	    if ( true ) {
 	        module.exports = factory();
 	
 	    } else if ( typeof window !== "undefined" ) {
 	        window.ScrollController = factory();
 	    }
-	    
+	
 	})(function () {
 	
-	    var Controller = __webpack_require__( /*! properjs-controller */ 9 ),
-	        
-	        // Current scroll position
-	        _currentY = null,
-	    
-	        // Singleton
-	        _instance = null;
-	    
+	    var Controller = __webpack_require__( /*! properjs-controller */ 9 );
+	
 	    /**
 	     *
 	     * Window scroll event controller
@@ -16364,76 +16188,99 @@
 	     * @fires scrollmin
 	     *
 	     */
-	    var ScrollController = function () {
-	        // Singleton
-	        if ( !_instance ) {
-	            _instance = this;
-	    
-	            // Call on parent cycle
-	            this.go(function () {
-	                var currentY = _instance.getScrollY(),
-	                    isStill = (currentY === _currentY),
-	                    isScroll = (currentY !== _currentY),
-	                    isScrollUp = (currentY < _currentY),
-	                    isScrollDown = (currentY > _currentY),
-	                    isScrollMax = (currentY !== _currentY && _instance.isScrollMax()),
-	                    isScrollMin = (currentY !== _currentY && _instance.isScrollMin());
-	    
-	                // Fire blanket scroll event
-	                if ( isScroll ) {
-	                    /**
-	                     *
-	                     * @event scroll
-	                     *
-	                     */
-	                    _instance.fire( "scroll" );
-	                }
-	    
-	                // Fire scrollup and scrolldown
-	                if ( isScrollDown ) {
-	                    /**
-	                     *
-	                     * @event scrolldown
-	                     *
-	                     */
-	                    _instance.fire( "scrolldown" );
-	    
-	                } else if ( isScrollUp ) {
-	                    /**
-	                     *
-	                     * @event scrollup
-	                     *
-	                     */
-	                    _instance.fire( "scrollup" );
-	                }
-	    
-	                // Fire scrollmax and scrollmin
-	                if ( isScrollMax ) {
-	                    /**
-	                     *
-	                     * @event scrollmax
-	                     *
-	                     */
-	                    _instance.fire( "scrollmax" );
-	    
-	                } else if ( isScrollMin ) {
-	                    /**
-	                     *
-	                     * @event scrollmin
-	                     *
-	                     */
-	                    _instance.fire( "scrollmin" );
-	                }
-	    
-	                _currentY = currentY;
-	            });
-	        }
-	    
-	        return _instance;
+	    var ScrollController = function ( element ) {
+	        Controller.call( this );
+	
+	        this.element = (element || window);
+	        this.current = null;
+	        this.isWindow = (this.element === window);
+	
+	        this.start();
 	    };
-	    
-	    ScrollController.prototype = new Controller();
-	    
+	
+	    ScrollController.prototype = Object.create( Controller.prototype );
+	
+	    /**
+	     *
+	     * Starts the request animation frame cycle
+	     * @memberof ScrollController
+	     * @method start
+	     *
+	     */
+	    ScrollController.prototype.start = function () {
+	        var self = this;
+	
+	        // Call on parent cycle
+	        this.go(function () {
+	            var current = self.getScrollY(),
+	                isStill = (current === self.current),
+	                isScroll = (current !== self.current),
+	                isScrollUp = (current < self.current),
+	                isScrollDown = (current > self.current),
+	                isScrollMax = (current !== self.current && self.isScrollMax()),
+	                isScrollMin = (current !== self.current && self.isScrollMin());
+	
+	            // Fire blanket scroll event
+	            if ( isScroll ) {
+	                /**
+	                 *
+	                 * @event scroll
+	                 *
+	                 */
+	                self.fire( "scroll" );
+	            }
+	
+	            // Fire scrollup and scrolldown
+	            if ( isScrollDown ) {
+	                /**
+	                 *
+	                 * @event scrolldown
+	                 *
+	                 */
+	                self.fire( "scrolldown" );
+	
+	            } else if ( isScrollUp ) {
+	                /**
+	                 *
+	                 * @event scrollup
+	                 *
+	                 */
+	                self.fire( "scrollup" );
+	            }
+	
+	            // Fire scrollmax and scrollmin
+	            if ( isScrollMax ) {
+	                /**
+	                 *
+	                 * @event scrollmax
+	                 *
+	                 */
+	                self.fire( "scrollmax" );
+	
+	            } else if ( isScrollMin ) {
+	                /**
+	                 *
+	                 * @event scrollmin
+	                 *
+	                 */
+	                self.fire( "scrollmin" );
+	            }
+	
+	            self.current = current;
+	        });
+	    };
+	
+	    /**
+	     *
+	     * Stops the request animation frame cycle
+	     * @memberof ScrollController
+	     * @method destroy
+	     *
+	     */
+	    ScrollController.prototype.destroy = function () {
+	        this.stop();
+	    };
+	
 	    /**
 	     *
 	     * Returns the current window vertical scroll position
@@ -16443,9 +16290,9 @@
 	     *
 	     */
 	    ScrollController.prototype.getScrollY = function () {
-	        return (window.scrollY || document.documentElement.scrollTop);
+	        return (this.isWindow ? window.scrollY : this.element.scrollTop);
 	    };
-	    
+	
 	    /**
 	     *
 	     * Get the max document scrollable height
@@ -16455,14 +16302,26 @@
 	     *
 	     */
 	    ScrollController.prototype.getScrollMax = function () {
-	        return Math.max(
-	            document.body.scrollHeight, document.documentElement.scrollHeight,
-	            document.body.offsetHeight, document.documentElement.offsetHeight,
-	            document.documentElement.clientHeight
+	        var max = null;
 	
-	        ) - window.innerHeight;
+	        if ( this.isWindow ) {
+	            max = Math.max(
+	                document.body.scrollHeight, document.documentElement.scrollHeight,
+	                document.body.offsetHeight, document.documentElement.offsetHeight,
+	                document.documentElement.clientHeight
+	            );
+	
+	        } else {
+	            max = Math.max(
+	                this.element.scrollHeight,
+	                this.element.offsetHeight,
+	                this.element.clientHeight
+	            );
+	        }
+	
+	        return (max - window.innerHeight);
 	    };
-	    
+	
 	    /**
 	     *
 	     * Determines if scroll position is at maximum for document
@@ -16474,7 +16333,7 @@
 	    ScrollController.prototype.isScrollMax = function () {
 	        return (this.getScrollY() >= this.getScrollMax());
 	    };
-	    
+	
 	    /**
 	     *
 	     * Determines if scroll position is at minimum for document
@@ -16486,18 +16345,19 @@
 	    ScrollController.prototype.isScrollMin = function () {
 	        return (this.getScrollY() <= 0);
 	    };
-	    
-	    
+	
+	
 	    return ScrollController;
 	
 	});
 
-/***/ },
+
+/***/ }),
 /* 33 */
 /*!**********************************!*\
   !*** ./js_src/core/Waypoints.js ***!
   \**********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -16614,12 +16474,12 @@
 	exports["default"] = Waypoints;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 34 */
 /*!******************************!*\
   !*** ./js_src/core/cache.js ***!
   \******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -16648,12 +16508,12 @@
 	});
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 35 */
 /*!******************************!*\
   !*** ./js_src/core/Store.js ***!
   \******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -16894,12 +16754,12 @@
 	exports["default"] = Store;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 36 */
 /*!**********************************!*\
   !*** ./js_src/core/Analytics.js ***!
   \**********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -17078,12 +16938,12 @@
 	exports["default"] = Analytics;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 37 */
 /*!*********************************!*\
   !*** ./js_src/core/mediabox.js ***!
   \*********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -17112,12 +16972,12 @@
 	exports["default"] = mediabox;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 38 */
 /*!*****************************************!*\
   !*** ./~/properjs-mediabox/MediaBox.js ***!
   \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -18443,12 +18303,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 39 */
 /*!***********************************!*\
   !*** ./~/properjs-tween/Tween.js ***!
   \***********************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/*!
 	 *
@@ -18567,12 +18427,12 @@
 	
 	});
 
-/***/ },
+/***/ }),
 /* 40 */
 /*!***************************!*\
   !*** ./js_src/animate.js ***!
   \***************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -18748,12 +18608,12 @@
 	exports["default"] = animate;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 41 */
 /*!*****************************!*\
   !*** ./js_src/menus/nav.js ***!
   \*****************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -18886,12 +18746,12 @@
 	exports["default"] = nav;
 	module.exports = exports["default"];
 
-/***/ },
+/***/ }),
 /* 42 */
 /*!******************************!*\
   !*** ./js_src/menus/Menu.js ***!
   \******************************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -19028,6 +18888,6 @@
 	exports["default"] = Menu;
 	module.exports = exports["default"];
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=app.js.map

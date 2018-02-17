@@ -28,6 +28,12 @@
     display: block;
     width: 100%;
     height: auto;
+    border-top: 2px solid color(black);
+    border-bottom: 2px solid color(black);
+
+    @include breakpoint($vp2) {
+        border: 2px solid color(black);
+    }
 
     @include breakpoint($vp3) {
         min-width: 800px;
@@ -72,4 +78,28 @@
     // &.-is-lazy-handled {
     //     opacity: 1;
     //     }
+    }
+
+
+
+.gallery_item {
+  &:first-child .gallery_image {
+    @include breakpoint($vp3) {
+      border-left: 0;
+    }
+  }
+  &:last-child .gallery_image {
+    @include breakpoint($vp3) {
+      border-right: 0;
+    }
+  }
+}
+
+.gallery_image {
+    border-top: 2px solid color(black);
+    border-bottom: 2px solid color(black);
+
+    @include breakpoint($vp2) {
+        border: 2px solid color(black);
+        }
     }
