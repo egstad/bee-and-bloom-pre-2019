@@ -16,15 +16,15 @@ var mod = {
             loaders: ["babel-loader"]
         },
 
-        {
-            test: /vendor\/.+\.(jsx|js)$/,
-            loader: 'imports?jQuery=jquery,$=jquery,this=>window'
-        },
-
-        {
-            test: /vendor\/.+\.(jsx|js)$/,
-            loader: 'expose?jQuery!expose?$'
-        },
+        // {
+        //     test: /vendor\/.+\.(jsx|js)$/,
+        //     loader: 'imports?jQuery=jquery,$=jquery,this=>window'
+        // },
+        //
+        // {
+        //     test: /vendor\/.+\.(jsx|js)$/,
+        //     loader: 'expose?jQuery!expose?$'
+        // },
     ]
 };
 

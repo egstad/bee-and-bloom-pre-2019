@@ -7,19 +7,31 @@
     top: 0;
     left: 0;
     z-index: 2;
-    position: fixed;
+    // position: fixed;
+}
+
+.is-touchable {
+    .toolbar {
+        @media screen and (max-width:$vp2)  {
+            top: auto;
+            bottom: 0;
+        }
+    }
 }
 
 .toolbar-row {
 
     > ul, ol {
-        // remove default style
         list-style-type: none;
         padding: 0;
         margin: 0;
-        // positioning
+        // display: flex;
+        // justify-content: space-around;
         display: flex;
-        justify-content: space-around;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 
     li {
@@ -28,6 +40,10 @@
         position: relative;
         flex: 1;
         text-align: center;
+
+        @include breakpoint($vp2, max-width) {
+            flex: 0 0 auto;
+        }
     }
 
     a {
@@ -46,11 +62,20 @@
   }
 }
 
-// .is-scrolling-down {
+// .is-scrolling {
 //     .toolbar {
 //         transform: translate3d(0, -100%, 0);
 //     }
+//
+//     &.is-touchable {
+//         .toolbar {
+//             @media screen and (max-width:$vp2)  {
+//                 transform: translate3d(0, 100%, 0);
+//             }
+//         }
+//     }
 // }
+
 
 
 

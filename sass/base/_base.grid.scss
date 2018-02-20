@@ -9,3 +9,225 @@
     width: 100%;
     max-width: $wrap-max;
 }
+
+.wrap--text {
+    max-width: $wrap-medium;
+    margin: 0 auto;
+    padding-left: unit(1.5);
+    padding-right: unit(1.5);
+
+    @include breakpoint($vp2) {
+        padding-left: unit(1.8);
+        padding-right: unit(1.8);
+        }
+
+    &.--thin {
+        max-width: 840px;
+    }
+}
+
+.padding {
+    // small things
+    &--1 {
+        padding-top: unit(1);
+        padding-bottom: unit(1);
+    }
+    &--2 {
+        padding-top: unit(2);
+        padding-bottom: unit(2);
+    }
+    // good for splitting modules
+    &--3 {
+        padding-top: calc( 2rem + 1vw);
+        padding-bottom: calc( 2rem + 1vw);
+    }
+    &--4 {
+        padding-top: unit(4);
+        padding-bottom: unit(4);
+    }
+    &--no-top {
+        padding-top: 0 !important;
+    }
+    &--no-bot {
+        padding-bottom: 0 !important;
+    }
+}
+
+
+
+
+.testie {
+    border-top: 1px dashed black;
+    border-bottom: 1px dashed black;
+}
+
+
+/******************************************************************************
+ * Grid
+*******************************************************************************/
+@mixin col-loop($prefix) {
+	@each $col in $grid_columns {
+		.col-#{$prefix}-#{$col} {
+			flex: 0 0 auto;
+			flex-basis: percentage( $col / $grid_length );
+			max-width: percentage( $col / $grid_length );
+
+			&--shrink {
+				flex: 0 1 auto;
+				max-width: percentage( $col / $grid_length );
+			}
+		}
+
+		.col-#{$prefix}-offset-#{$col} {
+			margin-left: percentage( $col / $grid_length );
+		}
+
+		.col-#{$prefix}-offset-right-#{$col} {
+			margin-right: (percentage( $col / $grid_length ));
+		}
+
+		.col-#{$prefix}-offset-top-#{$col} {
+			margin-top: (percentage( $col / $grid_length ));
+		}
+	}
+
+	.row {
+		&--start-#{$prefix} {
+			justify-content: flex-start;
+		}
+
+		&--center-#{$prefix} {
+			justify-content: center;
+		}
+
+		&--end-#{$prefix} {
+			justify-content: flex-end;
+		}
+
+		&--top-#{$prefix} {
+			align-items: flex-start;
+		}
+
+		&--middle-#{$prefix} {
+			align-items: center;
+		}
+
+		&--bottom-#{$prefix} {
+			align-items: flex-end;
+		}
+
+		&--around-#{$prefix} {
+			justify-content: space-around;
+		}
+
+		&--between-#{$prefix} {
+			justify-content: space-between;
+		}
+
+		&--reverse-#{$prefix} {
+			flex-direction: row-reverse;
+		}
+
+		&--grow-#{$prefix} {
+			height: 100%;
+		}
+	}
+
+	.col-#{$prefix} {
+		flex-grow: 1;
+		flex-basis: 0;
+		max-width: 100%;
+
+		&--first {
+			order: -1;
+		}
+
+		&--last {
+			order: 1;
+		}
+
+		&--hide {
+			display: none;
+		}
+
+		&--show {
+			display: flex;
+		}
+	}
+}
+
+
+/******************************************************************************
+ * Breakpoints
+*******************************************************************************/
+@mixin breakpoint($breaker, $feature: min-width) {
+  @media only screen and (#{$feature}: $breaker) { @content; }
+}
+
+
+
+/******************************************************************************
+ * Misc.
+*******************************************************************************/
+@mixin focus() {
+    outline: none;
+    background: red;
+    fill: red;
+}
+
+@mixin reset {
+    -webkit-appearance: none;
+    background: 0;
+    outline: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+/******************************************************************************
+ * Columns
+*******************************************************************************/
+.col.reverse {
+	flex-direction: column-reverse;
+}
+
+
+
+
+/******************************************************************************
+ * Rows
+*******************************************************************************/
+.row {
+	box-sizing: border-box;
+	display: flex;
+	flex: 0 1 auto;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+
+
+@include col-loop('xs');
+
+@media only screen and (min-width: $vp2) {
+	@include col-loop('sm');
+}
+@media only screen and (min-width: $vp3) {
+	@include col-loop('md');
+}
+@media only screen and (min-width: $vp3) {
+	@include col-loop('lg');
+}
+@media only screen and (min-width: $vp4) {
+	@include col-loop('xl');
+}
+@media only screen and (min-width: $vp5) {
+	@include col-loop('xxl');
+}

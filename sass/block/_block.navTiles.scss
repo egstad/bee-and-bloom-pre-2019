@@ -1,0 +1,85 @@
+.nav-tiles {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    // flex-wrap: nowrap;
+    // overflow-x: auto;
+    // -webkit-overflow-scrolling: touch;
+    // -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    &__item {
+        @include breakpoint($vp2, max-width) {
+            width: 100vw !important;
+            margin: 2vw 4vw;
+        }
+
+        // flex: 0 0 auto;
+        cursor: pointer;
+        position: relative;
+        margin: 0.5vw;
+        height: 22vw;
+        width: 22vw;
+        min-width: 300px;
+        min-height: 300px;
+        max-width: 500px;
+        max-height: 500px;
+        border: 1px solid transparent;
+        transition: background 0.2s ease-in-out,
+                    border 0.2s ease-in-out;
+
+
+        &:nth-child(1n+1) {
+            background: color(blue);
+        }
+        &:nth-child(2n+2) {
+            background: color(grayAlt);
+        }
+        &:nth-child(3n+3) {
+            background: color(yellow);
+        }
+        &:nth-child(4n+4) {
+            background: color(green);
+        }
+        &:nth-child(5n+5) {
+            background: color(red);
+        }
+
+        &:hover {
+            background: white;
+            border: 1px solid black;
+        }
+    }
+
+    &__link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__text {
+        @include txt(s);
+        font-family: $font-mono;
+        pointer-events: none;
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        color: black;
+        margin: 0;
+
+        > p { margin: 0; }
+
+        &--top { top: 0; }
+        &--ctr { top: 50%; transform: translate3d(0,-50%,0) }
+        &--bot { bottom: 0; }
+    }
+}

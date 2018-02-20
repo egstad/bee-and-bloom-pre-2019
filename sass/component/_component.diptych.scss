@@ -1,0 +1,28 @@
+.diptych-gallery {
+    .diptych-item:nth-child(even) {
+            @include breakpoint($vp2) {
+                .diptych__figure {
+                    order:1;
+                }
+            }
+        }
+}
+
+
+.diptych {
+    &__figure {
+        margin: 0;
+        min-height: 60vh;
+        background-size: cover;
+        background-position: center center;
+    }
+    &__text {
+        padding: 7vw;
+        @include breakpoint($vp2, max-width) {
+            padding-bottom: 21vw;
+        }
+    }
+    &__button {
+        margin: 0;
+    }
+}

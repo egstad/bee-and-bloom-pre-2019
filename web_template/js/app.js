@@ -73,6 +73,7 @@
 	
 	var _menusNav2 = _interopRequireDefault(_menusNav);
 	
+	// import textBar from "./comp-textbar";
 	// import filterSort from "./filtersort";
 	
 	/**
@@ -89,6 +90,7 @@
 	
 	    // this.nav = nav;
 	    this.core = core;
+	    // this.textBar = textBar;
 	    // this.router = router;
 	    // this.filterSort = filterSort;
 	
@@ -116,6 +118,7 @@
 	      // add device classes to htmle (touch, hover, surface classes)
 	      this.core.detect.init(this);
 	      this.core.scrolls.init(this);
+	      // this.textBar.init( this );
 	      // this.core.resizes.init( this );
 	      // this.router.init( this );
 	      // this.nav.init( this );

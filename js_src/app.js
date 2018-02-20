@@ -1,6 +1,7 @@
 import router from "./router";
 import * as core from "./core";
 import nav from "./menus/nav";
+// import textBar from "./comp-textbar";
 // import filterSort from "./filtersort";
 
 
@@ -15,6 +16,7 @@ class App {
     constructor () {
         // this.nav = nav;
         this.core = core;
+        // this.textBar = textBar;
         // this.router = router;
         // this.filterSort = filterSort;
 
@@ -36,6 +38,7 @@ class App {
         // add device classes to htmle (touch, hover, surface classes)
         this.core.detect.init( this );
         this.core.scrolls.init( this );
+        // this.textBar.init( this );
         // this.core.resizes.init( this );
         // this.router.init( this );
         // this.nav.init( this );

@@ -8,7 +8,7 @@
     .wrap {
         display: flex;
         align-items: center;
-        padding: unit(4.5) unit(1.5) unit(3.5);
+        padding: unit(3.5) unit(1.5) unit(2.5);
 
         @include breakpoint($vp2) {
             padding: unit(5) unit(1.8) unit(3.5);
@@ -16,10 +16,6 @@
 
         @include breakpoint($vp3) {
             padding: unit(5) 0 unit(4);
-            }
-
-        @include breakpoint($vp4) {
-            padding: unit(7) 0 unit(6);
             }
         }
 
@@ -133,10 +129,10 @@
  * Mobile
  */
 
-html.is-touchable {
-  .site-header_meta {
-    .wrap {
-      padding-top: 7rem;
-    }
-  }
-}
+// html.is-touchable {
+//   .site-header_meta {
+//     .wrap {
+//       padding-top: 7rem;
+//     }
+//   }
+// }

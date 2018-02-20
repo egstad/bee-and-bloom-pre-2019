@@ -85,13 +85,13 @@ $color: (
     primary     : #403B37,
     secondary   : #A69A8D,
     tertiary    : #F8F3F0,
-    yellow      : #F8AC1C,
-    green       : #12AA2F,
+    yellow      : #EDAA4F,
+    green       : #64C363,
     red         : #EC2D00,
-    blue        : #0C58EE,
-    black       : #323235,
+    blue        : #67A5EF,
+    black       : #000000,
     gray        : #AEACAB,
-    grayAlt     : #E4E4E4,
+    grayAlt     : #DCDCDC,
     white       : #FFFFFF
     );
 
@@ -100,12 +100,14 @@ $color: (
 
 /* Breakpoints
    ========================================================================== */
+$grid_length    : 12;
+$grid_columns   : 1 2 3 4 5 6 7 8 9 10 11 12;
+$vp0            : 320px; // min-width of elements
 $vp1            : 10em;
 $vp2            : 40em; // 640px
 $vp3            : 60em; // 960px
 $vp4            : 90em; // 1440px
 $vp5            : 128em; // 2048px
-
 
 
 

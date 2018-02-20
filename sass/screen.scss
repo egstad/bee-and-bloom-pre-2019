@@ -29,6 +29,7 @@
 @import "./block/block.quote";
 @import "./block/block.modifiers";
 @import "./block/block.button";
+@import "./block/block.navTiles";
 
 /* Component styles */
 @import "./component/component.header-alt";
@@ -41,6 +42,7 @@
 @import "./component/component.articles";
 @import "./component/component.cta";
 @import "./component/component.filter";
+@import "./component/component.diptych";
 
 /* State styles */
 @import "./state/state.router";

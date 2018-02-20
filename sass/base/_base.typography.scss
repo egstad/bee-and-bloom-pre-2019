@@ -109,6 +109,12 @@ a {
     text-align: center;
     }
 
+.txt-left--mobile {
+    @include breakpoint($vp2, max-width) {
+        text-align: left;
+        }
+    }
+
 .txt-left {
     text-align: left;
     }
@@ -116,7 +122,9 @@ a {
 .txt-right {
     text-align: right;
     }
-
+.txt-label {
+    line-height: 1;
+}
 
 
 
@@ -148,6 +156,12 @@ a {
 
 .txt-serif {
     font-family: $font-serif;
+    font-weight: normal;
+    font-size: normal;
+    }
+
+.txt-uppercase {
+    @include uppercase(0);
     }
 
 .txt-mono {
