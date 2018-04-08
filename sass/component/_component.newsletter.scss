@@ -1,0 +1,18 @@
+.newsletter-signup {
+    background: color(green);
+    color: color(black);
+
+    .button a {
+        color: color(black);
+        border-color: color(black);
+
+        &:hover {
+            background: color(black);
+            color: color(green);
+        }
+    }
+
+    .testie {
+        border-color: color(black);
+    }
+}
