@@ -63,22 +63,23 @@
     }
 
 
-// .article {
-//     .figure {
-//         height: 60vw;
-//         width: 100%;
-//         max-height: 60vh;
-//         display: flex;
-//         flex-direction: row;
-//         flex-wrap: wrap;
-//         align-items: flex-start;
-//     }
-//
-//     .figure_image {
-//         border: none;
-//         width: 100%;
-//         height: 100%;
-//         border: 1px solid #000;
-//         object-fit: contain;
-//     }
-// }
+.article {
+
+    .figure_image-wrap {
+        height: 100vw;
+        width: 100%;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .figure_image {
+        border: none;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #000;
+        object-fit: cover;
+    }
+}
