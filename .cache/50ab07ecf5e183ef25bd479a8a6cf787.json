@@ -1,0 +1,1 @@
+{"dependencies":[{"name":"../sass/screen.scss","loc":{"line":1,"column":7}}],"generated":{"js":"\"use strict\";\n\nrequire(\"../sass/screen.scss\");\n\n// write js here\nconsole.log(\"running\");"},"hash":"b7602bc8817f24904cef90efbb9426ae"}
